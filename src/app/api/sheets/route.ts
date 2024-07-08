@@ -1,35 +1,27 @@
-import { google } from "googleapis";
 import { NextRequest, NextResponse } from "next/server";
+import sheets from "../../../../google-sheets-api";
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
-const credentialsBase64 = process.env.GOOGLE_APPLICATION_CREDENTIALS || "";
-const credentialsString = Buffer.from(credentialsBase64, "base64").toString(
- "utf8"
-);
-const credentials = JSON.parse(credentialsString);
-
-const auth = new google.auth.GoogleAuth({
- credentials,
- scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
-});
-
-const sheets = google.sheets({ version: "v4", auth });
-
 const SPREADSHEET_ID = process.env.SPREADSHEET_ID || "";
 
-// Convert header names to a consistent format (e.g., snake_case)
+if (!SPREADSHEET_ID) {
+ throw new Error("Missing SPREADSHEET_ID environment variable");
+}
+
 const toSnakeCase = (str: string) =>
  str.replace(/([a-z])([A-Z])/g, "$1_$2").toLowerCase();
 
 export async function GET(req: NextRequest) {
  try {
+  console.log("Request URL:", req.url);
   const { searchParams } = new URL(req.url);
   const name = searchParams.get("name");
   const query = searchParams.get("query");
 
   if (!name && !query) {
+   console.error("Name or query parameter is required");
    return NextResponse.json(
     { error: "Name or query parameter is required" },
     { status: 400 }
@@ -37,6 +29,7 @@ export async function GET(req: NextRequest) {
   }
 
   const range = name ? "names!A1:J4795" : "names!A1:A4795";
+  console.log("Fetching data from range:", range);
   const response = await sheets.spreadsheets.values.get({
    spreadsheetId: SPREADSHEET_ID,
    range,
@@ -44,6 +37,7 @@ export async function GET(req: NextRequest) {
 
   const rows = response.data.values;
   if (!rows) {
+   console.error("No data found");
    return NextResponse.json({ error: "No data found" }, { status: 404 });
   }
 
@@ -56,6 +50,7 @@ export async function GET(req: NextRequest) {
    );
 
    if (!result) {
+    console.error("Name not found");
     return NextResponse.json({ error: "Name not found" }, { status: 404 });
    }
 
@@ -80,6 +75,7 @@ export async function GET(req: NextRequest) {
    return NextResponse.json(filteredNames, { status: 200 });
   }
 
+  console.error("Invalid query parameters");
   return NextResponse.json(
    { error: "Invalid query parameters" },
    { status: 400 }
