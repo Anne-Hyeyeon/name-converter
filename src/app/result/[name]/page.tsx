@@ -50,16 +50,12 @@ export default function SearchResultPage() {
      <p>
       {name} 이름을 가진 당신은 미국에서{" "}
       <span className={styles.koreanName}>{result.korean_name}</span>
-      이에요.
+      입니다.
      </p>
      <p>
-      {name}은 미국에서{" "}
-      <span className={styles.trendYear}>{result.trend_year}</span>년도 느낌의
-      이름이죠.
+      미국에서 <span className={styles.trendYear}>{result.trend_year}</span>년도
+      느낌의 이름이죠.
      </p>
-     {/* <p>
-            <span className={styles.meaning}>{result.meaning}</span>의 의미를 가지고 있어요.
-          </p> */}
      {result.male_top_100 || result.female_top_100 ? (
       <p className={styles.highlight}>
        {name}은(는) 미국에서 꾸준히 사랑받는 이름이에요.
