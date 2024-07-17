@@ -2,49 +2,77 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import styles from "./SearchResultPage.module.css";
 import GoBackButton from "@/app/components/GoBackButton";
+import sheets from "../../../../google-sheets-api";
 
-async function getName(name: string) {
+type NameData = {
+ [key: string]: string;
+};
+
+async function getName(name: string): Promise<NameData | null> {
  try {
-  const res = await fetch(
-   `${process.env.NEXT_PUBLIC_API_URL}/api/sheets?name=${name}`
-  );
-
-  if (!res.ok) {
-   throw new Error("Network response was not ok");
+  const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
+  if (!SPREADSHEET_ID) {
+   throw new Error("Missing SPREADSHEET_ID environment variable");
   }
 
-  const data = await res.json();
+  const range = "names!A1:J4795";
+  const response = await sheets.spreadsheets.values.get({
+   spreadsheetId: SPREADSHEET_ID,
+   range,
+  });
 
-  if (!data) {
+  const rows = response.data.values as string[][];
+  if (!rows) {
    throw new Error("No data found");
   }
 
-  return data;
+  const headers = rows[0].map((header) =>
+   header.toLowerCase().replace(/\s+/g, "_")
+  );
+  const data = rows.slice(1);
+
+  const result = data.find(
+   (row) => row[0].toLowerCase() === name.toLowerCase()
+  );
+  if (!result) {
+   throw new Error("Name not found");
+  }
+
+  const resultObj = headers.reduce((obj: NameData, header, index) => {
+   obj[header] = result[index];
+   return obj;
+  }, {} as NameData);
+
+  return resultObj;
  } catch (error) {
   console.error("Error fetching name data:", error);
   return null;
  }
 }
 
-export async function generateStaticParams() {
+export async function generateStaticParams(): Promise<
+ { params: { name: string } }[]
+> {
  try {
-  const res = await fetch(
-   `${process.env.NEXT_PUBLIC_API_URL}/api/sheets?allNames=true`
-  );
-
-  if (!res.ok) {
-   throw new Error("Network response was not ok");
+  const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
+  if (!SPREADSHEET_ID) {
+   throw new Error("Missing SPREADSHEET_ID environment variable");
   }
 
-  const names = await res.json();
+  const range = "names!A1:J4795";
+  const response = await sheets.spreadsheets.values.get({
+   spreadsheetId: SPREADSHEET_ID,
+   range,
+  });
 
-  if (!Array.isArray(names)) {
-   throw new Error("Expected an array of names");
+  const rows = response.data.values as string[][];
+  if (!rows) {
+   throw new Error("No data found");
   }
 
-  return names.map((name: string) => ({
-   name: name,
-  }));
+  const names = rows.slice(1).map((row) => row[0]);
+
+  return names.map((name) => ({ params: { name } }));
  } catch (error) {
   console.error("Error fetching names:", error);
   return [];
