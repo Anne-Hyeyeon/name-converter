@@ -1,3 +1,5 @@
+import { useState, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import styles from "./SearchResultPage.module.css";
@@ -26,29 +28,30 @@ async function getName(name: string) {
  }
 }
 
-export async function generateStaticParams() {
+async function fetchNames() {
  try {
   const res = await fetch(
    `${process.env.NEXT_PUBLIC_API_URL}/api/sheets?allNames=true`
   );
-
   if (!res.ok) {
    throw new Error("Network response was not ok");
   }
-
   const names = await res.json();
-
   if (!Array.isArray(names)) {
    throw new Error("Expected an array of names");
   }
-
-  return names.map((name: string) => ({
-   name: name,
-  }));
+  return names;
  } catch (error) {
-  console.error("Error fetching names:", error);
-  return [];
+  console.error("Failed to fetch names:", error);
+  return []; // 기본값으로 빈 배열 반환
  }
+}
+
+export async function generateStaticParams() {
+ const names = await fetchNames();
+ return names.map((name: string) => ({
+  name: name,
+ }));
 }
 
 export async function generateMetadata({
