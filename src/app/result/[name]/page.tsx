@@ -1,76 +1,82 @@
-"use client";
+// app/result/[name]/page.tsx
 
-import { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
-import styles from "./SearchResultPage.module.css"; // CSS 모듈 임포트
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+import styles from "./SearchResultPage.module.css";
+import GoBackButton from "@/app/components/GoBackButton";
 
-export default function SearchResultPage() {
- const { name } = useParams();
- const router = useRouter();
- const [result, setResult] = useState<any>(null);
- const [loading, setLoading] = useState(false);
- const [error, setError] = useState("");
-
- useEffect(() => {
-  const fetchData = async () => {
-   setLoading(true);
-   setError("");
-
-   try {
-    const res = await fetch(`/api/sheets?name=${name}`);
-    const data = await res.json();
-
-    if (res.ok) {
-     setResult(data);
-    } else {
-     setError(data.error);
-     setResult(null);
-    }
-   } catch (err) {
-    setError("Failed to fetch data");
-    setResult(null);
-   } finally {
-    setLoading(false);
-   }
-  };
-
-  if (name) {
-   fetchData();
+async function getName(name: string) {
+ const res = await fetch(
+  `${process.env.NEXT_PUBLIC_API_URL}/api/sheets?name=${name}`,
+  {
+   next: { revalidate: 3600 },
   }
- }, [name]);
+ );
+ if (!res.ok) {
+  return null;
+ }
+ return res.json();
+}
 
- if (loading) return <p>Loading...</p>;
- if (error) return <p>{error}</p>;
+export async function generateStaticParams() {
+ const res = await fetch(
+  `${process.env.NEXT_PUBLIC_API_URL}/api/sheets?allNames=true`,
+  {
+   next: { revalidate: 3600 },
+  }
+ );
+ const names = await res.json();
+ return names.map((name: string) => ({
+  name: name,
+ }));
+}
+
+export async function generateMetadata({
+ params,
+}: {
+ params: { name: string };
+}): Promise<Metadata> {
+ const result = await getName(params.name);
+ return {
+  title: `${params.name} - 이름 결과`,
+  description: `${params.name}의 미국식 이름 정보`,
+ };
+}
+
+export default async function SearchResultPage({
+ params,
+}: {
+ params: { name: string };
+}) {
+ const result = await getName(params.name);
+
+ if (!result) {
+  notFound();
+ }
 
  return (
   <div className={styles.resultPage}>
-   {result && (
-    <>
-     <h1 className={styles.name}>{name}</h1>
-     <p>
-      {name} 이름을 가진 당신은 미국에서{" "}
-      <span className={styles.koreanName}>{result.korean_name}</span>
-      입니다.
-     </p>
-     <p>
-      미국에서 <span className={styles.trendYear}>{result.trend_year}</span>년도
-      느낌의 이름이죠.
-     </p>
-     {result.male_top_100 || result.female_top_100 ? (
-      <p className={styles.highlight}>
-       {name}은(는) 미국에서 꾸준히 사랑받는 이름이에요.
-      </p>
-     ) : null}
-     {result.trendy_female_top_100 || result.trendy_male_top_100 ? (
-      <p className={styles.highlight}>
-       {name}은 2024년도 아기 이름 TOP 100에 드는 이름이에요.
-      </p>
-     ) : null}
-    </>
-   )}
-   <button className={styles.button} onClick={() => router.push("/")}>
-    Go back to Search
-   </button>
+   <h1 className={styles.name}>{params.name}</h1>
+   <p>
+    {params.name} 이름을 가진 당신은 미국에서{" "}
+    <span className={styles.koreanName}>{result.korean_name}</span>
+    입니다.
+   </p>
+   <p>
+    미국에서 <span className={styles.trendYear}>{result.trend_year}</span>년도
+    느낌의 이름이죠.
+   </p>
+   {result.male_top_100 || result.female_top_100 ? (
+    <p className={styles.highlight}>
+     {params.name}은(는) 미국에서 꾸준히 사랑받는 이름이에요.
+    </p>
+   ) : null}
+   {result.trendy_female_top_100 || result.trendy_male_top_100 ? (
+    <p className={styles.highlight}>
+     {params.name}은 2024년도 아기 이름 TOP 100에 드는 이름이에요.
+    </p>
+   ) : null}
+   <GoBackButton />
   </div>
  );
 }
