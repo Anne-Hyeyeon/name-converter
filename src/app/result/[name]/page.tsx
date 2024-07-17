@@ -2,48 +2,30 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import styles from "./SearchResultPage.module.css";
 import GoBackButton from "@/app/components/GoBackButton";
-import sheets from "../../../../google-sheets-api";
 
 type NameData = {
  [key: string]: string;
 };
 
-async function getNameData(): Promise<NameData[]> {
- const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
- if (!SPREADSHEET_ID) {
-  throw new Error("Missing SPREADSHEET_ID environment variable");
+async function getName(name: string): Promise<NameData | null> {
+ try {
+  const res = await fetch(
+   `${process.env.NEXT_PUBLIC_API_URL}/api/sheets?name=${name}`
+  );
+  if (!res.ok) {
+   throw new Error(
+    `Network response was not ok: ${res.status} ${res.statusText}`
+   );
+  }
+  const data = await res.json();
+  if (!data) {
+   throw new Error("No data found");
+  }
+  return data;
+ } catch (error) {
+  console.error("Error fetching name data:", error);
+  return null;
  }
-
- const range = "names!A1:J4795";
- const response = await sheets.spreadsheets.values.get({
-  spreadsheetId: SPREADSHEET_ID,
-  range,
- });
-
- const rows = response.data.values as string[][];
- if (!rows) {
-  throw new Error("No data found");
- }
-
- const headers = rows[0].map((header) =>
-  header.toLowerCase().replace(/\s+/g, "_")
- );
- const data = rows.slice(1);
-
- return data.map((row) => {
-  const obj = {} as NameData;
-  headers.forEach((header, index) => {
-   obj[header] = row[index];
-  });
-  return obj;
- });
-}
-
-export async function generateStaticParams() {
- const data = await getNameData();
- return data.map((item) => ({
-  params: { name: item.name.toLowerCase() },
- }));
 }
 
 export async function generateMetadata({
@@ -51,10 +33,7 @@ export async function generateMetadata({
 }: {
  params: { name: string };
 }): Promise<Metadata> {
- const data = await getNameData();
- const result = data.find(
-  (item) => item.name.toLowerCase() === params.name.toLowerCase()
- );
+ const result = await getName(params.name);
  return {
   title: result ? `${result.name} - 이름 결과` : "이름 결과 없음",
   description: result
@@ -68,10 +47,7 @@ export default async function SearchResultPage({
 }: {
  params: { name: string };
 }) {
- const data = await getNameData();
- const result = data.find(
-  (item) => item.name.toLowerCase() === params.name.toLowerCase()
- );
+ const result = await getName(params.name);
 
  if (!result) {
   notFound();
