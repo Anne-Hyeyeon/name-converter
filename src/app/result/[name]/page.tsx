@@ -1,28 +1,54 @@
-// app/result/[name]/page.tsx
-
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import styles from "./SearchResultPage.module.css";
 import GoBackButton from "@/app/components/GoBackButton";
 
 async function getName(name: string) {
- const res = await fetch(
-  `${process.env.NEXT_PUBLIC_API_URL}/api/sheets?name=${name}`
- );
- if (!res.ok) {
+ try {
+  const res = await fetch(
+   `${process.env.NEXT_PUBLIC_API_URL}/api/sheets?name=${name}`
+  );
+
+  if (!res.ok) {
+   throw new Error("Network response was not ok");
+  }
+
+  const data = await res.json();
+
+  if (!data) {
+   throw new Error("No data found");
+  }
+
+  return data;
+ } catch (error) {
+  console.error("Error fetching name data:", error);
   return null;
  }
- return res.json();
 }
 
 export async function generateStaticParams() {
- const res = await fetch(
-  `${process.env.NEXT_PUBLIC_API_URL}/api/sheets?allNames=true`
- );
- const names = await res.json();
- return names.map((name: string) => ({
-  name: name,
- }));
+ try {
+  const res = await fetch(
+   `${process.env.NEXT_PUBLIC_API_URL}/api/sheets?allNames=true`
+  );
+
+  if (!res.ok) {
+   throw new Error("Network response was not ok");
+  }
+
+  const names = await res.json();
+
+  if (!Array.isArray(names)) {
+   throw new Error("Expected an array of names");
+  }
+
+  return names.map((name: string) => ({
+   name: name,
+  }));
+ } catch (error) {
+  console.error("Error fetching names:", error);
+  return [];
+ }
 }
 
 export async function generateMetadata({
@@ -37,13 +63,13 @@ export async function generateMetadata({
  };
 }
 
-export default function SearchResultPage({
+export default async function SearchResultPage({
  params,
- result,
 }: {
  params: { name: string };
- result: any;
 }) {
+ const result = await getName(params.name);
+
  if (!result) {
   notFound();
  }
@@ -73,22 +99,4 @@ export default function SearchResultPage({
    <GoBackButton />
   </div>
  );
-}
-
-export async function getStaticProps({ params }: { params: { name: string } }) {
- const result = await getName(params.name);
-
- if (!result) {
-  return {
-   notFound: true,
-  };
- }
-
- return {
-  props: {
-   params,
-   result,
-  },
-  revalidate: 3600,
- };
 }
