@@ -73,7 +73,7 @@ export async function GET(
      obj[header] = result[index];
      return obj;
     },
-    {}
+    {} as NameData
    );
 
    return NextResponse.json<NameData>(resultObj, { status: 200 });
