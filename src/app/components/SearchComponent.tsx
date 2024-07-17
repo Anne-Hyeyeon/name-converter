@@ -16,7 +16,7 @@ export default function SearchComponent({ names }: SearchComponentProps) {
   if (!trimmedQuery) return [];
   return names
    .filter((name) => name.toLowerCase().startsWith(trimmedQuery.toLowerCase()))
-   .sort((a, b) => a.localeCompare(b));
+   .sort((a, b) => a.localeCompare(b)); // 오름차순 정렬
  }, [names, query]);
 
  const handleSearch = (name: string) => {
