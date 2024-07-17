@@ -1,3 +1,8 @@
+"use client";
+
+import { useState, useMemo } from "react";
+import { useRouter } from "next/navigation";
+
 interface SearchComponentProps {
  names: string[];
 }
@@ -11,7 +16,7 @@ export default function SearchComponent({ names }: SearchComponentProps) {
   if (!trimmedQuery) return [];
   return names
    .filter((name) => name.toLowerCase().startsWith(trimmedQuery.toLowerCase()))
-   .sort((a, b) => a.localeCompare(b)); // 오름차순 정렬
+   .sort((a, b) => a.localeCompare(b));
  }, [names, query]);
 
  const handleSearch = (name: string) => {
@@ -29,7 +34,7 @@ export default function SearchComponent({ names }: SearchComponentProps) {
    {query.trim() !== "" && (
     <ul>
      {filteredNames.length > 0 ? (
-      filteredNames.map((name: string) => (
+      filteredNames.map((name) => (
        <li key={name} onClick={() => handleSearch(name)}>
         {name}
        </li>
