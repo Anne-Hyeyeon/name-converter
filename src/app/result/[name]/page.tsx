@@ -8,75 +8,42 @@ type NameData = {
  [key: string]: string;
 };
 
-async function getName(name: string): Promise<NameData | null> {
- try {
-  const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
-  if (!SPREADSHEET_ID) {
-   throw new Error("Missing SPREADSHEET_ID environment variable");
-  }
-
-  const range = "names!A1:J4795";
-  const response = await sheets.spreadsheets.values.get({
-   spreadsheetId: SPREADSHEET_ID,
-   range,
-  });
-
-  const rows = response.data.values as string[][];
-  if (!rows) {
-   throw new Error("No data found");
-  }
-
-  const headers = rows[0].map((header) =>
-   header.toLowerCase().replace(/\s+/g, "_")
-  );
-  const data = rows.slice(1);
-
-  const result = data.find(
-   (row) => row[0].toLowerCase() === name.toLowerCase()
-  );
-  if (!result) {
-   throw new Error("Name not found");
-  }
-
-  const resultObj = headers.reduce((obj: NameData, header, index) => {
-   obj[header] = result[index];
-   return obj;
-  }, {} as NameData);
-
-  return resultObj;
- } catch (error) {
-  console.error("Error fetching name data:", error);
-  return null;
+async function getNameData(): Promise<NameData[]> {
+ const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
+ if (!SPREADSHEET_ID) {
+  throw new Error("Missing SPREADSHEET_ID environment variable");
  }
+
+ const range = "names!A1:J4795";
+ const response = await sheets.spreadsheets.values.get({
+  spreadsheetId: SPREADSHEET_ID,
+  range,
+ });
+
+ const rows = response.data.values as string[][];
+ if (!rows) {
+  throw new Error("No data found");
+ }
+
+ const headers = rows[0].map((header) =>
+  header.toLowerCase().replace(/\s+/g, "_")
+ );
+ const data = rows.slice(1);
+
+ return data.map((row) => {
+  const obj = {} as NameData;
+  headers.forEach((header, index) => {
+   obj[header] = row[index];
+  });
+  return obj;
+ });
 }
 
-export async function generateStaticParams(): Promise<
- { params: { name: string } }[]
-> {
- try {
-  const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
-  if (!SPREADSHEET_ID) {
-   throw new Error("Missing SPREADSHEET_ID environment variable");
-  }
-
-  const range = "names!A1:J4795";
-  const response = await sheets.spreadsheets.values.get({
-   spreadsheetId: SPREADSHEET_ID,
-   range,
-  });
-
-  const rows = response.data.values as string[][];
-  if (!rows) {
-   throw new Error("No data found");
-  }
-
-  const names = rows.slice(1).map((row) => row[0]);
-
-  return names.map((name) => ({ params: { name } }));
- } catch (error) {
-  console.error("Error fetching names:", error);
-  return [];
- }
+export async function generateStaticParams() {
+ const data = await getNameData();
+ return data.map((item) => ({
+  params: { name: item.name.toLowerCase() },
+ }));
 }
 
 export async function generateMetadata({
@@ -84,10 +51,15 @@ export async function generateMetadata({
 }: {
  params: { name: string };
 }): Promise<Metadata> {
- const result = await getName(params.name);
+ const data = await getNameData();
+ const result = data.find(
+  (item) => item.name.toLowerCase() === params.name.toLowerCase()
+ );
  return {
-  title: `${params.name} - 이름 결과`,
-  description: `${params.name}의 미국식 이름 정보`,
+  title: result ? `${result.name} - 이름 결과` : "이름 결과 없음",
+  description: result
+   ? `${result.name}의 미국식 이름 정보`
+   : "이름 정보를 찾을 수 없습니다",
  };
 }
 
@@ -96,7 +68,10 @@ export default async function SearchResultPage({
 }: {
  params: { name: string };
 }) {
- const result = await getName(params.name);
+ const data = await getNameData();
+ const result = data.find(
+  (item) => item.name.toLowerCase() === params.name.toLowerCase()
+ );
 
  if (!result) {
   notFound();
@@ -104,11 +79,10 @@ export default async function SearchResultPage({
 
  return (
   <div className={styles.resultPage}>
-   <h1 className={styles.name}>{params.name}</h1>
+   <h1 className={styles.name}>{result.name}</h1>
    <p>
-    {params.name} 이름을 가진 당신은 미국에서{" "}
-    <span className={styles.koreanName}>{result.korean_name}</span>
-    입니다.
+    {result.name} 이름을 가진 당신은 미국에서{" "}
+    <span className={styles.koreanName}>{result.korean_name}</span> 입니다.
    </p>
    <p>
     미국에서 <span className={styles.trendYear}>{result.trend_year}</span>년도
@@ -116,12 +90,12 @@ export default async function SearchResultPage({
    </p>
    {result.male_top_100 || result.female_top_100 ? (
     <p className={styles.highlight}>
-     {params.name}은(는) 미국에서 꾸준히 사랑받는 이름이에요.
+     {result.name}은(는) 미국에서 꾸준히 사랑받는 이름이에요.
     </p>
    ) : null}
    {result.trendy_female_top_100 || result.trendy_male_top_100 ? (
     <p className={styles.highlight}>
-     {params.name}은 2024년도 아기 이름 TOP 100에 드는 이름이에요.
+     {result.name}은 2024년도 아기 이름 TOP 100에 드는 이름이에요.
     </p>
    ) : null}
    <GoBackButton />
