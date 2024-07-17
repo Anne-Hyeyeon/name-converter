@@ -7,10 +7,7 @@ import GoBackButton from "@/app/components/GoBackButton";
 
 async function getName(name: string) {
  const res = await fetch(
-  `${process.env.NEXT_PUBLIC_API_URL}/api/sheets?name=${name}`,
-  {
-   next: { revalidate: 3600 },
-  }
+  `${process.env.NEXT_PUBLIC_API_URL}/api/sheets?name=${name}`
  );
  if (!res.ok) {
   return null;
@@ -20,10 +17,7 @@ async function getName(name: string) {
 
 export async function generateStaticParams() {
  const res = await fetch(
-  `${process.env.NEXT_PUBLIC_API_URL}/api/sheets?allNames=true`,
-  {
-   next: { revalidate: 3600 },
-  }
+  `${process.env.NEXT_PUBLIC_API_URL}/api/sheets?allNames=true`
  );
  const names = await res.json();
  return names.map((name: string) => ({
@@ -43,13 +37,13 @@ export async function generateMetadata({
  };
 }
 
-export default async function SearchResultPage({
+export default function SearchResultPage({
  params,
+ result,
 }: {
  params: { name: string };
+ result: any;
 }) {
- const result = await getName(params.name);
-
  if (!result) {
   notFound();
  }
@@ -79,4 +73,22 @@ export default async function SearchResultPage({
    <GoBackButton />
   </div>
  );
+}
+
+export async function getStaticProps({ params }: { params: { name: string } }) {
+ const result = await getName(params.name);
+
+ if (!result) {
+  return {
+   notFound: true,
+  };
+ }
+
+ return {
+  props: {
+   params,
+   result,
+  },
+  revalidate: 3600,
+ };
 }
