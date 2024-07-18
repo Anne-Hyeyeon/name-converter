@@ -1,5 +1,3 @@
-import { NameDataProvider } from "./context/NameDataContext";
-
 export default function RootLayout({
   children,
 }: {
@@ -7,9 +5,7 @@ export default function RootLayout({
 }) {
   return (
     <html>
-      <body>
-        <NameDataProvider>{children}</NameDataProvider>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
