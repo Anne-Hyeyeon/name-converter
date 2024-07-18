@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import SearchResult from "../result/[name]/page";
-import { NameData } from "../page";
+import { useRouter } from "next/navigation"; // next/router 대신 next/navigation 사용
+import { NameData } from "../types";
 
 interface SearchComponentProps {
   allNameData: NameData[];
@@ -10,7 +10,7 @@ interface SearchComponentProps {
 
 export default function SearchComponent({ allNameData }: SearchComponentProps) {
   const [query, setQuery] = useState("");
-  const [selectedName, setSelectedName] = useState<NameData | null>(null);
+  const router = useRouter();
 
   const filteredNames = useMemo(() => {
     const trimmedQuery = query.trim().toLowerCase();
@@ -21,25 +21,8 @@ export default function SearchComponent({ allNameData }: SearchComponentProps) {
   }, [allNameData, query]);
 
   const handleSearch = (name: NameData) => {
-    setSelectedName(name);
+    router.push(`/result/${name.name}`);
   };
-
-  const handleGoBack = () => {
-    setSelectedName(null);
-  };
-
-  if (!allNameData) {
-    return <div>Loading...</div>;
-  }
-
-  if (selectedName) {
-    return (
-      <div>
-        <SearchResult result={selectedName} />
-        <button onClick={handleGoBack}>다시 하기</button>
-      </div>
-    );
-  }
 
   return (
     <div>

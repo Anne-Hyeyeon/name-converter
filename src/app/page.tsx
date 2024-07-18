@@ -1,14 +1,9 @@
-import SearchComponent from "./components/SearchComponent";
+"use client";
 
-export type NameData = {
-  name: string;
-  koreanName: string;
-  trendYear: string;
-  maleTop100?: boolean;
-  femaleTop100?: boolean;
-  trendyFemaleTop100?: boolean;
-  trendyMaleTop100?: boolean;
-};
+import { useEffect } from "react";
+import SearchComponent from "./components/SearchComponent";
+import { NameData } from "./types";
+import { useNameData } from "./context/NameDataContext";
 
 async function getAllNameData(): Promise<NameData[]> {
   try {
@@ -29,16 +24,28 @@ async function getAllNameData(): Promise<NameData[]> {
   }
 }
 
-export default async function Home() {
-  const allNameData = await getAllNameData();
+export default function Home() {
+  const { nameData, setNameData } = useNameData();
 
-  if (!allNameData || allNameData.length === 0) {
-    throw new Error("데이터를 불러오는 중 문제가 발생했습니다.");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const allNameData = await getAllNameData();
+        setNameData(allNameData);
+      } catch (error) {
+        console.error("데이터를 불러오는 중 문제가 발생했습니다:", error);
+      }
+    };
+    fetchData();
+  }, [setNameData]);
+
+  if (!nameData) {
+    return <div>Loading...</div>;
   }
 
   return (
     <div>
-      <SearchComponent allNameData={allNameData} />
+      <SearchComponent allNameData={nameData} />
     </div>
   );
 }
