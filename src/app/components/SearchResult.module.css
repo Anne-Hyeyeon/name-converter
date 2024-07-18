@@ -35,6 +35,10 @@
   font-weight: bold;
 }
 
+.koreanName {
+  font-size: 2rem;
+}
+
 .messageContainer {
   margin-top: 20px;
 }
@@ -49,4 +53,22 @@
   padding: 10px;
   border-radius: 5px;
   margin-bottom: 10px;
+}
+
+@media (max-width: 600px) {
+  .name {
+    font-size: 2rem;
+  }
+  .largeEmoji {
+    font-size: 150px;
+  }
+  .infoText {
+    font-size: 0.8rem;
+  }
+  .koreanName {
+    font-size: 1.3rem;
+  }
+  .additionalInfo {
+    font-size: 0.8rem;
+  }
 }
