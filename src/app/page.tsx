@@ -1,25 +1,38 @@
 import SearchComponent from "./components/SearchComponent";
 
-async function getNames() {
- const res = await fetch(
-  `${process.env.NEXT_PUBLIC_API_URL}/api/sheets?allNames=true`,
-  {
-   cache: "force-cache",
+type NameData = {
+  [key: string]: string;
+};
+
+async function getAllNameData(): Promise<NameData[]> {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/sheets?allNames=true`
+    );
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+    const jsonResponse = await res.json();
+    if ("error" in jsonResponse) {
+      throw new Error(jsonResponse.error);
+    }
+    return jsonResponse.data as NameData[];
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
   }
- );
- if (!res.ok) {
-  throw new Error("Failed to fetch names");
- }
- return res.json();
 }
 
 export default async function Home() {
- const names = await getNames();
+  const allNameData = await getAllNameData();
 
- return (
-  <div>
-   <h1>영어 이름을 검색하세요!</h1>
-   <SearchComponent names={names} />
-  </div>
- );
+  if (!allNameData || allNameData.length === 0) {
+    throw new Error("데이터를 불러오는 중 문제가 발생했습니다.");
+  }
+
+  return (
+    <div>
+      <SearchComponent allNameData={allNameData} />
+    </div>
+  );
 }
