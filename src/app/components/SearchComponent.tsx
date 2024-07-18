@@ -46,7 +46,7 @@ export default function SearchComponent({ allNameData }: SearchComponentProps) {
    >
     <div className={styles.imageWrapper}>
      <a
-      href="https://buymeacoffee.com/yourpage"
+      href="https://buymeacoffee.com/annehyeyeon"
       target="_blank"
       rel="noopener noreferrer"
      >
