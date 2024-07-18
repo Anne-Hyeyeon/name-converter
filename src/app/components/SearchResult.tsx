@@ -6,6 +6,16 @@ import styles from "./SearchResult.module.css";
 import html2canvas from "html2canvas";
 import { useRouter } from "next/navigation";
 
+export const generateMetadata = ({ result }: { result: NameData }) => {
+  const title = `이름 검색 결과 : ${result.name}은 미국에서 어떤 느낌일까?`;
+  const description = `${result.name}의 미국에서의 인기와 유래를 확인해보세요.`;
+
+  return {
+    title,
+    description,
+  };
+};
+
 const characteristicMessages = [
   [
     "20세기 초반에 유행했던 이름이에요!",
