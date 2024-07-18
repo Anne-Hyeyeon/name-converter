@@ -2,10 +2,7 @@
 
 import { useState, useMemo } from "react";
 import SearchResult from "../result/[name]/page";
-
-type NameData = {
-  [key: string]: string;
-};
+import { NameData } from "../page";
 
 interface SearchComponentProps {
   allNameData: NameData[];
