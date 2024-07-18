@@ -104,6 +104,13 @@
  justify-content: center;
 }
 
+.developerNote {
+ font-size: 0.8rem;
+ color: #666;
+ text-align: center;
+ margin-top: 10px;
+}
+
 @media (max-width: 600px) {
  .name {
   font-size: 3rem;
