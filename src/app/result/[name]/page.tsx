@@ -1,5 +1,4 @@
 import SearchResult from "@/app/components/SearchResult";
-import BackButton from "@/app/components/BackButton";
 import getAllNameData from "@/app/utils/getAllNameData";
 import styles from "./page.module.css";
 
@@ -23,9 +22,6 @@ export default async function ResultPage({
         ) : (
           <SearchResult result={selectedNameData} />
         )}
-        <div className={styles.buttonWrapper}>
-          <BackButton href="/">검색창으로 돌아가기</BackButton>
-        </div>
       </div>
     </div>
   );
