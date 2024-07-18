@@ -41,6 +41,10 @@ export default function SearchResult({ result }: SearchResultProps) {
     return emojiList[characteristic - 1] || emojiList[0];
   };
 
+  if (!result.characteristic) {
+    return null; // characteristic이 없는 경우 아무것도 렌더링하지 않음
+  }
+
   const emoji = getEmoji(result.gender, result.characteristic);
 
   return (
@@ -61,7 +65,7 @@ export default function SearchResult({ result }: SearchResultProps) {
           년도에 유행했고,
         </p>
         <div className={styles.messageContainer}>
-          {characteristicMessages[result.characteristic - 1].map(
+          {characteristicMessages[result.characteristic - 1]?.map(
             (line, index) => (
               <p key={index} className={styles.infoText}>
                 {line}
