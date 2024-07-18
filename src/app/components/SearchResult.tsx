@@ -1,4 +1,3 @@
-// src/components/SearchResult.tsx
 import { NameData } from "../types";
 import styles from "./SearchResult.module.css";
 
@@ -10,11 +9,11 @@ export default function SearchResult({ result }: SearchResultProps) {
   return (
     <div className={styles.resultPage}>
       <h1 className={styles.name}>{result.name}</h1>
-      <p>
+      <p className={styles.infoText}>
         {result.name} 이름을 가진 당신은 미국에서{" "}
         <span className={styles.koreanName}>{result.koreanName}</span> 입니다.
       </p>
-      <p>
+      <p className={styles.infoText}>
         미국에서 <span className={styles.trendYear}>{result.trendYear}</span>{" "}
         년도 느낌의 이름이죠.
       </p>

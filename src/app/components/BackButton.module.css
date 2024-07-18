@@ -1,0 +1,22 @@
+.backButton {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #4a4a4a;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.backButton:hover {
+  background-color: #333;
+  transform: translateY(-2px);
+}
+
+.backButton:active {
+  transform: translateY(0);
+}
