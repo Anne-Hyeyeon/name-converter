@@ -1,67 +1,107 @@
 .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  min-height: 100vh;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ width: 100%;
+ max-width: 400px;
+ margin: 0 auto;
 }
 
 .title {
-  font-size: 24px;
-  color: #333;
-  margin-bottom: 20px;
+ font-size: 24px;
+ color: #333;
+ margin-bottom: 20px;
 }
 
 .input {
-  width: 100%;
-  max-width: 300px;
-  padding: 12px;
-  font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 20px;
-  margin-bottom: 20px;
+ width: 100%;
+ max-width: 400px;
+ padding: 12px;
+ font-size: 16px;
+ border: 1px solid #ddd;
+ border-radius: 20px;
+ margin-bottom: 20px;
+ border: 1px solid #ccc;
+ border-radius: 4px;
+ padding: 10px;
+ font-size: 16px;
+ transition: border-color 0.3s ease;
+ box-sizing: border-box;
 }
 
-.resultList {
-  list-style-type: none;
-  padding: 0;
-  width: 100%;
-  max-width: 300px;
-  margin-top: 20px;
+.input:focus {
+ border-color: gray;
+ outline: none;
 }
 
-.resultItem {
-  background-color: #f8f8f8;
-  margin-bottom: 10px;
-  padding: 15px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.resultItem:hover {
-  background-color: #e8e8e8;
-}
-
-.noResult {
-  color: #666;
-}
-
-.reportLink {
-  font-size: 0.8rem;
-  font-weight: bold;
-  text-decoration: underline;
-  cursor: pointer;
+.infoContainer {
+ width: 100%;
+ max-width: 400px;
+ height: auto;
 }
 
 .infoText {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  font-size: 14px;
-  text-align: center;
-  color: #333;
+ margin-top: 20px;
+ margin-bottom: 20px;
+ font-size: 14px;
+ text-align: center;
+ color: #333;
 }
+
 .secondLine {
-  display: block;
-  margin-top: 10px;
+ display: block;
+ margin-top: 10px;
+}
+
+.hidden {
+ visibility: hidden;
+ height: 0;
+ opacity: 0;
+}
+
+.imageWrapper {
+ width: 100%;
+ max-width: 250px;
+ margin: 0 auto 20px;
+}
+
+.image {
+ width: 100%;
+ height: auto;
+}
+
+.resultList {
+ list-style-type: none;
+ padding: 0;
+ width: 100%;
+ max-width: 300px;
+ margin-top: 20px;
+}
+
+.resultItem {
+ background-color: #f8f8f8;
+ margin-bottom: 10px;
+ padding: 15px;
+ border-radius: 10px;
+ cursor: pointer;
+ transition: background-color 0.3s;
+}
+
+.resultItem:hover {
+ background-color: #e8e8e8;
+}
+
+.noResult {
+ color: #666;
+ text-align: center;
+ margin: 10px 0;
+}
+
+.reportLink {
+ font-size: 0.8rem;
+ font-weight: bold;
+ text-decoration: underline;
+ cursor: pointer;
+ display: block;
+ margin: 10px 0;
 }
