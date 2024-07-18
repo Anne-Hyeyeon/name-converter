@@ -34,10 +34,19 @@ export default function SearchComponent({ allNameData }: SearchComponentProps) {
       <input
         type="text"
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Enter a name"
+        placeholder="영어 이름을 입력하세요. ex) Anne"
         value={query}
         className={styles.input}
       />
+      <p className={styles.infoText}>
+        <strong>
+          내 영어 이름이 미국에선 &lsquo;춘자&rsquo;일수도 있다고? 🙉
+        </strong>
+        <strong className={styles.secondLine}>
+          내 이름의 유행시기와 특징을 알아보아요 💃
+        </strong>
+      </p>
+
       {query.trim() !== "" && (
         <ul className={styles.resultList}>
           {filteredNames.length > 0 ? (

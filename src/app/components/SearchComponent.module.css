@@ -53,3 +53,15 @@
   text-decoration: underline;
   cursor: pointer;
 }
+
+.infoText {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  text-align: center;
+  color: #333;
+}
+.secondLine {
+  display: block;
+  margin-top: 10px;
+}
