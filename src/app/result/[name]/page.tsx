@@ -1,32 +1,28 @@
-import { NameData } from "@/app/page";
-import styles from "./SearchResult.module.css";
+"use client";
 
-interface SearchResultProps {
-  result: NameData;
-}
+import { useParams } from "next/navigation"; // next/router 대신 next/navigation 사용
+import { useEffect, useState } from "react";
+import SearchResult from "@/app/components/SearchResult";
+import { useNameData } from "@/app/context/NameDataContext";
+import { NameData } from "@/app/types";
 
-export default function SearchResult({ result }: SearchResultProps) {
-  return (
-    <div className={styles.resultPage}>
-      <h1 className={styles.name}>{result.name}</h1>
-      <p>
-        {result.name} 이름을 가진 당신은 미국에서{" "}
-        <span className={styles.koreanName}>{result.koreanName}</span> 입니다.
-      </p>
-      <p>
-        미국에서 <span className={styles.trendYear}>{result.trendYear}</span>
-        년도 느낌의 이름이죠.
-      </p>
-      {result.maleTop100 || result.femaleTop100 ? (
-        <p className={styles.highlight}>
-          {result.name}은(는) 미국에서 꾸준히 사랑받는 이름이에요.
-        </p>
-      ) : null}
-      {result.trendyFemaleTop100 || result.trendyMaleTop100 ? (
-        <p className={styles.highlight}>
-          {result.name}은 2024년도 아기 이름 TOP 100에 드는 이름이에요.
-        </p>
-      ) : null}
-    </div>
+export default function ResultPage() {
+  const { name } = useParams(); // useParams 훅을 사용하여 경로 매개변수 가져오기
+  const [selectedNameData, setSelectedNameData] = useState<NameData | null>(
+    null
   );
+  const { nameData } = useNameData();
+
+  useEffect(() => {
+    if (name && nameData) {
+      const data = nameData.find((item) => item.name === name);
+      setSelectedNameData(data || null);
+    }
+  }, [name, nameData]);
+
+  if (!selectedNameData) {
+    return <div>Loading...</div>;
+  }
+  console.log(selectedNameData);
+  return <SearchResult result={selectedNameData} />;
 }
