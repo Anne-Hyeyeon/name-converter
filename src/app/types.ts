@@ -1,9 +1,11 @@
 export type NameData = {
   name: string;
   koreanName: string;
+  gender: "F" | "M";
   trendYear: string;
-  maleTop100?: boolean;
-  femaleTop100?: boolean;
-  trendyFemaleTop100?: boolean;
-  trendyMaleTop100?: boolean;
+  maleTop?: boolean;
+  femaleTop?: boolean;
+  trendyFemaleTop?: boolean;
+  trendyMaleTop?: boolean;
+  characteristic: number;
 };
