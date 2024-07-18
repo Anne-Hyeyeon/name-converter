@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { NameData } from "../types";
 import styles from "./SearchComponent.module.css";
+import ReportPopup from "./ReportPopup";
 
 interface SearchComponentProps {
   allNameData: NameData[];
@@ -11,6 +12,7 @@ interface SearchComponentProps {
 
 export default function SearchComponent({ allNameData }: SearchComponentProps) {
   const [query, setQuery] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
   const router = useRouter();
 
   const filteredNames = useMemo(() => {
@@ -49,10 +51,20 @@ export default function SearchComponent({ allNameData }: SearchComponentProps) {
               </li>
             ))
           ) : (
-            <li className={styles.noResult}>검색 결과가 없습니다</li>
+            <li className={styles.noResult}>
+              찾는 이름이 없습니다!{" "}
+              <span
+                onClick={() => setShowPopup(true)}
+                className={styles.reportLink}
+              >
+                <br />
+                이름 제보하기🙉
+              </span>
+            </li>
           )}
         </ul>
       )}
+      {showPopup && <ReportPopup onClose={() => setShowPopup(false)} />}
     </div>
   );
 }

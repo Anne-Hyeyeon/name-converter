@@ -45,5 +45,11 @@
 
 .noResult {
   color: #666;
-  font-style: italic;
+}
+
+.reportLink {
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
 }
