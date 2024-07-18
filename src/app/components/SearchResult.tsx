@@ -42,7 +42,7 @@ export default function SearchResult({ result }: SearchResultProps) {
   };
 
   if (!result.characteristic) {
-    return null; // characteristic이 없는 경우 아무것도 렌더링하지 않음
+    return null;
   }
 
   const emoji = getEmoji(result.gender, result.characteristic);
