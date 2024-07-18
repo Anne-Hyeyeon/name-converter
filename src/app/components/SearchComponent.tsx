@@ -45,21 +45,27 @@ export default function SearchComponent({ allNameData }: SearchComponentProps) {
     }`}
    >
     <div className={styles.imageWrapper}>
-     <Image
-      src="/amI.png?v=1"
-      alt="내가...춘자였다니..."
-      layout="responsive"
-      width={250}
-      height={250}
-      className={styles.image}
-     />
+     <a
+      href="https://buymeacoffee.com/yourpage"
+      target="_blank"
+      rel="noopener noreferrer"
+     >
+      <Image
+       src="/amI.png?v=1"
+       alt="내가...춘자였다니..."
+       layout="responsive"
+       width={250}
+       height={250}
+       className={styles.image}
+      />
+     </a>
     </div>
     <p className={styles.infoText}>
      <strong>
       내 영어 이름이 미국에선 &lsquo;춘자&rsquo;일수도 있다고? 🙉
      </strong>
      <strong className={styles.secondLine}>
-      내 이름의 유행시기와 특징을 알아보아요 💃
+      내 이름의 유행 시기와 특징을 알아보아요 💃
      </strong>
     </p>
    </div>
