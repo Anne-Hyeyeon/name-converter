@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react";
 import SearchComponent from "./components/SearchComponent";
 import getAllNameData from "./utils/getAllNameData";
 
@@ -6,6 +7,7 @@ export default async function Home() {
 
  return (
   <div>
+   <Analytics />
    <SearchComponent allNameData={nameData} />
   </div>
  );
