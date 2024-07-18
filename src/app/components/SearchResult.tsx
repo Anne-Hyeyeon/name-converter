@@ -7,8 +7,8 @@ import html2canvas from "html2canvas";
 import { useRouter } from "next/navigation";
 
 export const generateMetadata = ({ result }: { result: NameData }) => {
- const title = `이름 검색 결과 : ${result.name}은 미국에서 어떤 느낌일까?`;
- const description = `${result.name}의 미국에서의 인기와 유래를 확인해보세요.`;
+ const title = `이름 검색 결과 : ${result.name}은 촌스러운 이름일까?`;
+ const description = `${result.name}은 미국에서 촌스러운 이름인지, 트렌지한 이름인지 알아보세요.`;
 
  return {
   title,
@@ -30,7 +30,7 @@ const characteristicMessages = [
  ["Z세대 이름이에요!", "틱톡, 인스타 감성 그 자체!🙉"],
  [
   "예전부터 지금까지 꾸준히 사랑받으면서,",
-  "클래식함과 트렌디가 공존하는 이름이죠!🤩",
+  "클래식함과 트렌디함이 공존하는 이름이죠!🤩",
  ],
 ];
 
@@ -65,6 +65,10 @@ export default function SearchResult({ result }: SearchResultProps) {
 
  const handleBack = () => {
   router.push("/");
+ };
+
+ const handleSupport = () => {
+  window.open("https://buymeacoffee.com/annehyeyeon", "_blank");
  };
 
  if (!result.characteristic) {
@@ -108,7 +112,7 @@ export default function SearchResult({ result }: SearchResultProps) {
      ) : null}
      {result.trendyFemaleTop || result.trendyMaleTop ? (
       <p className={styles.highlight}>
-       <strong>{result.name}</strong>은 2024년도 아기 이름 TOP 100에 드는
+       <strong>{result.name}</strong>은(는) 2024년 아기 이름 TOP 100에 드는
        이름이에요.
       </p>
      ) : null}
@@ -123,6 +127,12 @@ export default function SearchResult({ result }: SearchResultProps) {
     </button>
     <button className={styles.button} onClick={handleBack}>
      검색창으로 돌아가기
+    </button>
+    <button
+     className={`${styles.button} ${styles.supportButton}`}
+     onClick={handleSupport}
+    >
+     ☕️ 개발자 응원하기
     </button>
    </div>
   </div>
