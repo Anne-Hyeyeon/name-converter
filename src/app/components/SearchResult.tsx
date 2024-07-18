@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 
 export const generateMetadata = ({ result }: { result: NameData }) => {
  const title = `이름 검색 결과 : ${result.name}은 촌스러운 이름일까?`;
- const description = `${result.name}은 미국에서 촌스러운 이름인지, 트렌지한 이름인지 알아보세요.`;
+ const description = `${result.name}은 미국에서 촌스러운 이름인지, 트렌디한 이름인지 알아보세요.`;
 
  return {
   title,
@@ -103,6 +103,16 @@ export default function SearchResult({ result }: SearchResultProps) {
        </p>
       ))}
      </div>
+     {result.name === "Anne" && (
+      <>
+       <p className={styles.developerNote}>
+        이 앱을 만든 개발자의 이름이에요... 소곤소곤
+       </p>
+       <p className={styles.developerNote}>
+        아무래도 이름을 바꿔야 할까봐요...
+       </p>
+      </>
+     )}
     </div>
     <div className={styles.additionalInfo}>
      {result.maleTop || result.femaleTop ? (
