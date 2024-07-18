@@ -18,9 +18,3 @@
   color: #666;
   font-style: italic;
 }
-
-.buttonWrapper {
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-}
