@@ -31,7 +31,7 @@ export default function SearchComponent({ allNameData }: SearchComponentProps) {
 
  return (
   <div className={styles.container}>
-   <h1 className={styles.title}>🔠 영어 이름을 검색하세요!</h1>
+   <h1 className={styles.title}>영어 이름을 검색하세요! 🧑‍💻🇺🇸</h1>
    <input
     type="text"
     onChange={(e) => setQuery(e.target.value)}
@@ -46,11 +46,11 @@ export default function SearchComponent({ allNameData }: SearchComponentProps) {
    >
     <div className={styles.imageWrapper}>
      <Image
-      src="/amI.png"
+      src="/amI.png?v=1"
       alt="내가...춘자였다니..."
       layout="responsive"
-      width={200}
-      height={200}
+      width={250}
+      height={250}
       className={styles.image}
      />
     </div>
