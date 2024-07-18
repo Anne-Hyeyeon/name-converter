@@ -1,0 +1,31 @@
+.resultPage {
+  width: 100%;
+  text-align: center;
+}
+
+.name {
+  font-size: 36px;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.infoText {
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.koreanName,
+.trendYear {
+  font-weight: bold;
+  color: #4a4a4a;
+  font-size: 24px;
+}
+
+.highlight {
+  background-color: #f8f8f8;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 30px;
+  font-size: 18px;
+}

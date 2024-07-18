@@ -1,52 +1,49 @@
-/* src/app/components/SearchComponent.module.css */
-
-.searchComponent {
-  position: relative;
-  width: 300px;
-  margin: 0 auto;
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  min-height: 100vh;
 }
 
-.searchInput {
+.title {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.input {
   width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
+  max-width: 300px;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  margin-bottom: 20px;
 }
 
-.searchButton {
-  width: 100%;
-  padding: 8px;
-  margin-top: 10px;
-  background-color: #0070f3;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-.searchButton:hover {
-  background-color: #005bb5;
-}
-
-.suggestionsBox {
-  position: absolute;
-  width: 100%;
-  max-height: 200px;
-  overflow-y: auto;
-  border: 1px solid #ccc;
-  background-color: white;
-  z-index: 10;
-}
-
-.suggestionsList {
+.resultList {
   list-style-type: none;
   padding: 0;
-  margin: 0;
+  width: 100%;
+  max-width: 300px;
+  margin-top: 20px;
 }
 
-.suggestionItem {
-  padding: 8px;
+.resultItem {
+  background-color: #f8f8f8;
+  margin-bottom: 10px;
+  padding: 15px;
+  border-radius: 10px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.suggestionItem:hover {
-  background-color: #f0f0f0;
+.resultItem:hover {
+  background-color: #e8e8e8;
+}
+
+.noResult {
+  color: #666;
+  font-style: italic;
 }
