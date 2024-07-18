@@ -1,5 +1,7 @@
+// src/app/api/names/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import sheets from "../../../../google-sheets-api";
+import { snakeToCamel } from "@/app/utils/snakeToCamel";
 
 type NameRow = string[];
 type NameData = {
@@ -52,7 +54,7 @@ export async function GET(
     }
 
     const headers = rows[0].map((header: string) =>
-      header.toLowerCase().replace(/\s+/g, "_")
+      snakeToCamel(header.toLowerCase().replace(/\s+/g, "_"))
     );
     const data: NameRow[] = rows.slice(1);
 
