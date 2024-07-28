@@ -59,7 +59,6 @@ const characteristicMessages = [
 const emojiMap = {
  F: ["👵", "👩", "👩‍🦰", "👩‍🦱", "👧", "👧", "🐩", "👩‍🦱", "👩"],
  M: ["👴", "👨", "👨‍🦰", "👨‍🦱", "👦", "👦", "🐕", "👱‍♂️", "👨"],
- D: ["🐶"],
 };
 interface SearchResultProps {
  result: NameData;
@@ -151,6 +150,12 @@ export default function SearchResult({ result }: SearchResultProps) {
       <p className={styles.highlight}>
        <strong>{result.name}</strong>은(는) 2024년 아기 이름 TOP 100에 드는
        이름이에요.
+      </p>
+     ) : null}
+     {result.doggyName ? (
+      <p className={styles.highlight}>
+       <strong>{result.name}</strong>은 반려견 이름으로도 자주 사용되는
+       이름이에요!
       </p>
      ) : null}
      {result.comment ? (
