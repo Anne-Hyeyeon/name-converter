@@ -18,13 +18,13 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, update }) => {
      &times;
     </span>
     <h3 className={styles.updateTitle}>{update.date} Update 💕👍</h3>
-    <h3>Patch Notes:</h3>
+    <h3>Patch Notes :</h3>
     <ul>
      {update.patchNotes.map((note, index) => (
       <li key={index}>{note}</li>
      ))}
     </ul>
-    <h3>업데이트된 이름:</h3>
+    <h3>업데이트된 이름 :</h3>
     <div className={styles.nameList}>
      {update.names.map((name, index) => (
       <a
