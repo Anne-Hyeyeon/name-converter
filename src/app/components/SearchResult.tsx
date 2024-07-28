@@ -37,13 +37,30 @@ const characteristicMessages = [
   "예전부터 지금까지 꾸준히 사랑받으면서,",
   "클래식함과 트렌디함이 공존하는 이름이에요!🤩",
  ],
+ [
+  "앗! 이 이름은 강아지 이름으로 더 자주 쓰여요 🥺",
+  "귀여운 강아지에게 양보하세요! 🐕",
+ ],
+ [
+  "이 이름은 미국이 아닌",
+  "아프리카, 유럽, 라틴아메리카 등의 지역에서 유래된 이름이에요.",
+  "독특한 문화적 배경을 가진 멋진 이름이네요!",
+  "이름의 고유한 의미와 아름다움을",
+  "그대로 간직해보는 건 어떨까요? 🌍✨",
+ ],
+ [
+  "이 이름은 아시아 사람들이",
+  "본명을 따서 지었을 가능성이 커요.",
+  "이름의 고유한 의미와 아름다움을",
+  "그대로 간직해보는 건 어떨까요? 🌍✨",
+ ],
 ];
 
 const emojiMap = {
- F: ["👵", "👩", "👩‍🦰", "👩‍🦱", "👧", "👧"],
- M: ["👴", "👨", "👨‍🦰", "👨‍🦱", "👦", "👦"],
+ F: ["👵", "👩", "👩‍🦰", "👩‍🦱", "👧", "👧", "🐩", "👩‍🦱", "👩"],
+ M: ["👴", "👨", "👨‍🦰", "👨‍🦱", "👦", "👦", "🐕", "👱‍♂️", "👨"],
+ D: ["🐶"],
 };
-
 interface SearchResultProps {
  result: NameData;
 }
@@ -97,10 +114,15 @@ export default function SearchResult({ result }: SearchResultProps) {
       미국에서 <span className={styles.koreanName}>{result.koreanName}</span>{" "}
       입니다.
      </p>
-     <p className={styles.infoText}>
-      주로 <span className={styles.trendYear}>{result.trendYear}</span> 년도에
-      유행했고,
-     </p>
+     {Number(result.characteristic) !== 7 &&
+     Number(result.characteristic) !== 8 &&
+     Number(result.characteristic) !== 9 ? (
+      <p className={styles.infoText}>
+       주로 <span className={styles.trendYear}>{result.trendYear}</span> 년도에
+       유행했고,
+      </p>
+     ) : null}
+
      <div className={styles.messageContainer}>
       {characteristicMessages[result.characteristic - 1]?.map((line, index) => (
        <p key={index} className={styles.infoText}>
@@ -130,6 +152,9 @@ export default function SearchResult({ result }: SearchResultProps) {
        <strong>{result.name}</strong>은(는) 2024년 아기 이름 TOP 100에 드는
        이름이에요.
       </p>
+     ) : null}
+     {result.comment ? (
+      <p className={styles.highlight}>{result.comment}</p>
      ) : null}
     </div>
    </div>
