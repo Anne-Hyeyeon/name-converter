@@ -14,8 +14,8 @@
 }
 
 .input {
- width: 100%;
- max-width: 400px;
+ width: 300px;
+ max-width: 100%;
  padding: 12px;
  font-size: 16px;
  border: 1px solid #ddd;
@@ -104,4 +104,19 @@
  cursor: pointer;
  display: block;
  margin: 10px 0;
+}
+
+.updateNoteLink {
+ cursor: pointer;
+ color: #000000;
+ text-decoration: underline;
+ margin-top: 20px;
+ text-align: center;
+ font-size: 0.9rem;
+ display: inline-block;
+ transition: opacity 0.3s ease;
+}
+
+.updateNoteLink:hover {
+ opacity: 0.7;
 }
