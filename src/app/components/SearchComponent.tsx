@@ -17,6 +17,7 @@ export default function SearchComponent({ allNameData }: SearchComponentProps) {
  const [query, setQuery] = useState("");
  const [showPopup, setShowPopup] = useState(false);
  const [showUpdateBoard, setShowUpdateBoard] = useState(false);
+ const [errorMessage, setErrorMessage] = useState<React.ReactNode | null>(null);
  const router = useRouter();
 
  const updateData = getAllUpdateData();
@@ -36,16 +37,35 @@ export default function SearchComponent({ allNameData }: SearchComponentProps) {
 
  const isSearching = query.trim() !== "";
 
+ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const inputValue = e.target.value;
+  setQuery(inputValue);
+
+  const englishOnly = /^[a-zA-Z\s]*$/;
+
+  if (!englishOnly.test(inputValue)) {
+   setErrorMessage(
+    <>
+     <p>한국어, 숫자, 특수문자는 입력이 불가능합니다. 😭</p>
+     <p>영어 이름만 입력하세요!</p>
+    </>
+   );
+  } else {
+   setErrorMessage(null);
+  }
+ };
+
  return (
   <div className={styles.container}>
    <h1 className={styles.title}>영어 이름을 검색하세요! 🧑‍💻</h1>
    <input
     type="text"
-    onChange={(e) => setQuery(e.target.value)}
+    onChange={handleInputChange}
     placeholder="영어 이름을 입력하세요. ex) Anne"
     value={query}
     className={styles.input}
    />
+   {errorMessage && <div className={styles.errorMessage}>{errorMessage}</div>}
    <div className={`${styles.infoContainer} ${isSearching && styles.hidden}`}>
     <div className={styles.imageWrapper}>
      <a
@@ -72,7 +92,7 @@ export default function SearchComponent({ allNameData }: SearchComponentProps) {
      </strong>
     </p>
    </div>
-   {isSearching && (
+   {isSearching && !errorMessage && (
     <ul className={styles.resultList}>
      {filteredNames.length > 0 ? (
       filteredNames.map((name) => (

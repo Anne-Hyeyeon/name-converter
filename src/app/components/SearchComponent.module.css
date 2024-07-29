@@ -120,3 +120,15 @@
 .updateNoteLink:hover {
  opacity: 0.7;
 }
+
+.errorMessage {
+ margin-top: 10px;
+ white-space: pre-line;
+ text-align: center;
+}
+
+.errorMessage small {
+ font-size: 0.8em;
+ display: block;
+ margin-top: 10px;
+}
