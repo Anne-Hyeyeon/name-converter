@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import "./globals.css";
 import styles from "./layout.module.css";
 import Footer from "./components/Footer";
+import CoupangBanner from "./components/CoopangBanner";
 
 export const metadata: Metadata = {
  title: "내가 춘자라니",
@@ -29,7 +30,13 @@ export default function RootLayout({
  return (
   <html lang="ko">
    <body className={styles.body}>
-    <main className={styles.main}>{children}</main>
+    <main className={styles.main}>
+     {children}{" "}
+     <div className={styles.banner}>
+      <CoupangBanner />
+     </div>
+    </main>
+
     <Footer />
    </body>
   </html>
