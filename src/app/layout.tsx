@@ -30,14 +30,11 @@ export default function RootLayout({
  return (
   <html lang="ko">
    <body className={styles.body}>
-    <main className={styles.main}>
-     {children}{" "}
-     <div className={styles.banner}>
-      <CoupangBanner />
-     </div>
-    </main>
-
+    <main className={styles.main}>{children} </main>
     <Footer />
+    <div className={styles.banner}>
+     <CoupangBanner />
+    </div>
    </body>
   </html>
  );
