@@ -45,7 +45,9 @@ export default function SearchComponent({ allNameData }: SearchComponentProps) {
 
     const englishOnly = /^[a-zA-Z\s]*$/;
 
-    if (!englishOnly.test(inputValue)) {
+    if (inputValue.length > 10) {
+      setErrorMessage(<p>이름이 너무 길어요! 😅</p>);
+    } else if (!englishOnly.test(inputValue)) {
       setErrorMessage(
         <>
           <p>한국어, 숫자, 특수문자는 입력이 불가능합니다. 😭</p>
