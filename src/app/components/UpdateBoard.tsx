@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import styles from "./UpdateBoard.module.css";
 import Modal from "./Modal";
 import { Update } from "../utils/getAllUpdateData";
@@ -12,6 +12,16 @@ interface UpdateBoardProps {
 const UpdateBoard: React.FC<UpdateBoardProps> = ({ updates }) => {
  const [selectedUpdate, setSelectedUpdate] = useState<Update | null>(null);
  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+ const sortedSelectedUpdate = useMemo(() => {
+  if (selectedUpdate) {
+   return {
+    ...selectedUpdate,
+    names: [...selectedUpdate.names].sort((a, b) => a.localeCompare(b)),
+   };
+  }
+  return null;
+ }, [selectedUpdate]);
 
  const openModal = (update: Update) => {
   setSelectedUpdate(update);
@@ -45,8 +55,12 @@ const UpdateBoard: React.FC<UpdateBoardProps> = ({ updates }) => {
      ))}
     </tbody>
    </table>
-   {selectedUpdate && (
-    <Modal isOpen={isModalOpen} onClose={closeModal} update={selectedUpdate} />
+   {sortedSelectedUpdate && (
+    <Modal
+     isOpen={isModalOpen}
+     onClose={closeModal}
+     update={sortedSelectedUpdate}
+    />
    )}
   </div>
  );
