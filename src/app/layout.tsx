@@ -3,7 +3,6 @@ import "./globals.css";
 import styles from "./layout.module.css";
 import Footer from "./components/Footer";
 import CoupangBanner from "./components/CoopangBanner";
-import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "내가 춘자라니",
@@ -30,16 +29,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <head>
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxx"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
-      </head>
       <body className={styles.body}>
-        <main className={styles.main}>{children}</main>
+        <main className={styles.main}>{children} </main>
         <Footer />
         <div className={styles.banner}>
           <CoupangBanner />
