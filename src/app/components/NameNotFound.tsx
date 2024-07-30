@@ -57,8 +57,8 @@ export default function NameNotFound({ name }: { name: string }) {
         </div>
         <div className={styles.additionalInfo}>
           <p className={styles.highlight}>
-            <strong>1. 한국 이름을 그대로 영어 이름으로 전환한 이름.</strong>{" "}
-            <br /> ex) Hyeyeon, Minjae, Yeji, Heejung <br /> <br />
+            <strong>1. 한국 이름을 그대로 영어로 전환한 경우</strong> <br /> ex)
+            Hyeyeon, Minjae, Yeji, Heejung <br /> <br />
             이런 이름은, 미국에서 그대로 &apos;혜연, 민재, 예지, 희정&apos;
             이랍니다 😁
           </p>
@@ -77,7 +77,7 @@ export default function NameNotFound({ name }: { name: string }) {
             이름으로 자주 사용되는 애칭의 경우, 곧 등재하도록 하겠습니다. 🫡
           </p>
           <p className={styles.highlight}>
-            <strong>4. 이름이 보편적으로 사용되는 철자가 아닌 경우.</strong>{" "}
+            <strong>4. 이름이 보편적으로 사용되는 철자가 아닌 경우</strong>{" "}
             <br /> ex) Jeniffer(Jennifer), Linsay(Lindsay), Haper(Harper) <br />{" "}
             <br />
             이름의 스펠링을 체크한 후 다시 검색해 주세요!
