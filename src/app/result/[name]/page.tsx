@@ -1,6 +1,7 @@
 import SearchResult from "@/app/components/SearchResult";
 import getAllNameData from "@/app/utils/getAllNameData";
 import styles from "./page.module.css";
+import NameNotFound from "@/app/components/NameNotFound";
 
 export default async function ResultPage({
   params,
@@ -11,14 +12,11 @@ export default async function ResultPage({
   const selectedNameData = allNameData.find(
     (data) => data.name === params.name
   );
-
   return (
     <div className={styles.pageContainer}>
       <div className={styles.contentWrapper}>
         {!selectedNameData ? (
-          <div className={styles.notFound}>
-            <p>Name not found</p>
-          </div>
+          <NameNotFound name={params.name} />
         ) : (
           <SearchResult result={selectedNameData} />
         )}
