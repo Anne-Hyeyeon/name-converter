@@ -6,9 +6,9 @@ export default async function Home() {
  const nameData = await getAllNameData();
 
  return (
-  <div>
+  <>
    <Analytics />
    <SearchComponent allNameData={nameData} />
-  </div>
+  </>
  );
 }
