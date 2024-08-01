@@ -11,7 +11,7 @@ const NoticePopup: React.FC<NoticePopupProps> = ({ onClose }) => {
    <div className={styles.modal}>
     <h2 className={styles.title}>춘자 사이트를 사랑해주시는 여러분! 😭 </h2>
     <div className={styles.content}>
-     <p>춘자 사이트가 없어질 위기에 처해 있습니다... 😢</p>
+     <p>제곧내인데요... 춘자 사이트가 없어질 위기에 처해 있습니다... 😢</p>
 
      <p>
       사이트가 많이 알려진 덕분에, 방문자들이 증가하고 있지만
