@@ -11,3 +11,9 @@ export type NameData = {
  characteristic: number;
  comment?: string;
 };
+
+export interface Update {
+ date: string;
+ patchNotes: string[];
+ names: string[];
+}
