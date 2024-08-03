@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./Modal.module.css";
-import { Update } from "../data/20240729";
+import { Update } from "../types";
 
 interface ModalProps {
  isOpen: boolean;
