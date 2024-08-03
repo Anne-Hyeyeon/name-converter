@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./Modal.module.css";
+import styles from "./NameUpdateModal.module.css";
 import { Update } from "../types";
 
 interface ModalProps {
@@ -8,7 +8,7 @@ interface ModalProps {
  update: Update;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, update }) => {
+const NameUpdateModal: React.FC<ModalProps> = ({ isOpen, onClose, update }) => {
  if (!isOpen) return null;
 
  return (
@@ -43,4 +43,4 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, update }) => {
  );
 };
 
-export default Modal;
+export default NameUpdateModal;
