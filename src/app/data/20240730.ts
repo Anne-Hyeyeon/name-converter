@@ -1,8 +1,4 @@
-export interface Update {
- date: string;
- patchNotes: string[];
- names: string[];
-}
+import { Update } from "../types";
 
 export const updateData: Update = {
  date: "2024-07-30",
