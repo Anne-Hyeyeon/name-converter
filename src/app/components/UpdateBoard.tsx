@@ -2,8 +2,8 @@
 
 import React, { useState, useMemo } from "react";
 import styles from "./UpdateBoard.module.css";
-import Modal from "./Modal";
 import { Update } from "../types";
+import NameUpdateModal from "./NameUpdateModal";
 
 interface UpdateBoardProps {
  updates: Update[];
@@ -56,7 +56,7 @@ const UpdateBoard: React.FC<UpdateBoardProps> = ({ updates }) => {
     </tbody>
    </table>
    {sortedSelectedUpdate && (
-    <Modal
+    <NameUpdateModal
      isOpen={isModalOpen}
      onClose={closeModal}
      update={sortedSelectedUpdate}
