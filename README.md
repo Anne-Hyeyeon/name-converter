@@ -34,3 +34,69 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+```
+name-converter
+├─ .eslintrc.json
+├─ .gitignore
+├─ credentials.json
+├─ lib
+│  └─ google-sheets-api.ts
+├─ next.config.mjs
+├─ package-lock.json
+├─ package.json
+├─ public
+│  ├─ ads.txt
+│  ├─ amI.png
+│  ├─ favicon-16x16.png
+│  └─ favicon.ico
+├─ README.md
+├─ src
+│  └─ app
+│     ├─ api
+│     │  └─ sheets
+│     │     └─ route.ts
+│     ├─ components
+│     │  ├─ BackButton.module.css
+│     │  ├─ BackButton.tsx
+│     │  ├─ CoopangBanner.tsx
+│     │  ├─ Footer.module.css
+│     │  ├─ Footer.tsx
+│     │  ├─ NameNotFound.module.css
+│     │  ├─ NameNotFound.tsx
+│     │  ├─ NameUpdateModal.module.css
+│     │  ├─ NameUpdateModal.tsx
+│     │  ├─ NoticePopup.module.css
+│     │  ├─ NoticePopup.tsx
+│     │  ├─ NoticePopupWrapper.module.css
+│     │  ├─ NoticePopupWrapper.tsx
+│     │  ├─ ReportPopup.module.css
+│     │  ├─ ReportPopup.tsx
+│     │  ├─ SearchComponent.module.css
+│     │  ├─ SearchComponent.tsx
+│     │  ├─ SearchResult.module.css
+│     │  ├─ SearchResult.tsx
+│     │  ├─ UpdateBoard.module.css
+│     │  └─ UpdateBoard.tsx
+│     ├─ data
+│     │  ├─ 20240729.ts
+│     │  ├─ 20240730.ts
+│     │  └─ 20240804.ts
+│     ├─ Error.tsx
+│     ├─ globals.css
+│     ├─ layout.module.css
+│     ├─ layout.tsx
+│     ├─ Loading.tsx
+│     ├─ page.tsx
+│     ├─ result
+│     │  └─ [name]
+│     │     ├─ page.module.css
+│     │     └─ page.tsx
+│     ├─ types.ts
+│     └─ utils
+│        ├─ getAllNameData.ts
+│        ├─ getAllUpdateData.ts
+│        └─ snakeToCamel.ts
+└─ tsconfig.json
+
+```
