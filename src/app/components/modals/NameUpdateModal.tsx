@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./NameUpdateModal.module.css";
-import { Update } from "../types";
+import { Update } from "../../types";
 
 interface ModalProps {
   isOpen: boolean;

@@ -1,7 +1,7 @@
-import SearchResult from "@/app/components/SearchResult";
+import SearchResult from "@/app/components/search/SearchResult";
 import getAllNameData from "@/app/utils/getAllNameData";
 import styles from "./page.module.css";
-import NameNotFound from "@/app/components/NameNotFound";
+import NameNotFound from "@/app/components/search/NameNotFound";
 
 export default async function ResultPage({
   params,

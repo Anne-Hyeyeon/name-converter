@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from "react";
 import styles from "./UpdateBoard.module.css";
 import { Update } from "../types";
-import NameUpdateModal from "./NameUpdateModal";
+import NameUpdateModal from "./modals/NameUpdateModal";
 
 interface UpdateBoardProps {
   updates: Update[];

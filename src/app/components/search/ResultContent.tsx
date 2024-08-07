@@ -1,8 +1,8 @@
 // components/ResultContent.tsx
 
 import React from "react";
-import { NameData } from "../types";
-import { characteristicMessages } from "../constants/resultMessages";
+import { NameData } from "../../types";
+import { characteristicMessages } from "../../constants/resultMessages";
 import styles from "./SearchResult.module.css";
 
 interface ResultContentProps {
