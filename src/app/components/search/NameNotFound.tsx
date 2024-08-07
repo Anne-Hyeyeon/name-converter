@@ -3,7 +3,7 @@
 import React, { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./NameNotFound.module.css";
-import ReportPopup from "./ReportPopup";
+import ReportPopup from "../modals/ReportPopup";
 
 export default function NameNotFound({ name }: { name: string }) {
   const router = useRouter();

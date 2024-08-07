@@ -2,13 +2,13 @@
 
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { NameData } from "../types";
+import { NameData } from "../../types";
 import styles from "./SearchComponent.module.css";
-import ReportPopup from "./ReportPopup";
+import ReportPopup from "../modals/ReportPopup";
 import Image from "next/image";
-import UpdateBoard from "./UpdateBoard";
-import { getAllUpdateData } from "../utils/getAllUpdateData";
-import NoticePopupWrapper from "./NoticePopupWrapper";
+import UpdateBoard from "../UpdateBoard";
+import { getAllUpdateData } from "../../utils/getAllUpdateData";
+import NoticePopupWrapper from "../modals/NoticePopupWrapper";
 
 interface SearchComponentProps {
   allNameData: NameData[];

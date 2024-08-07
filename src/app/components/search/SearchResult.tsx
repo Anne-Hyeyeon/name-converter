@@ -3,10 +3,13 @@
 import React from "react";
 import html2canvas from "html2canvas";
 import { useRouter } from "next/navigation";
-import { NameData } from "../types";
-import { characteristicMessages, emojiMap } from "../constants/resultMessages";
-import styles from "./SearchResult.module.css";
+import { NameData } from "../../types";
+import {
+  characteristicMessages,
+  emojiMap,
+} from "../../constants/resultMessages";
 import { ResultContent } from "./ResultContent";
+import styles from "./SearchResult.module.css";
 
 export const generateMetadata = ({ result }: { result: NameData }) => {
   const title = `이름 검색 결과 : ${result.name}은 촌스러운 이름일까?`;
