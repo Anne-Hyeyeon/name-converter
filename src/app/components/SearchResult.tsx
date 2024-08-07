@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { NameData } from "../types";
 import { characteristicMessages, emojiMap } from "../constants/resultMessages";
 import styles from "./SearchResult.module.css";
+import { ResultContent } from "./ResultContent";
 
 export const generateMetadata = ({ result }: { result: NameData }) => {
   const title = `이름 검색 결과 : ${result.name}은 촌스러운 이름일까?`;
@@ -64,72 +65,7 @@ export default function SearchResult({ result }: SearchResultProps) {
             {emoji}
           </span>
         </div>
-        <div className={styles.mainContent}>
-          {Number(result.characteristic) !== 10 && (
-            <>
-              <p className={styles.infoText}>
-                {result.name} 이름을 가진 당신은
-              </p>
-              <p className={styles.infoText}>
-                미국에서{" "}
-                <span className={styles.koreanName}>{result.koreanName}</span>{" "}
-                입니다.
-              </p>
-            </>
-          )}
-          {Number(result.characteristic) !== 7 &&
-          Number(result.characteristic) !== 8 &&
-          Number(result.characteristic) !== 9 &&
-          Number(result.characteristic) !== 10 ? (
-            <p className={styles.infoText}>
-              주로 <span className={styles.trendYear}>{result.trendYear}</span>{" "}
-              년도에 유행했고,
-            </p>
-          ) : null}
-
-          <div className={styles.messageContainer}>
-            {characteristicMessages[result.characteristic - 1]?.map(
-              (line, index) => (
-                <p key={index} className={styles.infoText}>
-                  {line}
-                </p>
-              )
-            )}
-          </div>
-          {result.name === "Anne" && (
-            <>
-              <p className={styles.developerNote}>
-                이 앱을 만든 개발자의 이름이에요... 소곤소곤
-              </p>
-              <p className={styles.developerNote}>
-                아무래도 이름을 바꿔야 할까봐요...
-              </p>
-            </>
-          )}
-        </div>
-        <div className={styles.additionalInfo}>
-          {result.maleTop || result.femaleTop ? (
-            <p className={styles.highlight}>
-              <strong>{result.name}</strong>은(는) 미국에서 꾸준히 사랑받는
-              이름이에요.
-            </p>
-          ) : null}
-          {result.trendyFemaleTop || result.trendyMaleTop ? (
-            <p className={styles.highlight}>
-              <strong>{result.name}</strong>은(는) 2024년 아기 이름 TOP 100에
-              드는 이름이에요.
-            </p>
-          ) : null}
-          {result.doggyName ? (
-            <p className={styles.highlight}>
-              <strong>{result.name}</strong>은(는) 반려견 이름으로도 자주
-              사용되는 이름이에요!
-            </p>
-          ) : null}
-          {result.comment ? (
-            <p className={styles.highlight}>{result.comment}</p>
-          ) : null}
-        </div>
+        <ResultContent result={result} />
       </div>
       <div className={styles.buttonWrapper}>
         <button
