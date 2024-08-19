@@ -1,9 +1,10 @@
 import { Metadata } from "next";
-import "./globals.css";
-import styles from "./layout.module.css";
 import Footer from "./components/layout/Footer";
 import CoupangBanner from "./components/common/CoopangBanner";
 import Script from "next/script";
+import styles from "./layout.module.css";
+import "./globals.css";
+import AdropScript from "./components/scripts/AdropScript";
 
 export const metadata: Metadata = {
  title: "내가 춘자라니",
@@ -43,18 +44,7 @@ export default function RootLayout({
             gtag('config', 'G-M1E6F65P9K');
           `}
     </Script>
-    <Script
-     src="https://storage.adrop.io/js/adrop-0.1.2.min.js"
-     strategy="lazyOnload"
-     onLoad={() => {
-      console.log("Adrop script loaded successfully");
-      window.adrop = window.adrop || {};
-      window.adrop.initialize("ADROP_APP_KEY"); // 여기에 실제 AppKey를 입력하세요
-     }}
-     onError={(e) => {
-      console.error("Error loading Adrop script", e);
-     }}
-    />
+    <AdropScript />
    </head>
    <body className={styles.body}>
     <main className={styles.main}>{children}</main>
