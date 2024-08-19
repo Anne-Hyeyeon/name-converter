@@ -2,6 +2,18 @@
 
 import Script from "next/script";
 
+declare global {
+ interface Window {
+  adrop: {
+   initialize: (appKey: string) => void;
+   request: (
+    unitId: string
+   ) => Promise<{ ad: string; unit: string; message: string }>;
+   setProperty: (key: string, value: string) => Promise<void>;
+  };
+ }
+}
+
 export default function AdropScript() {
  return (
   <Script
