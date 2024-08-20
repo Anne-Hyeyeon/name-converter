@@ -5,6 +5,7 @@ import Script from "next/script";
 import styles from "./layout.module.css";
 import "./globals.css";
 import AdropScript from "./components/scripts/AdropScript";
+import GoogleAnalyticsScript from "./components/scripts/GoogleAnalyticsScript";
 
 export const metadata: Metadata = {
  title: "내가 춘자라니",
@@ -32,18 +33,7 @@ export default function RootLayout({
  return (
   <html lang="ko">
    <head>
-    <Script
-     src="https://www.googletagmanager.com/gtag/js?id=G-M1E6F65P9K"
-     strategy="afterInteractive"
-    />
-    <Script id="google-analytics" strategy="afterInteractive">
-     {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-M1E6F65P9K');
-          `}
-    </Script>
+    <GoogleAnalyticsScript />
     <AdropScript />
    </head>
    <body className={styles.body}>
