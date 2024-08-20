@@ -1,7 +1,7 @@
 "use client";
 
 import Script from "next/script";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 declare global {
  interface Window {
@@ -16,44 +16,37 @@ declare global {
 }
 
 export default function AdropScript() {
+ const [isScriptLoaded, setIsScriptLoaded] = useState(false);
+
  useEffect(() => {
   const initializeAdrop = () => {
-   if (window.adrop && typeof window.adrop.initialize === "function") {
-    window.adrop.initialize(`${process.env.NEXT_PUBLIC_ADROP_APP_KEY}`);
-    console.log("Adrop initialized successfully");
+   const appKey = process.env.NEXT_PUBLIC_ADROP_APP_KEY;
+
+   if (
+    window.adrop &&
+    typeof window.adrop.initialize === "function" &&
+    appKey
+   ) {
+    window.adrop.initialize(appKey);
    } else {
-    console.error("Adrop initialize function not found");
+    console.error(
+     "Failed to initialize Adrop. Please check the script and app key."
+    );
    }
   };
 
-  if (
-   document.querySelector(
-    'script[src="https://storage.adrop.io/js/adrop-0.1.2.min.js"]'
-   )
-  ) {
+  if (isScriptLoaded) {
    initializeAdrop();
-  } else {
-   window.addEventListener("adrop-loaded", initializeAdrop);
   }
-
-  return () => {
-   window.removeEventListener("adrop-loaded", initializeAdrop);
-  };
- }, []);
+ }, [isScriptLoaded]);
 
  return (
-  <>
-   <Script
-    id="adrop-main"
-    src="https://storage.adrop.io/js/adrop-0.1.2.min.js"
-    onLoad={() => {
-     console.log("Adrop script loaded successfully");
-     window.dispatchEvent(new Event("adrop-loaded"));
-    }}
-    onError={(e) => {
-     console.error("Error loading Adrop script", e);
-    }}
-   />
-  </>
+  <Script
+   id="adrop-main"
+   src="https://storage.adrop.io/js/adrop-0.1.2.min.js"
+   strategy="afterInteractive"
+   onLoad={() => setIsScriptLoaded(true)}
+   onError={(e) => console.error("Error loading Adrop script", e)}
+  />
  );
 }
