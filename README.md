@@ -37,12 +37,24 @@ name-converter
 │  ├─ favicon-16x16.png
 │  └─ favicon.ico
 ├─ README.md
+├─ package-lock.json
+├─ package.json
+├─ public
+│  ├─ ads.txt
+│  ├─ amI.png
+│  ├─ favicon-16x16.png
+│  └─ favicon.ico
 ├─ src
 │  └─ app
+│     ├─ Error.tsx
+│     ├─ Loading.tsx
 │     ├─ api
-│     │  └─ sheets
-│     │     └─ route.ts
+│     │  ├─ sheets
+│     │  │  └─ route.ts
+│     │  └─ updatenote
 │     ├─ components
+│     │  ├─ UpdateBoard.module.css
+│     │  ├─ UpdateBoard.tsx
 │     │  ├─ common
 │     │  │  ├─ BackButton.module.css
 │     │  │  ├─ BackButton.tsx
@@ -59,23 +71,29 @@ name-converter
 │     │  │  ├─ NoticePopupWrapper.tsx
 │     │  │  ├─ ReportPopup.module.css
 │     │  │  └─ ReportPopup.tsx
-│     │  ├─ search
-│     │  │  ├─ NameNotFound.module.css
-│     │  │  ├─ NameNotFound.tsx
-│     │  │  ├─ ResultContent.tsx
-│     │  │  ├─ SearchComponent.module.css
-│     │  │  ├─ SearchComponent.tsx
-│     │  │  ├─ SearchResult.module.css
-│     │  │  └─ SearchResult.tsx
-│     │  ├─ UpdateBoard.module.css
-│     │  └─ UpdateBoard.tsx
+│     │  ├─ scripts
+│     │  │  ├─ AdropScript.tsx
+│     │  │  └─ GoogleAnalyticsScript.tsx
+│     │  └─ search
+│     │     ├─ NameNotFound.module.css
+│     │     ├─ NameNotFound.tsx
+│     │     ├─ ResultContent.tsx
+│     │     ├─ SearchComponent.module.css
+│     │     ├─ SearchComponent.tsx
+│     │     ├─ SearchResult.module.css
+│     │     └─ SearchResult.tsx
 │     ├─ constants
 │     │  └─ resultMessages.ts
-│     ├─ Error.tsx
+│     ├─ data
+│     │  ├─ 20240729.ts
+│     │  ├─ 20240730.ts
+│     │  ├─ 20240804.ts
+│     │  ├─ 20240820.ts
+│     │  ├─ 20240829.ts
+│     │  └─ 20240924.ts
 │     ├─ globals.css
 │     ├─ layout.module.css
 │     ├─ layout.tsx
-│     ├─ Loading.tsx
 │     ├─ page.tsx
 │     ├─ result
 │     │  └─ [name]
