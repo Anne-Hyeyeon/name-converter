@@ -57,3 +57,28 @@
 .td:last-child {
  width: 70%;
 }
+
+.pagination {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin-top: 15px;
+}
+
+.pagination button {
+ padding: 5px 10px;
+ background-color: #f8f9fa;
+ border: 1px solid #ced4da;
+ border-radius: 4px;
+ cursor: pointer;
+}
+
+.pagination button:disabled {
+ opacity: 0.5;
+ cursor: not-allowed;
+}
+
+.pagination span {
+ font-size: 0.9rem;
+ color: #6c757d;
+}
