@@ -9,9 +9,12 @@ interface UpdateBoardProps {
  updates: Update[];
 }
 
+const ITEMS_PER_PAGE = 3;
+
 const UpdateBoard: React.FC<UpdateBoardProps> = ({ updates }) => {
  const [selectedUpdate, setSelectedUpdate] = useState<Update | null>(null);
  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+ const [currentPage, setCurrentPage] = useState(1);
 
  const sortedSelectedUpdate = useMemo(() => {
   if (selectedUpdate) {
@@ -22,6 +25,12 @@ const UpdateBoard: React.FC<UpdateBoardProps> = ({ updates }) => {
   }
   return null;
  }, [selectedUpdate]);
+
+ const pageCount = Math.ceil(updates.length / ITEMS_PER_PAGE);
+ const paginatedUpdates = updates.slice(
+  (currentPage - 1) * ITEMS_PER_PAGE,
+  currentPage * ITEMS_PER_PAGE
+ );
 
  const openModal = (update: Update) => {
   setSelectedUpdate(update);
@@ -43,7 +52,7 @@ const UpdateBoard: React.FC<UpdateBoardProps> = ({ updates }) => {
      </tr>
     </thead>
     <tbody>
-     {updates.map((update) => (
+     {paginatedUpdates.map((update) => (
       <tr
        key={update.date}
        className={styles.tr}
@@ -55,6 +64,23 @@ const UpdateBoard: React.FC<UpdateBoardProps> = ({ updates }) => {
      ))}
     </tbody>
    </table>
+   <div className={styles.pagination}>
+    <button
+     onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+     disabled={currentPage === 1}
+    >
+     &lt;
+    </button>
+    <span>
+     {currentPage} / {pageCount}
+    </span>
+    <button
+     onClick={() => setCurrentPage((prev) => Math.min(prev + 1, pageCount))}
+     disabled={currentPage === pageCount}
+    >
+     &gt;
+    </button>
+   </div>
    {sortedSelectedUpdate && (
     <NameUpdateModal
      isOpen={isModalOpen}
