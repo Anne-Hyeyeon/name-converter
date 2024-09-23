@@ -1,0 +1,41 @@
+[
+ {
+  "date": "2024-07-29",
+  "patchNotes": [
+   "미국이 아닌, 아프리카나 유럽 등 다른 문화권에서 온 이름에 대한 속성이 추가되었어요! ex) Nika",
+   "아시아 문화권 사람들이 본명을 따서 만든 이름에 대한 속성이 추가되었어요. ex) Jia",
+   "강아지 이름으로 더 자주 쓰이는 이름에 대한 속성이 추가되었어요. ex) Cookie"
+  ],
+  "names": "ZoeyDannahMoanaArinCookieAwaSooSellyCerlineRosyHannyRobellCloverMoureenJiaYoungLizzyHeraCloudOjayNeroBrightNikaJiePocahontasSeulZeroYujinElinaOceanTitiIsuSuzieArsCleviaCocoDobbyJinnySkippyJulySofieGenieSophyElonDomenicoKeilyJellySugarSherlockYenaBekiBehatiBelitaSuriAerinAsterJubileeGreetRomeroYerielSiaLuckyLiahAnselmoJinaIlyas"
+ },
+ {
+  "date": "2024-07-30",
+  "patchNotes": [
+   "데이터가 없을 때 보이는 화면이 변경되었습니다. 찾는 이름에 대해 더 자세한 안내를 받을 수 있어요."
+  ],
+  "names": "RiaAspynAlizahCillianHaydenErenRinaEllyEidanFraserGabbyMaddyHoneyLeenaCaesarNessaAshNateElodieRoxyKimmyDanyaGiseleLaniYunaSamiTrixieBeccaSereneDoriePiaCateIrinaDixonGloryDoraAleynaBeatrixTallulahDyaneHalseyLita"
+ },
+ {
+  "date": "2024-08-04",
+  "patchNotes": [
+   "결과를 보여드리기 어려운 이름에 대한 속성 페이지가 추가되었어요. 제보가 자주 들어오지만, 실제 이름으로 사용되지 않는 것들에 대한 설명을 제공해요.",
+   "제보한 이름이 누락된다고요? 이름이 이탈리아, 프랑스 등 영어가 모국어가 아닌 국가에서 사용되는 이름일 가능성이 커요. (ex. Elio, Jean-Pierre) 🥺 아이돌 이름, 가수의 활동명일 경우에도 결과에서 제외시키고 있어요!"
+  ],
+  "names": "HermioneJadelynNanaRioSeraYuriNiallCurryVegaDoveArwenMingMartinoNeveLeonieJunoDemianVerenaUsherRowellDondaAstorSaffronAvrilPrueWickTroyeDipperXaydenRaviBlytheViviNaraMaddieJoonHestonStarkBaderDaenerysShiaChylerAnnabethViktorWilly"
+ },
+ {
+  "date": "2024-08-20",
+  "patchNotes": ["휴가를 다녀 오느라 업데이트가 많이 늦었어요 🥺"],
+  "names": "AvaFeliciaKristineYvesSweeneyJennMashaDollyLindenNatiaJenHanniEnoshAdoraRoaYesicaRayleeJerushaJervisEliaIainNarshaNiya"
+ },
+ {
+  "date": "2024-08-29",
+  "patchNotes": ["'(재미로 보는) 이름 궁합 보기 서비스'를 준비 중이에요!"],
+  "names": "DavedSouthWestNorthKittenAlyaLeilynIsoldeLiloRaoul"
+ },
+ {
+  "date": "2024-09-24",
+  "patchNotes": ["새롭게 추가된 기능이 없습니다😭 조금만 기다려 주세요!"],
+  "names": "OrianaKrissDermotShenelle"
+ }
+]
