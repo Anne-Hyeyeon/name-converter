@@ -4,8 +4,8 @@ import CoupangBanner from "./components/common/CoopangBanner";
 import Script from "next/script";
 import styles from "./layout.module.css";
 import "./globals.css";
-import AdropScript from "./components/scripts/AdropScript";
 import GoogleAnalyticsScript from "./components/scripts/GoogleAnalyticsScript";
+import GoogleAdSenseScript from "./components/scripts/GoogldAdSenseScript";
 
 export const metadata: Metadata = {
  title: "내가 춘자라니",
@@ -34,7 +34,7 @@ export default function RootLayout({
   <html lang="ko">
    <head>
     <GoogleAnalyticsScript />
-    <AdropScript />
+    <GoogleAdSenseScript />
    </head>
    <body className={styles.body}>
     <main className={styles.main}>{children}</main>
