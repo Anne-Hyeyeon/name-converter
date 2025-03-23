@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import Footer from "./components/layout/Footer";
 import CoupangBanner from "./components/common/CoopangBanner";
-import Script from "next/script";
 import styles from "./layout.module.css";
 import "./globals.css";
 import GoogleAnalyticsScript from "./components/scripts/GoogleAnalyticsScript";
@@ -39,9 +38,9 @@ export default function RootLayout({
    <body className={styles.body}>
     <main className={styles.main}>{children}</main>
     <Footer />
-    <div className={styles.banner}>
+    {/* <div className={styles.banner}>
      <CoupangBanner />
-    </div>
+    </div> */}
    </body>
   </html>
  );
