@@ -64,6 +64,10 @@ export default function SearchComponent({ allNameData }: SearchComponentProps) {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>영어 이름을 검색하세요! 🧑‍💻</h1>
+      <p className={styles.infoText}>
+        검색을 해도 이름이 나오지 않는 버그를 긴급 패치했습니다. <br />
+        사이트 이용에 불편을 드려 죄송합니다 😭😭😭
+      </p>
       <input
         type="text"
         onChange={handleInputChange}
