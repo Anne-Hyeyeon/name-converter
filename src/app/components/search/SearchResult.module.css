@@ -1,130 +1,147 @@
 .resultPage {
- display: flex;
- flex-direction: column;
- align-items: center;
- justify-content: flex-start;
- padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px;
 }
 
 .name {
- font-size: 4rem;
- margin-bottom: 20px;
+  font-size: 4rem;
+  margin-bottom: 20px;
 }
 
 .emojiContainer {
- margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .largeEmoji {
- font-size: 200px;
- line-height: 1;
+  font-size: 200px;
+  line-height: 1;
 }
 
 .mainContent {
- text-align: center;
- margin-bottom: 30px;
+  text-align: center;
+  margin-bottom: 30px;
 }
 
 .infoText {
- font-size: 1.1rem;
- margin-bottom: 10px;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
 }
 
 .koreanName,
 .trendYear {
- font-weight: bold;
+  font-weight: bold;
 }
 
 .koreanName {
- font-size: 3rem;
+  font-size: 3rem;
 }
 
 .messageContainer {
- margin-top: 20px;
+  margin-top: 20px;
 }
 
 .additionalInfo {
- font-size: 0.9rem;
- text-align: center;
+  font-size: 0.9rem;
+  text-align: center;
 }
 
 .highlight {
- background-color: #f0f0f0;
- padding: 10px;
- border-radius: 5px;
- margin-bottom: 10px;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
 }
 
 .buttonWrapper {
- display: flex;
- flex-direction: column;
- align-items: center;
- justify-content: center;
- padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.recommendLink {
+  text-align: center;
+  color: #495057;
+  cursor: pointer;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  transition: opacity 0.3s ease;
+  border: 1px solid #dee2e6;
+  border-radius: 12px;
+  padding: 15px;
+}
+
+.recommendLink:hover {
+  opacity: 0.7;
 }
 
 .button {
- width: 100%;
- display: inline-block;
- margin-top: 20px;
- padding: 10px 20px;
- background-color: #4a4a4a;
- color: white;
- text-decoration: none;
- border-radius: 5px;
- font-size: 16px;
- transition: background-color 0.3s, transform 0.2s;
- border: none;
- cursor: pointer;
+  width: 100%;
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #4a4a4a;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.2s;
+  border: none;
+  cursor: pointer;
 }
 
 .button:hover {
- background-color: #333;
- transform: translateY(-2px);
+  background-color: #333;
+  transform: translateY(-2px);
 }
 
 .button:active {
- transform: translateY(0);
+  transform: translateY(0);
 }
 
 .supportButton {
- background-color: #f5f5dc;
- color: #333;
- font-weight: 700;
+  background-color: #f5f5dc;
+  color: #333;
+  font-weight: 700;
 }
 
 .supportButton:hover {
- background-color: #e5e5c5;
+  background-color: #e5e5c5;
 }
 
 .buttonWrapper {
- display: flex;
- flex-direction: column;
- align-items: center;
- justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .developerNote {
- font-size: 0.8rem;
- color: #666;
- text-align: center;
- margin-top: 10px;
+  font-size: 0.8rem;
+  color: #666;
+  text-align: center;
+  margin-top: 10px;
 }
 
 @media (max-width: 600px) {
- .name {
-  font-size: 3rem;
- }
- .largeEmoji {
-  font-size: 150px;
- }
- .infoText {
-  font-size: 1rem;
- }
- .koreanName {
-  font-size: 2rem;
- }
- .additionalInfo {
-  font-size: 0.8rem;
- }
+  .name {
+    font-size: 3rem;
+  }
+  .largeEmoji {
+    font-size: 150px;
+  }
+  .infoText {
+    font-size: 1rem;
+  }
+  .koreanName {
+    font-size: 2rem;
+  }
+  .additionalInfo {
+    font-size: 0.8rem;
+  }
 }
