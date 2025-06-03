@@ -126,18 +126,24 @@ export default function SearchComponent({ allNameData }: SearchComponentProps) {
       )}
       {!isSearching && (
         <>
-          <div
+          {/* <div
+            className={styles.updateNoteLink}
+            onClick={() => setShowUpdateBoard(!showUpdateBoard)}
+          >
+            👩 영어 이름 추천받기
+          </div> */}
+          {/* <div
             className={styles.updateNoteLink}
             onClick={() => setShowUpdateBoard(!showUpdateBoard)}
           >
             💖 이름 업데이트 노트 보기
-          </div>
+          </div> */}
           {showUpdateBoard && <UpdateBoard updates={updateData} />}
           <div
             className={styles.updateNoteLink}
             onClick={() => setShowNotice(true)}
           >
-            😱 춘자 사이트를 살려주세요
+            여러분께 감사 인사 드립니다 💖
           </div>
         </>
       )}
