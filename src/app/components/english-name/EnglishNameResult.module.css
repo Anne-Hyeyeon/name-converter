@@ -1,0 +1,177 @@
+.resultPage {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  background-color: #ffffff;
+  border-radius: 12px;
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+  line-height: 1.8;
+}
+
+.name {
+  font-size: 2.25rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.emojiContainer {
+  margin: 30px 0;
+}
+
+.largeEmoji {
+  font-size: 7.5rem;
+  display: block;
+}
+
+.resultContent {
+  text-align: center;
+  margin: 30px 0;
+}
+
+.section {
+  margin-bottom: 25px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #495057;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 10px;
+}
+
+.description {
+  font-size: 1.125rem;
+  line-height: 2.2;
+  color: #333;
+  margin: 0 0 25px 0;
+}
+
+.koreanName {
+  font-size: 18px;
+  font-weight: 600;
+  color: #495057;
+  margin: 0;
+}
+
+.meaning {
+  font-size: 1rem;
+  line-height: 2;
+  color: #666;
+  margin: 0 0 20px 0;
+}
+
+.comment {
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: #495057;
+  margin: 15px 0;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.dataComment {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #6c757d;
+  margin: 10px 0 0 0;
+  font-style: italic;
+}
+
+.retrySection {
+  padding: 50px 0;
+  border-top: 1px solid #dee2e6;
+  text-align: center;
+}
+
+.retryText {
+  font-size: 0.95rem;
+  color: #6c757d;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.retryLink {
+  color: #495057;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+.retryLink:hover {
+  color: #343a40;
+}
+
+.buttonWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 30px;
+}
+
+.button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: #495057;
+  color: white;
+}
+
+.button:hover {
+  background-color: #343a40;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(73, 80, 87, 0.3);
+}
+
+.captureButton {
+  background-color: #6c757d;
+}
+
+.captureButton:hover {
+  background-color: #5a6268;
+}
+
+.supportButton {
+  background-color: #f5f5dc;
+  color: #333;
+  font-weight: 700;
+}
+
+.supportButton:hover {
+  background-color: #e5e5c5;
+}
+
+/* 반응형 디자인 */
+@media (min-width: 768px) {
+  .buttonWrapper {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .button {
+    flex: 1;
+    min-width: 180px;
+  }
+}

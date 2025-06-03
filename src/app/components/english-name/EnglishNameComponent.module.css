@@ -1,0 +1,271 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.infoContainer {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+}
+
+.infoText {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  text-align: center;
+  color: #333;
+}
+
+.secondLine {
+  display: block;
+  margin-top: 10px;
+}
+
+.hidden {
+  visibility: hidden;
+  height: 0;
+  opacity: 0;
+}
+
+.imageWrapper {
+  width: 100%;
+  max-width: 250px;
+  margin: 0 auto 20px;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+}
+
+.genderSelection {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.sectionTitle {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.genderButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+.genderButton {
+  width: 200px;
+  padding: 15px 20px;
+  font-size: 16px;
+  background-color: #f8f9fa;
+  border: 2px solid #dee2e6;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.genderButton:hover {
+  background-color: #e9ecef;
+  border-color: #adb5bd;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.generateSection {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.selectedGender {
+  font-size: 18px;
+  color: #495057;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.generateButton {
+  width: 220px;
+  padding: 15px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.generateButton:hover:not(:disabled) {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.generateButton:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.resetButton {
+  padding: 10px 20px;
+  font-size: 14px;
+  background-color: transparent;
+  color: #6c757d;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 10px;
+}
+
+.resetButton:hover {
+  background-color: #f8f9fa;
+  color: #495057;
+  border-color: #adb5bd;
+}
+
+.recommendedNames {
+  width: 100%;
+  text-align: center;
+}
+
+.nameList {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.nameCard {
+  background-color: #ffffff;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.nameCard:hover {
+  border-color: #007bff;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.15);
+}
+
+.nameText {
+  display: block;
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.nameHint {
+  display: block;
+  font-size: 12px;
+  color: #6c757d;
+  opacity: 0.8;
+}
+
+.regenerateButton {
+  padding: 12px 25px;
+  font-size: 14px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.regenerateButton:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.updateNoteLink {
+  cursor: pointer;
+  color: #000000;
+  text-decoration: underline;
+  margin-top: 20px;
+  text-align: center;
+  font-size: 0.9rem;
+  display: inline-block;
+  transition: opacity 0.3s ease;
+}
+
+.updateNoteLink:hover {
+  opacity: 0.7;
+}
+
+.startButton {
+  padding: 10px 30px;
+  font-size: 18px;
+  background-color: #495057;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 30px 0;
+}
+
+.startButton:hover {
+  background-color: #343a40;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(73, 80, 87, 0.3);
+}
+
+.backButton {
+  padding: 12px 20px;
+  font-size: 14px;
+  background-color: transparent;
+  color: #6c757d;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.backButton:hover {
+  background-color: #f8f9fa;
+  color: #495057;
+  border-color: #adb5bd;
+}
+
+/* 반응형 디자인 */
+@media (min-width: 768px) {
+  .genderButtons {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .nameList {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
