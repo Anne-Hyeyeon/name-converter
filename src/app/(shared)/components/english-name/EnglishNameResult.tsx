@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { NameData } from "../../types";
 import { getPersonalizedComment } from "../../constants";
@@ -31,6 +31,7 @@ export default function EnglishNameResult({
   koreanName,
   allNameData,
 }: EnglishNameResultProps) {
+  const [isGenerating, setIsGenerating] = useState(false);
   const router = useRouter();
   const { captureElement } = useImageCapture();
   const { goToEnglishName, openSupport } = useNavigation();
@@ -42,7 +43,11 @@ export default function EnglishNameResult({
     );
   };
 
-  const handleRetry = () => {
+  const handleRetry = async () => {
+    setIsGenerating(true);
+
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+
     const processedData = preprocessNameData(allNameData);
 
     const filteredData = filterNameData(processedData, {
@@ -65,6 +70,7 @@ export default function EnglishNameResult({
 
       router.push(`/result/${randomName.name}?${params.toString()}`);
     } else {
+      setIsGenerating(false);
       goToEnglishName();
     }
   };
@@ -118,14 +124,23 @@ export default function EnglishNameResult({
 
       <div className={styles.retrySection}>
         <span className={styles.tip}>
-          TIP : 서양 이름은 종교나 장소에서 유래된 경우가 많답니다. <br />
+          TIP : 서양 이름은 종교나 지역에서 유래된 경우가 많답니다. <br />
           의미에 너무 얽매이지 말고, <br />
           직감적으로 마음에 드는 이름을 선택해보세요! ✨
         </span>
         <p className={styles.retryText}>
           혹시 추천받은 이름이 마음에 안 드시나요? <br />
-          <span className={styles.retryLink} onClick={handleRetry}>
-            한번 더 추천받기 💃
+          <span
+            className={`${styles.retryLink} ${
+              isGenerating ? styles.generating : ""
+            }`}
+            onClick={isGenerating ? undefined : handleRetry}
+            style={{
+              cursor: isGenerating ? "not-allowed" : "pointer",
+              opacity: isGenerating ? 0.6 : 1,
+            }}
+          >
+            {isGenerating ? "이름 생성 중..." : "한번 더 추천받기 💃"}
           </span>
         </p>
       </div>
