@@ -22,6 +22,7 @@
   color: #495057;
   margin-bottom: 20px;
   text-align: center;
+  line-height: 1.5;
 }
 
 .subtitle {
@@ -41,7 +42,8 @@
 }
 
 .genderButton {
-  width: 150px;
+  flex: 1;
+  min-width: 120px;
   padding: 15px 20px;
   font-size: 18px;
   background-color: #ffffff;
@@ -95,9 +97,9 @@
 }
 
 .generationButton.selected {
-  background-color: #6c757d;
+  background-color: #495057;
   color: white;
-  border-color: #6c757d;
+  border-color: #495057;
 }
 
 /* 특성 선택 */
@@ -133,9 +135,9 @@
 }
 
 .characteristicOption.selected {
-  background-color: #343a40;
+  background-color: #495057;
   color: white;
-  border-color: #343a40;
+  border-color: #495057;
 }
 
 .characteristicOption.disabled {
@@ -154,13 +156,12 @@
 
 /* 추천 섹션 */
 .generateSection {
-  width: calc(100% - 30px);
-  max-width: 100%;
-  text-align: center;
-  margin: 0 auto 20px auto;
+  width: 100%;
+  margin-bottom: 30px;
   padding: 15px;
-  background-color: #f1f3f4;
+  background-color: #f8f9fa;
   border-radius: 12px;
+  border: 1px solid #dee2e6;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -169,9 +170,9 @@
 }
 
 .generateButton {
-  width: calc(100% - 30px);
+  width: 100%;
   max-width: 240px;
-  padding: 18px 25px;
+  padding: 12px 20px;
   font-size: 18px;
   background-color: #495057;
   color: white;
@@ -180,7 +181,6 @@
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: 700;
-  box-shadow: 0 4px 12px rgba(73, 80, 87, 0.3);
 }
 
 .generateButton:hover:not(:disabled) {
@@ -196,7 +196,7 @@
 }
 
 .resetButton {
-  width: calc(100% - 30px);
+  width: 100%;
   max-width: 240px;
   padding: 12px 20px;
   font-size: 16px;
@@ -207,12 +207,6 @@
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: 600;
-}
-
-.resetButton:hover {
-  background-color: #f8f9fa;
-  color: #495057;
-  border-color: #adb5bd;
 }
 
 /* 조건에 맞는 이름이 없을 때 */
@@ -263,8 +257,7 @@
 
 .koreanNameInput:focus {
   outline: none;
-  border-color: #6c757d;
-  box-shadow: 0 0 0 3px rgba(108, 117, 125, 0.1);
+  border-color: #c5c6c7;
 }
 
 .koreanNameInput::placeholder {
@@ -294,7 +287,7 @@
   font-weight: 600;
   color: #495057;
   margin: 0;
-  line-height: 1.5;
+  line-height: 2;
 }
 
 .loadingSubtitle {
@@ -310,6 +303,7 @@
   border-top: 4px solid #495057;
   border-radius: 50%;
   animation: spin 1s linear infinite;
+  margin-top: 20px;
 }
 
 @keyframes spin {

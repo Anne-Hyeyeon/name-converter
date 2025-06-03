@@ -1,21 +1,13 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
 import styles from "./NameNotFound.module.css";
 import ReportPopup from "../modals/ReportPopup";
+import { useNavigation } from "../../hooks";
 
 export default function NameNotFound({ name }: { name: string }) {
-  const router = useRouter();
+  const { goToMain, openSupport } = useNavigation();
   const [showPopup, setShowPopup] = useState(false);
-
-  const handleBack = () => {
-    router.push("/");
-  };
-
-  const handleSupport = () => {
-    window.open("https://buymeacoffee.com/annehyeyeon", "_blank");
-  };
 
   const emojis = ["🤔", "🤩", "🧐", "🤗", "🥰", "🌟", "🧙", "😎"];
 
@@ -32,29 +24,17 @@ export default function NameNotFound({ name }: { name: string }) {
             {randomEmoji}
           </span>
         </div>
+
         <div className={styles.mainContent}>
-          <p className={styles.infoText}>{name} 이름을 가진 당신은</p>
           <p className={styles.infoText}>
-            <span className={styles.koreanName}>매우 특별한 분</span> 입니다.
+            <strong>{name}</strong>에 대한 정보를 찾을 수 없습니다.
           </p>
-          <div className={styles.messageContainer}>
-            <p className={styles.infoText}>이름이 등록되지 않았다고요?</p>
-            <p className={styles.infoText}>
-              춘자는, <strong>미국 사회보장국</strong>에서 제공하는
-            </p>
-            <p className={styles.infoText}>
-              이름 자료들을 바탕으로 만들어진 사이트예요.
-            </p>
-            <p className={styles.infoText}>
-              <strong>{name}</strong> 이름이 없다면, 해당 이름은
-            </p>
-            <p className={styles.infoText}>미국에서 잘 사용되지 않는</p>
-            <p className={styles.infoText}>특별한 이름일 가능성이 높아요. 🌟</p>
-            <p className={styles.infoText}>
-              이름이 다음에 해당하는지 확인하세요. 🕵️‍♂️
-            </p>
-          </div>
+          <p className={styles.infoText}>
+            하지만 걱정하지 마세요! <br />
+            <strong>내 이름이 등재되지 않은 이유</strong>를 소개해 드릴게요.
+          </p>
         </div>
+
         <div className={styles.additionalInfo}>
           <p className={styles.highlight}>
             <strong>1. 한국 이름을 그대로 영어로 전환한 경우</strong> <br /> ex)
@@ -89,32 +69,32 @@ export default function NameNotFound({ name }: { name: string }) {
             고유명사의 경우, 이름보다는 애칭이나 반려동물 이름으로 자주 쓰이니
             참고해주세요!
           </p>
-          <p className={styles.highlight}>
-            <strong>6. 그 외...</strong> <br /> 이름이 유럽, 아프리카, 아랍 등{" "}
-            <br /> 다른 문화권에서 왔을 가능성이 커요! <br />이 경우, 북미에서는{" "}
-            <br />
-            외국인 이름 느낌으로 받아들여집니다 :)
-          </p>
         </div>
-        <p className={styles.reportText}>
-          그럼에도 불구하고 이름을 제보하고 싶다면?{" "}
-          <div onClick={() => setShowPopup(true)} className={styles.reportLink}>
-            이름 제보하기! 🙉
-          </div>
-          {showPopup && <ReportPopup onClose={() => setShowPopup(false)} />}
-        </p>
       </div>
+
       <div className={styles.buttonWrapper}>
-        <button className={styles.button} onClick={handleBack}>
+        <button className={styles.button} onClick={goToMain}>
           검색창으로 돌아가기
         </button>
         <button
           className={`${styles.button} ${styles.supportButton}`}
-          onClick={handleSupport}
+          onClick={openSupport}
         >
           ☕️ 개발자 응원하기
         </button>
+        <div className={styles.reportText}>
+          혹시{" "}
+          <span
+            className={styles.reportLink}
+            onClick={() => setShowPopup(true)}
+          >
+            등재 요청
+          </span>
+          을 보내고 싶다면?
+        </div>
       </div>
+
+      {showPopup && <ReportPopup onClose={() => setShowPopup(false)} />}
     </div>
   );
 }

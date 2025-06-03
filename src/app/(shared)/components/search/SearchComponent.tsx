@@ -126,12 +126,12 @@ export default function SearchComponent({ allNameData }: SearchComponentProps) {
       )}
       {!isSearching && (
         <>
-          {/* <div
+          <div
             className={styles.updateNoteLink}
             onClick={() => setShowUpdateBoard(!showUpdateBoard)}
           >
-            👩 영어 이름 추천받기
-          </div> */}
+            NEW : 영어 이름 추천 🚀
+          </div>
           {/* <div
             className={styles.updateNoteLink}
             onClick={() => setShowUpdateBoard(!showUpdateBoard)}

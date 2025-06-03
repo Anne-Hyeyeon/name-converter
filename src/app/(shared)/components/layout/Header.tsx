@@ -1,23 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import styles from "./Header.module.css";
+import { useNavigation } from "../../hooks";
 
 export default function Header() {
-  const router = useRouter();
+  const { goToMain, goToEnglishName } = useNavigation();
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const isEnglishNamePage = pathname?.includes("/your-english-name");
-
-  const handleMainClick = () => {
-    router.push("/");
-  };
-
-  const handleEnglishNameClick = () => {
-    router.push("/your-english-name");
-  };
+  const isEnglishNamePage = pathname === "/your-english-name";
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -27,21 +20,20 @@ export default function Header() {
     setIsMenuOpen(false);
   };
 
-  // 외부 클릭 시 메뉴 닫기
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Element;
-      if (!target.closest(`.${styles.menuContainer}`)) {
+      const menuContainer = document.querySelector(`.${styles.menuContainer}`);
+      if (menuContainer && !menuContainer.contains(event.target as Node)) {
         setIsMenuOpen(false);
       }
     };
 
     if (isMenuOpen) {
-      document.addEventListener("click", handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isMenuOpen]);
 
@@ -52,7 +44,7 @@ export default function Header() {
           <div className={styles.announcement}>
             영어 이름 느낌 알아보기
             <br />
-            <span className={styles.link} onClick={handleMainClick}>
+            <span className={styles.link} onClick={goToMain}>
               내가 춘자라니! 바로가기 ✨
             </span>
           </div>
@@ -60,7 +52,7 @@ export default function Header() {
           <div className={styles.announcement}>
             영어 이름 추천받기 서비스 오픈!
             <br />
-            <span className={styles.link} onClick={handleEnglishNameClick}>
+            <span className={styles.link} onClick={goToEnglishName}>
               내가 앤이라니? 바로가기 🎉
             </span>
           </div>
@@ -81,7 +73,7 @@ export default function Header() {
             <button
               className={styles.dropdownItem}
               onClick={() => {
-                handleMainClick();
+                goToMain();
                 handleMenuClose();
               }}
             >
@@ -90,7 +82,7 @@ export default function Header() {
             <button
               className={styles.dropdownItem}
               onClick={() => {
-                handleEnglishNameClick();
+                goToEnglishName();
                 handleMenuClose();
               }}
             >

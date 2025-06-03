@@ -1,10 +1,9 @@
 "use client";
 
 import React from "react";
-import html2canvas from "html2canvas";
-import { useRouter } from "next/navigation";
 import { NameData } from "../../types";
-import { emojiMap } from "../../constants/resultMessages";
+import { getEmoji } from "../../utils";
+import { useImageCapture, useNavigation } from "../../hooks";
 import { ResultContent } from "./ResultContent";
 import styles from "./SearchResult.module.css";
 
@@ -23,35 +22,11 @@ interface SearchResultProps {
 }
 
 export default function SearchResult({ result }: SearchResultProps) {
-  const router = useRouter();
-
-  const getEmoji = (gender: string, characteristic: number) => {
-    const emojiList = emojiMap[gender as keyof typeof emojiMap] || emojiMap.F;
-    return emojiList[characteristic - 1] || emojiList[0];
-  };
+  const { captureElement } = useImageCapture();
+  const { goToMain, goToEnglishName, openSupport } = useNavigation();
 
   const handleCapture = () => {
-    const element = document.getElementById("resultPage");
-    if (element) {
-      html2canvas(element).then((canvas) => {
-        const link = document.createElement("a");
-        link.href = canvas.toDataURL("image/png");
-        link.download = `${result.name}-result.png`;
-        link.click();
-      });
-    }
-  };
-
-  const handleBack = () => {
-    router.push("/");
-  };
-
-  const handleSupport = () => {
-    window.open("https://buymeacoffee.com/annehyeyeon", "_blank");
-  };
-
-  const handleEnglishNameRecommend = () => {
-    router.push("/your-english-name");
+    captureElement("resultPage", `${result.name}-result`);
   };
 
   if (typeof result.characteristic === "undefined") {
@@ -72,14 +47,11 @@ export default function SearchResult({ result }: SearchResultProps) {
         <ResultContent result={result} />
       </div>
       <div className={styles.buttonWrapper}>
-        <div
-          className={styles.recommendLink}
-          onClick={handleEnglishNameRecommend}
-        >
+        <div className={styles.recommendContainer} onClick={goToEnglishName}>
           <em>
-            내 이미지에 맞는 영어 이름을 추천받고 싶다면?
+            이미지에 맞는 영어 이름을 추천받고 싶다면?
             <br />
-            <strong>
+            <strong className={styles.recommendLink}>
               <u>&apos;내가 앤이라니?&apos;</u>
             </strong>{" "}
             바로 가기 ✨
@@ -91,12 +63,12 @@ export default function SearchResult({ result }: SearchResultProps) {
         >
           결과 저장하기
         </button>
-        <button className={styles.button} onClick={handleBack}>
+        <button className={styles.button} onClick={goToMain}>
           검색창으로 돌아가기
         </button>
         <button
           className={`${styles.button} ${styles.supportButton}`}
-          onClick={handleSupport}
+          onClick={openSupport}
         >
           ☕️ 개발자 응원하기
         </button>
