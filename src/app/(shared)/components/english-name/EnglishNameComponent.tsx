@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+
 import { NameData } from "../../types";
 import NameRecommendSelector from "./NameRecommendSelector";
 import styles from "./EnglishNameComponent.module.css";

@@ -1,12 +1,21 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { NameData } from "../../types";
-import styles from "./NameRecommendSelector.module.css";
 
-type Gender = "male" | "female";
-type Generation = 1 | 2 | 3 | 4 | 5 | 6;
+import { NameData } from "../../types";
+import {
+  Gender,
+  Generation,
+  GENERATION_OPTIONS,
+  CHARACTERISTIC_OPTIONS,
+} from "../../constants/recommendOptions";
+import {
+  preprocessNameData,
+  filterNameDataConditionally,
+  getRandomName,
+} from "../../utils";
+import styles from "./NameRecommendSelector.module.css";
 
 interface NameRecommendSelectorProps {
   allNameData: NameData[];
@@ -25,82 +34,22 @@ export default function NameRecommendSelector({
   const [isGenerating, setIsGenerating] = useState(false);
   const router = useRouter();
 
-  const generationOptions = [
-    { value: 1, label: "🎩 1920-1940년대 Classic", key: "classic" },
-    { value: 2, label: "👴 1940-1960년대 Boomer", key: "boomer" },
-    { value: 3, label: "🕺 1960-1980년대 Gen X", key: "gen X" },
-    { value: 4, label: "💻 1980-1990년대 Millennials", key: "Millennials" },
-    { value: 5, label: "📱 2000년대 이후 Gen Z", key: "gen Z" },
-  ] as const;
-
-  const characteristicOptions = [
-    { value: 1, label: "💪 자신감있는", emoji: "💪" },
-    { value: 2, label: "🦁 강인한", emoji: "🦁" },
-    { value: 3, label: "☀️ 밝은", emoji: "☀️" },
-    { value: 4, label: "🕊️ 부드러운", emoji: "🕊️" },
-    { value: 5, label: "💕 사랑스러운", emoji: "💕" },
-    { value: 6, label: "✨ 세련된", emoji: "✨" },
-    { value: 7, label: "🔮 신비로운", emoji: "🔮" },
-    { value: 8, label: "🤔 신중한", emoji: "🤔" },
-    { value: 9, label: "🔥 열정적인", emoji: "🔥" },
-    { value: 10, label: "🌸 온화한", emoji: "🌸" },
-    { value: 11, label: "👑 우아한", emoji: "👑" },
-    { value: 12, label: "🧠 지적인", emoji: "🧠" },
-    { value: 13, label: "🎨 창의적인", emoji: "🎨" },
-    { value: 14, label: "🤗 친근한", emoji: "🤗" },
-    { value: 15, label: "⚡ 카리스마", emoji: "⚡" },
-    { value: 16, label: "🏃 활발한", emoji: "🏃" },
-    { value: 17, label: "🛡️ 믿음직한", emoji: "🛡️" },
-    { value: 18, label: "😍 매력적인", emoji: "😍" },
-  ];
-
-  // 데이터 전처리: 한 번만 실행
   const processedData = useMemo(() => {
-    return allNameData.map((data) => ({
-      ...data,
-      characteristic: parseInt(data.characteristic.toString()) || 0,
-      feelingNum: parseInt(data.feelingNum?.toString() || "0") || 0,
-    }));
+    return preprocessNameData(allNameData);
   }, [allNameData]);
 
-  // 필터링된 데이터 생성 (이제 간단하고 빠름)
   const filteredData = useMemo(() => {
-    let filtered = processedData;
-
-    // 성별 필터
-    if (selectedGender) {
-      filtered = filtered.filter(
-        (data) => data.gender === (selectedGender === "male" ? "M" : "F")
-      );
-    }
-
-    // 세대 필터 (이제 숫자로 직접 비교)
-    if (selectedGeneration) {
-      filtered = filtered.filter(
-        (data) => data.characteristic === selectedGeneration
-      );
-    }
-
-    // 특성 필터 (이제 숫자로 직접 비교)
-    if (selectedCharacteristics.length > 0) {
-      filtered = filtered.filter((data) =>
-        selectedCharacteristics.includes(data.feelingNum)
-      );
-    }
-
-    return filtered;
+    return filterNameDataConditionally(processedData, {
+      gender: selectedGender,
+      generation: selectedGeneration,
+      characteristics: selectedCharacteristics,
+    });
   }, [
     processedData,
     selectedGender,
     selectedGeneration,
     selectedCharacteristics,
   ]);
-
-  const getRandomName = (nameArray: NameData[]): NameData | null => {
-    if (nameArray.length === 0) return null;
-    const randomIndex = Math.floor(Math.random() * nameArray.length);
-    return nameArray[randomIndex];
-  };
 
   const handleCharacteristicChange = (value: number) => {
     setSelectedCharacteristics((prev) => {
@@ -116,10 +65,8 @@ export default function NameRecommendSelector({
   const handleGenerateNames = async () => {
     setIsGenerating(true);
 
-    // 로딩 효과를 위한 약간의 지연 (2-3초)
     await new Promise((resolve) => setTimeout(resolve, 2500));
 
-    // 조건에 맞는 이름 중 랜덤으로 하나 선택해서 결과 페이지로 이동
     const randomName = getRandomName(filteredData);
 
     if (randomName) {
@@ -150,13 +97,13 @@ export default function NameRecommendSelector({
     selectedGeneration &&
     selectedCharacteristics.length > 0;
 
-  // 로딩 상태일 때 로딩 페이지 렌더링
   if (isGenerating) {
     return (
       <div className={styles.loadingContainer}>
         <div className={styles.loadingContent}>
           <h2 className={styles.loadingTitle}>
-            춘자👩가 {koreanName}님께 잘 맞는 이름을 생각하고 있어요.
+            춘자👩가 {koreanName}님께 <br />
+            어울리는 이름을 생각하고 있어요.
           </h2>
           <p className={styles.loadingSubtitle}>잠시만 기다려 주세요</p>
           <div className={styles.spinner}></div>
@@ -169,7 +116,7 @@ export default function NameRecommendSelector({
     <div className={styles.container}>
       {/* 0단계: 한국 이름 입력 */}
       <div className={styles.step}>
-        <h2 className={styles.sectionTitle}>당신의 한국 이름을 알려주세요</h2>
+        <h2 className={styles.sectionTitle}>한국 이름을 알려주세요!</h2>
         <input
           type="text"
           value={koreanName}
@@ -206,11 +153,11 @@ export default function NameRecommendSelector({
       )}
 
       {/* 2단계: 세대 선택 */}
-      {selectedGender && (
+      {koreanName.trim() && selectedGender && (
         <div className={styles.step}>
           <h2 className={styles.sectionTitle}>2. 나는 어떤 세대일까?</h2>
           <div className={styles.generationButtons}>
-            {generationOptions.map((option) => (
+            {GENERATION_OPTIONS.map((option) => (
               <button
                 key={option.value}
                 className={`${styles.generationButton} ${
@@ -226,7 +173,7 @@ export default function NameRecommendSelector({
       )}
 
       {/* 3단계: 특성 선택 */}
-      {selectedGeneration && (
+      {koreanName.trim() && selectedGeneration && (
         <div className={styles.step}>
           <h2 className={styles.sectionTitle}>
             3. 당신을 나타내는 키워드는? <br />
@@ -234,7 +181,7 @@ export default function NameRecommendSelector({
           </h2>
           <p className={styles.subtitle}>{selectedCharacteristics.length}/3</p>
           <div className={styles.characteristicGrid}>
-            {characteristicOptions.map((option) => {
+            {CHARACTERISTIC_OPTIONS.map((option) => {
               const textOnly = option.label.replace(
                 /[^\u3131-\u3163\uac00-\ud7a3]/g,
                 ""
@@ -280,7 +227,7 @@ export default function NameRecommendSelector({
             onClick={handleGenerateNames}
             disabled={isGenerating || filteredData.length === 0}
           >
-            {isGenerating ? "이름 생성 중... 🎲" : "이름 추천받기 👩"}
+            {isGenerating ? "이름 생성 중... 🎲" : "이름 추천 받기 🚀"}
           </button>
 
           <button className={styles.resetButton} onClick={resetSelection}>

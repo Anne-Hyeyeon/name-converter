@@ -63,21 +63,29 @@
   padding: 20px;
 }
 
-.recommendLink {
+.recommendContainer {
   text-align: center;
+
   color: #495057;
   cursor: pointer;
   margin-bottom: 20px;
   font-size: 0.95rem;
-  line-height: 1.6;
+  line-height: 2;
   transition: opacity 0.3s ease;
   border: 1px solid #dee2e6;
   border-radius: 12px;
   padding: 15px;
 }
 
-.recommendLink:hover {
+.recommendContainer:hover {
   opacity: 0.7;
+}
+
+.recommendLink {
+  color: #495057;
+  text-decoration: underline;
+  cursor: pointer;
+  font-style: normal;
 }
 
 .button {
