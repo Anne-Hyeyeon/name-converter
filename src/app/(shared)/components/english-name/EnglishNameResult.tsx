@@ -100,7 +100,7 @@ export default function EnglishNameResult({
             <strong>{characteristicsText}</strong> 이미지를 가진{" "}
             <strong>{koreanName}</strong>님!
             <br />
-            평소 {personalizedComment} 그쵸? 😁
+            평소 {personalizedComment} 그렇죠? 😁
             <br />
             그런 {koreanName}님께, <strong>{result.name}</strong> 이름을 추천해
             드려요.
@@ -110,17 +110,18 @@ export default function EnglishNameResult({
             <p className={styles.meaning}>
               <strong>{result.name}</strong>은(는){" "}
               <strong>&ldquo;{result.meaning}&rdquo;</strong>
-              (이)라는 뜻을 가지고 있답니다. 😆
+              (이)라는 뜻을 가지고 있대요.
             </p>
-          )}
-
-          {result.comment && (
-            <p className={styles.dataComment}>{result.comment}</p>
           )}
         </div>
       </div>
 
       <div className={styles.retrySection}>
+        <span className={styles.tip}>
+          TIP : 서양 이름은 종교나 장소에서 유래된 경우가 많답니다. <br />
+          의미에 너무 얽매이지 말고, <br />
+          직감적으로 마음에 드는 이름을 선택해보세요! ✨
+        </span>
         <p className={styles.retryText}>
           혹시 추천받은 이름이 마음에 안 드시나요? <br />
           <span className={styles.retryLink} onClick={handleRetry}>
