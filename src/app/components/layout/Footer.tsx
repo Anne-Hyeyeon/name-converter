@@ -4,7 +4,7 @@ import styles from "./Footer.module.css";
 const Footer = () => {
   return (
     <footer className={styles.footer}>
-      <p>© 2024 Anne-Hyeyeon. All rights reserved.</p>
+      <p>© 2025 Anne-Hyeyeon. All rights reserved.</p>
       <p>dlswptkfkd@gmail.com</p>
     </footer>
   );
