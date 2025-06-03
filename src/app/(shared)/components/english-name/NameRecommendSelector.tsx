@@ -15,6 +15,7 @@ import {
   filterNameDataConditionally,
   getRandomName,
 } from "../../utils";
+import { useNavigation } from "../../hooks";
 import styles from "./NameRecommendSelector.module.css";
 
 interface NameRecommendSelectorProps {
@@ -33,6 +34,7 @@ export default function NameRecommendSelector({
   >([]);
   const [isGenerating, setIsGenerating] = useState(false);
   const router = useRouter();
+  const { goToEnglishName } = useNavigation();
 
   const processedData = useMemo(() => {
     return preprocessNameData(allNameData);
@@ -79,9 +81,10 @@ export default function NameRecommendSelector({
       });
 
       router.push(`/result/${randomName.name}?${params.toString()}`);
+    } else {
+      setIsGenerating(false);
+      goToEnglishName();
     }
-
-    setIsGenerating(false);
   };
 
   const resetSelection = () => {
@@ -97,21 +100,6 @@ export default function NameRecommendSelector({
     selectedGeneration &&
     selectedCharacteristics.length > 0;
 
-  if (isGenerating) {
-    return (
-      <div className={styles.loadingContainer}>
-        <div className={styles.loadingContent}>
-          <h2 className={styles.loadingTitle}>
-            춘자👩가 {koreanName}님께 <br />
-            어울리는 이름을 생각하고 있어요.
-          </h2>
-          <p className={styles.loadingSubtitle}>잠시만 기다려 주세요</p>
-          <div className={styles.spinner}></div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className={styles.container}>
       {/* 0단계: 한국 이름 입력 */}
@@ -124,6 +112,7 @@ export default function NameRecommendSelector({
           placeholder="예: 민지, 수현, 지훈"
           className={styles.koreanNameInput}
           maxLength={10}
+          disabled={isGenerating}
         />
       </div>
 
@@ -137,6 +126,7 @@ export default function NameRecommendSelector({
                 selectedGender === "male" ? styles.selected : ""
               }`}
               onClick={() => setSelectedGender("male")}
+              disabled={isGenerating}
             >
               🙋‍♂️ 남성
             </button>
@@ -145,6 +135,7 @@ export default function NameRecommendSelector({
                 selectedGender === "female" ? styles.selected : ""
               }`}
               onClick={() => setSelectedGender("female")}
+              disabled={isGenerating}
             >
               🙋‍♀️ 여성
             </button>
@@ -164,6 +155,7 @@ export default function NameRecommendSelector({
                   selectedGeneration === option.value ? styles.selected : ""
                 }`}
                 onClick={() => setSelectedGeneration(option.value)}
+                disabled={isGenerating}
               >
                 {option.label}
               </button>
@@ -176,7 +168,7 @@ export default function NameRecommendSelector({
       {koreanName.trim() && selectedGeneration && (
         <div className={styles.step}>
           <h2 className={styles.sectionTitle}>
-            3. 당신을 나타내는 키워드는? <br />
+            3. 나를 나타내는 키워드는? <br />
             (최대 3개 선택)
           </h2>
           <p className={styles.subtitle}>{selectedCharacteristics.length}/3</p>
@@ -200,15 +192,18 @@ export default function NameRecommendSelector({
                     !selectedCharacteristics.includes(option.value)
                       ? styles.disabled
                       : ""
-                  } ${isLongText ? styles.longText : ""}`}
+                  } ${isLongText ? styles.longText : ""} ${
+                    isGenerating ? styles.disabled : ""
+                  }`}
                 >
                   <input
                     type="checkbox"
                     checked={selectedCharacteristics.includes(option.value)}
                     onChange={() => handleCharacteristicChange(option.value)}
                     disabled={
-                      selectedCharacteristics.length >= 3 &&
-                      !selectedCharacteristics.includes(option.value)
+                      isGenerating ||
+                      (selectedCharacteristics.length >= 3 &&
+                        !selectedCharacteristics.includes(option.value))
                     }
                   />
                   <span className={styles.checkboxLabel}>{option.label}</span>
@@ -227,10 +222,14 @@ export default function NameRecommendSelector({
             onClick={handleGenerateNames}
             disabled={isGenerating || filteredData.length === 0}
           >
-            {isGenerating ? "이름 생성 중... 🎲" : "이름 추천 받기 🚀"}
+            {isGenerating ? "이름 생성 중..." : "이름 추천 받기 🚀"}
           </button>
 
-          <button className={styles.resetButton} onClick={resetSelection}>
+          <button
+            className={styles.resetButton}
+            onClick={resetSelection}
+            disabled={isGenerating}
+          >
             다시 선택하기
           </button>
         </div>
