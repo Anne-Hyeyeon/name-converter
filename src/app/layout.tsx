@@ -1,22 +1,38 @@
 import { Metadata } from "next";
-import Header from "./components/layout/Header";
-import Footer from "./components/layout/Footer";
-import CoupangBanner from "./components/common/CoopangBanner";
-import styles from "./layout.module.css";
+import Header from "./(shared)/components/layout/Header";
+import Footer from "./(shared)/components/layout/Footer";
+import GoogleAnalyticsScript from "./(shared)/components/scripts/GoogleAnalyticsScript";
+import GoogleAdSenseScript from "./(shared)/components/scripts/GoogldAdSenseScript";
 import "./globals.css";
-import GoogleAnalyticsScript from "./components/scripts/GoogleAnalyticsScript";
-import GoogleAdSenseScript from "./components/scripts/GoogldAdSenseScript";
+import styles from "./layout.module.css";
 
 export const metadata: Metadata = {
   title: "내가 춘자라니",
   description:
     "Anne이 미국에선 춘자라고? 내가 춘자라니! 내 영어 이름이 미국에서 촌스러운 이름인지, 트렌디한 이름인지 알아보기! 이름의 유행 연도도 알 수 있어요ㅎㅎ",
+  keywords:
+    "영어이름, 촌스러운영어이름, 트렌디한영어이름, 영어이름추천, 영어이름생성기, 내가 춘자라니, 영어이름추천, 트렌디한영어이름",
   openGraph: {
-    type: "website",
-    url: "https://chunja.vercel.app",
     title: "내가 춘자라니",
     description:
       "Anne이 미국에선 춘자라고? 내가 춘자라니! 내 영어 이름이 미국에서 촌스러운 이름인지, 트렌디한 이름인지 알아보기! 이름의 유행 연도도 알 수 있어요ㅎㅎ",
+    type: "website",
+    siteName: "내가 춘자라니",
+    images: [
+      {
+        url: "/amI.png",
+        width: 1200,
+        height: 630,
+        alt: "춘자의 이름 변환기 - 내 영어 이름은 촌스러울까?",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "내가 춘자라니",
+    description:
+      "Anne이 미국에선 춘자라고? 내가 춘자라니! 내 영어 이름이 미국에서 촌스러운 이름인지, 트렌디한 이름인지 알아보기! 이름의 유행 연도도 알 수 있어요ㅎㅎ",
+    images: ["/amI.png"],
   },
   icons: {
     icon: "/favicon.ico",
@@ -40,9 +56,6 @@ export default function RootLayout({
         <Header />
         <main className={styles.main}>{children}</main>
         <Footer />
-        {/* <div className={styles.banner}>
-     <CoupangBanner />
-    </div> */}
       </body>
     </html>
   );

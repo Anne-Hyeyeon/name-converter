@@ -1,8 +1,8 @@
-import SearchResult from "@/app/components/search/SearchResult";
-import EnglishNameResult from "@/app/components/english-name/EnglishNameResult";
-import getAllNameData from "@/app/utils/getAllNameData";
+import SearchResult from "@/app/(shared)/components/search/SearchResult";
+import EnglishNameResult from "@/app/(shared)/components/english-name/EnglishNameResult";
+import getAllNameData from "@/app/(shared)/utils/getAllNameData";
 import styles from "./page.module.css";
-import NameNotFound from "@/app/components/search/NameNotFound";
+import NameNotFound from "@/app/(shared)/components/search/NameNotFound";
 
 export default async function ResultPage({
   params,
@@ -16,7 +16,6 @@ export default async function ResultPage({
     (data) => data.name === params.name
   );
 
-  // 추천에서 온 요청인지 확인
   const isFromRecommendation = searchParams.from === "recommendation";
 
   if (!selectedNameData) {
