@@ -128,7 +128,7 @@ export default function SearchComponent({ allNameData }: SearchComponentProps) {
         <>
           <div
             className={styles.updateNoteLink}
-            onClick={() => setShowUpdateBoard(!showUpdateBoard)}
+            onClick={() => router.push("/your-english-name")}
           >
             NEW : 영어 이름 추천 🚀
           </div>
