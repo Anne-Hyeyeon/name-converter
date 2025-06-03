@@ -1,0 +1,322 @@
+.container {
+  width: 100%;
+  max-width: 100%;
+  margin-top: 20px;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.step {
+  width: 100%;
+  margin-bottom: 30px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  border: 1px solid #dee2e6;
+  box-sizing: border-box;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 20px;
+  color: #495057;
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+/* 성별 선택 */
+.genderButtons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.genderButton {
+  width: 150px;
+  padding: 15px 20px;
+  font-size: 18px;
+  background-color: #ffffff;
+  border: 2px solid #dee2e6;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.genderButton:hover {
+  background-color: #e9ecef;
+  border-color: #adb5bd;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.genderButton.selected {
+  background-color: #495057;
+  color: white;
+  border-color: #495057;
+}
+
+/* 세대 선택 */
+.generationButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.generationButton {
+  width: 100%;
+  max-width: 350px;
+  padding: 15px 20px;
+  font-size: 17px;
+  background-color: #ffffff;
+  border: 2px solid #dee2e6;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  text-align: left;
+}
+
+.generationButton:hover {
+  background-color: #e9ecef;
+  border-color: #adb5bd;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.generationButton.selected {
+  background-color: #6c757d;
+  color: white;
+  border-color: #6c757d;
+}
+
+/* 특성 선택 */
+.characteristicGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.characteristicOption {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  background-color: #ffffff;
+  border: 2px solid #dee2e6;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.characteristicOption.longText {
+  font-size: 13px;
+}
+
+.characteristicOption:hover:not(.disabled) {
+  background-color: #e9ecef;
+  border-color: #adb5bd;
+  transform: translateY(-1px);
+}
+
+.characteristicOption.selected {
+  background-color: #343a40;
+  color: white;
+  border-color: #343a40;
+}
+
+.characteristicOption.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.characteristicOption input[type="checkbox"] {
+  display: none;
+}
+
+.checkboxLabel {
+  width: 100%;
+  text-align: center;
+}
+
+/* 추천 섹션 */
+.generateSection {
+  width: calc(100% - 30px);
+  max-width: 100%;
+  text-align: center;
+  margin: 0 auto 20px auto;
+  padding: 15px;
+  background-color: #f1f3f4;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  box-sizing: border-box;
+}
+
+.generateButton {
+  width: calc(100% - 30px);
+  max-width: 240px;
+  padding: 18px 25px;
+  font-size: 18px;
+  background-color: #495057;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(73, 80, 87, 0.3);
+}
+
+.generateButton:hover:not(:disabled) {
+  background-color: #343a40;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(52, 58, 64, 0.4);
+}
+
+.generateButton:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.resetButton {
+  width: calc(100% - 30px);
+  max-width: 240px;
+  padding: 12px 20px;
+  font-size: 16px;
+  background-color: transparent;
+  color: #6c757d;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.resetButton:hover {
+  background-color: #f8f9fa;
+  color: #495057;
+  border-color: #adb5bd;
+}
+
+/* 조건에 맞는 이름이 없을 때 */
+.noResultSection {
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 12px;
+}
+
+.noResultText {
+  font-size: 16px;
+  color: #856404;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* 반응형 디자인 */
+@media (min-width: 768px) {
+  .characteristicGrid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .characteristicGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.koreanNameInput {
+  width: calc(100% - 32px);
+  max-width: 280px;
+  padding: 12px 16px;
+  border: 2px solid #dee2e6;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #495057;
+  background-color: #fff;
+  transition: all 0.3s ease;
+  margin: 0 auto;
+  display: block;
+  text-align: center;
+}
+
+.koreanNameInput:focus {
+  outline: none;
+  border-color: #6c757d;
+  box-shadow: 0 0 0 3px rgba(108, 117, 125, 0.1);
+}
+
+.koreanNameInput::placeholder {
+  color: #adb5bd;
+}
+
+/* 로딩 페이지 스타일 */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.loadingContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.loadingTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #495057;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.loadingSubtitle {
+  font-size: 1rem;
+  color: #6c757d;
+  margin: 0;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #495057;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
