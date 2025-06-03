@@ -1,109 +1,122 @@
-// src/app/api/names/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { snakeToCamel } from "@/app/utils/snakeToCamel";
+import { snakeToCamel } from "@/app/(shared)/utils/snakeToCamel";
 import sheets from "../../../../lib/google-sheets-api";
 
 type NameRow = string[];
 type NameData = {
   [key: string]: string | number | boolean;
 };
-
 type ApiResponse = { data: NameData[] } | { error: string };
+
+const NUMERIC_FIELDS = ["characteristic", "feelingNum", "births"];
+const BOOLEAN_FIELDS = [
+  "femaleTop",
+  "maleTop",
+  "trendyFemaleTop",
+  "trendyMaleTop",
+  "doggyName",
+];
+const SPREADSHEET_RANGE = "names!A1:O5000";
+
+const convertToNumber = (value: string): number | string => {
+  if (!value || value === "") return value;
+  const numValue = parseInt(value);
+  return !isNaN(numValue) ? numValue : value;
+};
+
+const convertToBoolean = (value: string): boolean => {
+  return value === "TRUE" || value === "1" || value === "true";
+};
+
+const processRowData = (row: NameRow, headers: string[]): NameData => {
+  const obj = headers.reduce((acc: NameData, header: string, index: number) => {
+    acc[header] = row[index] || "";
+    return acc;
+  }, {} as NameData);
+
+  NUMERIC_FIELDS.forEach((field) => {
+    if (obj[field]) {
+      obj[field] = convertToNumber(obj[field] as string);
+    }
+  });
+
+  BOOLEAN_FIELDS.forEach((field) => {
+    if (obj[field]) {
+      obj[field] = convertToBoolean(obj[field] as string);
+    }
+  });
+
+  return obj;
+};
+
+const validateEnvironment = (): string => {
+  const spreadsheetId = process.env.SPREADSHEET_ID;
+  if (!spreadsheetId) {
+    throw new Error("Missing SPREADSHEET_ID environment variable");
+  }
+  return spreadsheetId;
+};
+
+const processHeaders = (headerRow: string[]): string[] => {
+  return headerRow.map((header: string) =>
+    snakeToCamel(header.toLowerCase().replace(/\s+/g, "_"))
+  );
+};
 
 export async function GET(
   req: NextRequest
 ): Promise<NextResponse<ApiResponse>> {
   try {
-    console.log("Request URL:", req.url);
     const { searchParams } = new URL(req.url);
     const allNames = searchParams.get("allNames");
 
     if (!allNames) {
-      console.error("allNames parameter is required");
+      console.error("Missing required parameter: allNames");
       return NextResponse.json<ApiResponse>(
         { error: "allNames parameter is required" },
         { status: 400 }
       );
     }
 
-    const SPREADSHEET_ID = process.env.SPREADSHEET_ID;
-    if (!SPREADSHEET_ID) {
-      throw new Error("Missing SPREADSHEET_ID environment variable");
-    }
+    const spreadsheetId = validateEnvironment();
 
-    const range = "names!A1:O5000";
-    console.log("Fetching data from range:", range);
+    console.log("Fetching data from range:", SPREADSHEET_RANGE);
     const response = await sheets.spreadsheets.values.get({
-      spreadsheetId: SPREADSHEET_ID,
-      range,
+      spreadsheetId,
+      range: SPREADSHEET_RANGE,
     });
 
     const rows = response.data.values as NameRow[];
-    if (!rows) {
-      console.error("No data found");
+    if (!rows || rows.length === 0) {
+      console.error("No data found in spreadsheet");
       return NextResponse.json<ApiResponse>(
         { error: "No data found" },
         { status: 404 }
       );
     }
 
-    const headers = rows[0].map((header: string) =>
-      snakeToCamel(header.toLowerCase().replace(/\s+/g, "_"))
+    const headers = processHeaders(rows[0]);
+    const dataRows = rows.slice(1);
+
+    const processedData: NameData[] = dataRows.map((row) =>
+      processRowData(row, headers)
     );
-    const data: NameRow[] = rows.slice(1);
 
-    const allData: NameData[] = data.map((row: NameRow) => {
-      const obj = headers.reduce(
-        (acc: NameData, header: string, index: number) => {
-          acc[header] = row[index];
-          return acc;
-        },
-        {} as NameData
-      );
+    console.log(`Successfully processed ${processedData.length} records`);
 
-      // 숫자 필드들을 실제 숫자로 변환
-      const numericFields = ["characteristic", "feelingNum", "births"];
-      numericFields.forEach((field) => {
-        if (obj[field] && obj[field] !== "") {
-          const numValue = parseInt(obj[field] as string);
-          if (!isNaN(numValue)) {
-            obj[field] = numValue as any;
-          }
-        }
-      });
-
-      // 불린 필드들을 실제 불린으로 변환
-      const booleanFields = [
-        "femaleTop",
-        "maleTop",
-        "trendyFemaleTop",
-        "trendyMaleTop",
-        "doggyName",
-      ];
-      booleanFields.forEach((field) => {
-        if (obj[field]) {
-          obj[field] =
-            obj[field] === "TRUE" ||
-            obj[field] === "1" ||
-            obj[field] === "true";
-        }
-      });
-
-      return obj;
-    });
-    return NextResponse.json<ApiResponse>({ data: allData }, { status: 200 });
+    return NextResponse.json<ApiResponse>(
+      { data: processedData },
+      { status: 200 }
+    );
   } catch (error) {
-    console.error("Error fetching data:", error);
-    if (error instanceof Error) {
-      return NextResponse.json<ApiResponse>(
-        { error: error.message },
-        { status: 500 }
-      );
-    } else {
-      return NextResponse.json<ApiResponse>(
-        { error: "Unknown error occurred" },
-        { status: 500 }
-      );
-    }
+    console.error("Error in sheets API:", error);
+
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error occurred";
+
+    return NextResponse.json<ApiResponse>(
+      { error: errorMessage },
+      { status: 500 }
+    );
   }
 }
