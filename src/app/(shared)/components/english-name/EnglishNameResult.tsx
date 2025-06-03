@@ -32,6 +32,10 @@ export default function EnglishNameResult({
   allNameData,
 }: EnglishNameResultProps) {
   const [isGenerating, setIsGenerating] = useState(false);
+  const [currentResult, setCurrentResult] = useState(result);
+  const [personalizedComment] = useState(() =>
+    getPersonalizedComment(selectedCharacteristics)
+  );
   const router = useRouter();
   const { captureElement } = useImageCapture();
   const { goToEnglishName, openSupport } = useNavigation();
@@ -39,14 +43,14 @@ export default function EnglishNameResult({
   const handleCapture = () => {
     captureElement(
       "englishNameResultPage",
-      `${result.name}-english-name-result`
+      `${currentResult.name}-english-name-result`
     );
   };
 
   const handleRetry = async () => {
     setIsGenerating(true);
 
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+    await new Promise((resolve) => setTimeout(resolve, 3000));
 
     const processedData = preprocessNameData(allNameData);
 
@@ -54,39 +58,31 @@ export default function EnglishNameResult({
       gender: selectedGender,
       generation: selectedGeneration,
       characteristics: selectedCharacteristics,
-      excludeName: result.name,
+      excludeName: currentResult.name,
     });
 
     const randomName = getRandomName(filteredData);
 
     if (randomName) {
-      const params = new URLSearchParams({
-        from: "recommendation",
-        gender: selectedGender || "",
-        generation: selectedGeneration?.toString() || "",
-        characteristics: selectedCharacteristics.join(","),
-        koreanName: koreanName,
-      });
-
-      router.push(`/result/${randomName.name}?${params.toString()}`);
+      setCurrentResult(randomName);
+      setIsGenerating(false);
     } else {
       setIsGenerating(false);
       goToEnglishName();
     }
   };
 
-  if (typeof result.characteristic === "undefined") {
+  if (typeof currentResult.characteristic === "undefined") {
     return null;
   }
 
   const emoji = getEmoji(
     selectedGender === "male" ? "M" : "F",
-    result.characteristic
+    currentResult.characteristic
   );
   const characteristicsText = getSelectedCharacteristicsText(
     selectedCharacteristics
   );
-  const personalizedComment = getPersonalizedComment(selectedCharacteristics);
 
   return (
     <div>
@@ -94,7 +90,7 @@ export default function EnglishNameResult({
         <h1 className={styles.title}>
           👩 춘자가 당신에게 추천하는 영어 이름은?
         </h1>
-        <h2 className={styles.name}>{result.name}</h2>
+        <h2 className={styles.name}>{currentResult.name}</h2>
         <div className={styles.emojiContainer}>
           <span role="img" aria-label="character" className={styles.largeEmoji}>
             {emoji}
@@ -108,14 +104,14 @@ export default function EnglishNameResult({
             <br />
             평소 {personalizedComment} 그렇죠? 😁
             <br />
-            그런 {koreanName}님께, <strong>{result.name}</strong> 이름을 추천해
-            드려요.
+            그런 {koreanName}님께, <strong>{currentResult.name}</strong> 이름을
+            추천해 드려요.
           </p>
 
-          {result.meaning && (
+          {currentResult.meaning && (
             <p className={styles.meaning}>
-              <strong>{result.name}</strong>은(는){" "}
-              <strong>&ldquo;{result.meaning}&rdquo;</strong>
+              <strong>{currentResult.name}</strong>은(는){" "}
+              <strong>&ldquo;{currentResult.meaning}&rdquo;</strong>
               (이)라는 뜻을 가지고 있대요.
             </p>
           )}
