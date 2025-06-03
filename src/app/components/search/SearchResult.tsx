@@ -4,10 +4,7 @@ import React from "react";
 import html2canvas from "html2canvas";
 import { useRouter } from "next/navigation";
 import { NameData } from "../../types";
-import {
-  characteristicMessages,
-  emojiMap,
-} from "../../constants/resultMessages";
+import { emojiMap } from "../../constants/resultMessages";
 import { ResultContent } from "./ResultContent";
 import styles from "./SearchResult.module.css";
 
@@ -53,6 +50,10 @@ export default function SearchResult({ result }: SearchResultProps) {
     window.open("https://buymeacoffee.com/annehyeyeon", "_blank");
   };
 
+  const handleEnglishNameRecommend = () => {
+    router.push("/your-english-name");
+  };
+
   if (typeof result.characteristic === "undefined") {
     return null;
   }
@@ -71,6 +72,19 @@ export default function SearchResult({ result }: SearchResultProps) {
         <ResultContent result={result} />
       </div>
       <div className={styles.buttonWrapper}>
+        <div
+          className={styles.recommendLink}
+          onClick={handleEnglishNameRecommend}
+        >
+          <em>
+            내 이미지에 맞는 영어 이름을 추천받고 싶다면?
+            <br />
+            <strong>
+              <u>&apos;내가 앤이라니?&apos;</u>
+            </strong>{" "}
+            바로 가기 ✨
+          </em>
+        </div>
         <button
           className={`${styles.button} ${styles.captureButton}`}
           onClick={handleCapture}
