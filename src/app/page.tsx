@@ -1,12 +1,12 @@
-import SearchComponent from "./components/search/SearchComponent";
-import getAllNameData from "./utils/getAllNameData";
+import SearchComponent from "./(shared)/components/search/SearchComponent";
+import getAllNameData from "./(shared)/utils/getAllNameData";
 
 export default async function Home() {
- const nameData = await getAllNameData();
+  const nameData = await getAllNameData();
 
- return (
-  <>
-   <SearchComponent allNameData={nameData} />
-  </>
- );
+  return (
+    <>
+      <SearchComponent allNameData={nameData} />
+    </>
+  );
 }
