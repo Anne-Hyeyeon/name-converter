@@ -72,6 +72,12 @@
   margin: 0 0 20px 0;
 }
 
+.tip {
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: #6c757d;
+}
+
 .comment {
   font-size: 0.95rem;
   line-height: 1.8;
@@ -98,21 +104,28 @@
 .retryText {
   font-size: 0.95rem;
   color: #6c757d;
-  margin: 0;
+  margin: 30px 0 0 0;
   line-height: 1.6;
 }
 
 .retryLink {
-  color: #495057;
-  text-decoration: underline;
+  display: inline-block;
+  background-color: #e9ecef;
+  color: #333;
+  text-decoration: none;
   cursor: pointer;
-  font-weight: 600;
-  font-size: 1.1rem;
-  transition: color 0.3s ease;
+  font-size: 1rem;
+  padding: 12px 24px;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  border: none;
+  margin: 30px 0 0 0;
 }
 
 .retryLink:hover {
-  color: #343a40;
+  background-color: #dee2e6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .buttonWrapper {
