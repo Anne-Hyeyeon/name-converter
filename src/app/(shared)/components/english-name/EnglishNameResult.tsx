@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { NameData } from "../../types";
 import { getPersonalizedComment } from "../../constants";
@@ -33,12 +33,24 @@ export default function EnglishNameResult({
 }: EnglishNameResultProps) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [currentResult, setCurrentResult] = useState(result);
+  const [shouldScrollToTop, setShouldScrollToTop] = useState(false);
   const [personalizedComment] = useState(() =>
     getPersonalizedComment(selectedCharacteristics)
   );
+  const topRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const { captureElement } = useImageCapture();
   const { goToEnglishName, openSupport } = useNavigation();
+
+  useEffect(() => {
+    if (shouldScrollToTop && topRef.current) {
+      topRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+      setShouldScrollToTop(false);
+    }
+  }, [currentResult, shouldScrollToTop]);
 
   const handleCapture = () => {
     captureElement(
@@ -66,6 +78,7 @@ export default function EnglishNameResult({
     if (randomName) {
       setCurrentResult(randomName);
       setIsGenerating(false);
+      setShouldScrollToTop(true);
     } else {
       setIsGenerating(false);
       goToEnglishName();
@@ -86,7 +99,11 @@ export default function EnglishNameResult({
 
   return (
     <div>
-      <div id="englishNameResultPage" className={styles.resultPage}>
+      <div
+        ref={topRef}
+        id="englishNameResultPage"
+        className={styles.resultPage}
+      >
         <h1 className={styles.title}>
           👩 춘자가 당신에게 추천하는 영어 이름은?
         </h1>
