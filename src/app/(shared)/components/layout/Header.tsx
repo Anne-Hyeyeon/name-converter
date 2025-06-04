@@ -1,16 +1,27 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import styles from "./Header.module.css";
 import { useNavigation } from "../../hooks";
 
 export default function Header() {
   const { goToMain, goToEnglishName } = useNavigation();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   const isEnglishNamePage = pathname === "/your-english-name";
+  const isMainPage = pathname === "/";
+  const isResultPage = pathname.startsWith("/result/");
+  const isFromRecommendation = isClient
+    ? searchParams.get("from") === "recommendation"
+    : false;
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -48,12 +59,28 @@ export default function Header() {
               내가 춘자라니! 바로가기 ✨
             </span>
           </div>
-        ) : (
+        ) : isMainPage ? (
           <div className={styles.announcement}>
             영어 이름 추천받기 서비스 오픈!
             <br />
             <span className={styles.link} onClick={goToEnglishName}>
               내가 앤이라니? 바로가기 🎉
+            </span>
+          </div>
+        ) : isResultPage && !isFromRecommendation ? (
+          <div className={styles.announcement}>
+            영어 이름 추천받기 서비스 오픈!
+            <br />
+            <span className={styles.link} onClick={goToEnglishName}>
+              내가 앤이라니? 바로가기 🎉
+            </span>
+          </div>
+        ) : (
+          <div className={styles.announcement}>
+            영어 이름 느낌 알아보기
+            <br />
+            <span className={styles.link} onClick={goToMain}>
+              내가 춘자라니? 바로가기 🎉
             </span>
           </div>
         )}

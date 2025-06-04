@@ -3,6 +3,46 @@ import EnglishNameResult from "@/app/(shared)/components/english-name/EnglishNam
 import getAllNameData from "@/app/(shared)/utils/getAllNameData";
 import styles from "./page.module.css";
 import NameNotFound from "@/app/(shared)/components/search/NameNotFound";
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+  searchParams,
+}: {
+  params: { name: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}): Promise<Metadata> {
+  const allNameData = await getAllNameData();
+  const selectedNameData = allNameData.find(
+    (data) => data.name === params.name
+  );
+
+  const isFromRecommendation = searchParams.from === "recommendation";
+  const siteName = isFromRecommendation ? "내가 앤이라니" : "내가 춘자라니";
+
+  if (!selectedNameData) {
+    return {
+      title: `${params.name} - ${siteName}`,
+      description: `${params.name}에 대한 결과를 찾을 수 없습니다.`,
+    };
+  }
+
+  const title = `${selectedNameData.name} - ${siteName}`;
+  const description = isFromRecommendation
+    ? `${selectedNameData.name}은 당신에게 추천하는 영어 이름입니다.`
+    : `${selectedNameData.name}은 미국에서 어떤 이미지의 이름일까요? 이름의 트렌드와 특성을 알아보세요.`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      siteName,
+    },
+  };
+}
 
 export default async function ResultPage({
   params,
