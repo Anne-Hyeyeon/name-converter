@@ -2,4 +2,5 @@ export const URLS = {
   SUPPORT: "https://buymeacoffee.com/annehyeyeon",
   MAIN_PAGE: "/",
   ENGLISH_NAME_PAGE: "/your-english-name",
+  TOP100_2025_PAGE: "/top-baby-names-2025",
 } as const;

@@ -1,0 +1,340 @@
+.page {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 32px 20px 56px;
+  box-sizing: border-box;
+  color: #1d1d1f;
+  font-feature-settings: "ss01", "tnum";
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Hero */
+.hero {
+  text-align: left;
+  padding: 16px 4px 32px;
+}
+
+.eyebrow {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: #86868b;
+  margin: 0 0 14px;
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: 1.85rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin: 0 0 14px;
+  color: #1d1d1f;
+}
+
+.lede {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: #515154;
+  margin: 0;
+}
+
+/* Section */
+.section {
+  margin-top: 36px;
+}
+
+.sectionTitle {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #1d1d1f;
+  margin: 0 0 12px;
+  padding: 0 4px;
+}
+
+.sectionLede {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: #515154;
+  margin: 0 0 18px;
+  padding: 0 4px;
+}
+
+.sectionLede strong {
+  color: #1d1d1f;
+  font-weight: 600;
+}
+
+.tableHelper {
+  font-size: 0.78rem;
+  color: #86868b;
+  margin: 0 0 12px;
+  padding: 0 4px;
+}
+
+/* Trend cards */
+.trendGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.trendCard {
+  background: #ffffff;
+  border: 1px solid #ececee;
+  border-radius: 18px;
+  padding: 22px 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.trendCard:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+}
+
+.trendIcon {
+  font-size: 1.6rem;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.trendEyebrow {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: #86868b;
+  margin: 0 0 6px;
+  text-transform: uppercase;
+}
+
+.trendTitle {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0 0 10px;
+  color: #1d1d1f;
+}
+
+.trendBody p {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: #424245;
+  margin: 0 0 8px;
+}
+
+.trendBody p:last-child {
+  margin-bottom: 0;
+}
+
+.trendBody em {
+  font-style: normal;
+  font-weight: 600;
+  color: #1d1d1f;
+  background: linear-gradient(transparent 65%, #fff5b3 65%);
+  padding: 0 2px;
+}
+
+.trendBody strong {
+  font-weight: 600;
+  color: #1d1d1f;
+}
+
+/* Podium */
+.podium {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.podiumItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1px solid #ececee;
+}
+
+.rank1 {
+  background: linear-gradient(180deg, #fffbef 0%, #ffffff 100%);
+  border-color: #f3e7b8;
+}
+
+.rank2 {
+  background: linear-gradient(180deg, #f6f7f9 0%, #ffffff 100%);
+}
+
+.rank3 {
+  background: linear-gradient(180deg, #fbf1e6 0%, #ffffff 100%);
+}
+
+.podiumRank {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 48px;
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.podiumRank span {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #86868b;
+}
+
+.podiumNames {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.podiumNameCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 6px 4px;
+  transition: background-color 0.2s ease;
+}
+
+.podiumNameCol:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.podiumDivider {
+  width: 1px;
+  height: 28px;
+  background: #ececee;
+  flex-shrink: 0;
+}
+
+.podiumLabel {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #86868b;
+}
+
+.podiumName {
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #1d1d1f;
+}
+
+/* Table */
+.table {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.tableHead,
+.tableRow {
+  display: grid;
+  grid-template-columns: 56px 1fr 1fr;
+  align-items: center;
+  padding: 14px 16px;
+  font-size: 1rem;
+}
+
+.tableHead {
+  background: linear-gradient(90deg, #fff0f6 0%, #eef0ff 100%);
+  border-bottom: 1px solid #e3e6ec;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #2b2b2b;
+  text-transform: uppercase;
+}
+
+.headerBoy {
+  color: #2c5d99;
+}
+
+.headerGirl {
+  color: #ad416f;
+}
+
+.tableBody {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tableRow {
+  border-bottom: 1px solid #ececef;
+}
+
+.tableRow:nth-child(even) {
+  background: #fafbff;
+}
+
+.tableRow:last-child {
+  border-bottom: none;
+}
+
+.colRank {
+  font-variant-numeric: tabular-nums;
+  color: #4a4a4f;
+  font-weight: 700;
+}
+
+.colName {
+  letter-spacing: -0.005em;
+}
+
+.boyName,
+.girlName {
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 4px 6px;
+  margin: -4px -6px;
+  transition: background-color 0.18s ease;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+}
+
+.boyName {
+  color: #2c5d99;
+}
+
+.girlName {
+  color: #ad416f;
+}
+
+.boyName:hover {
+  background-color: #eef4fb;
+}
+
+.girlName:hover {
+  background-color: #fdeef5;
+}
+
+/* Footnote */
+.footnote {
+  margin: 28px 4px 0;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: #86868b;
+  text-align: left;
+}

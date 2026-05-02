@@ -5,23 +5,39 @@ import { usePathname, useSearchParams } from "next/navigation";
 import styles from "./Header.module.css";
 import { useNavigation } from "../../hooks";
 
+const CAROUSEL_INTERVAL = 4000;
+
 export default function Header() {
-  const { goToMain, goToEnglishName } = useNavigation();
+  const { goToMain, goToEnglishName, goToTop100 } = useNavigation();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  const [carouselIndex, setCarouselIndex] = useState(0);
 
   const isEnglishNamePage = pathname === "/your-english-name";
   const isMainPage = pathname === "/";
   const isResultPage = pathname.startsWith("/result/");
+  const isTop100Page = pathname === "/top-baby-names-2025";
   const isFromRecommendation = isClient
     ? searchParams.get("from") === "recommendation"
     : false;
 
+  // 메인/검색결과 페이지에서 두 가지 프로모를 캐러셀로 번갈아 노출
+  const showCarousel =
+    isMainPage || (isResultPage && !isFromRecommendation);
+
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  useEffect(() => {
+    if (!showCarousel) return;
+    const id = setInterval(() => {
+      setCarouselIndex((i) => (i + 1) % 2);
+    }, CAROUSEL_INTERVAL);
+    return () => clearInterval(id);
+  }, [showCarousel]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -48,43 +64,71 @@ export default function Header() {
     };
   }, [isMenuOpen]);
 
+  const carouselSlides = [
+    {
+      key: "anne",
+      text: "영어 이름 추천받기 서비스 오픈!",
+      linkText: "내가 앤이라니? 바로가기 🎉",
+      onClick: goToEnglishName,
+    },
+    {
+      key: "top100",
+      text: "🇺🇸 2025 미국 아기이름 Top 100!",
+      linkText: "인기 이름 보러가기 ✨",
+      onClick: goToTop100,
+    },
+  ];
+
+  let announcement: React.ReactNode;
+  if (showCarousel) {
+    const slide = carouselSlides[carouselIndex];
+    announcement = (
+      <div
+        key={slide.key}
+        className={`${styles.announcement} ${styles.carouselSlide}`}
+      >
+        {slide.text}
+        <br />
+        <span className={styles.link} onClick={slide.onClick}>
+          {slide.linkText}
+        </span>
+      </div>
+    );
+  } else if (isTop100Page) {
+    announcement = (
+      <div className={styles.announcement}>
+        🇺🇸 2025년 미국 아기이름 Top 100!
+        <br />
+        <span className={styles.link} onClick={goToMain}>
+          내가 춘자라니? 바로가기 🎉
+        </span>
+      </div>
+    );
+  } else if (isEnglishNamePage) {
+    announcement = (
+      <div className={styles.announcement}>
+        영어 이름 느낌 알아보기
+        <br />
+        <span className={styles.link} onClick={goToMain}>
+          내가 춘자라니! 바로가기 ✨
+        </span>
+      </div>
+    );
+  } else {
+    announcement = (
+      <div className={styles.announcement}>
+        영어 이름 느낌 알아보기
+        <br />
+        <span className={styles.link} onClick={goToMain}>
+          내가 춘자라니? 바로가기 🎉
+        </span>
+      </div>
+    );
+  }
+
   return (
     <header className={styles.header}>
-      <div className={styles.content}>
-        {isEnglishNamePage ? (
-          <div className={styles.announcement}>
-            영어 이름 느낌 알아보기
-            <br />
-            <span className={styles.link} onClick={goToMain}>
-              내가 춘자라니! 바로가기 ✨
-            </span>
-          </div>
-        ) : isMainPage ? (
-          <div className={styles.announcement}>
-            영어 이름 추천받기 서비스 오픈!
-            <br />
-            <span className={styles.link} onClick={goToEnglishName}>
-              내가 앤이라니? 바로가기 🎉
-            </span>
-          </div>
-        ) : isResultPage && !isFromRecommendation ? (
-          <div className={styles.announcement}>
-            영어 이름 추천받기 서비스 오픈!
-            <br />
-            <span className={styles.link} onClick={goToEnglishName}>
-              내가 앤이라니? 바로가기 🎉
-            </span>
-          </div>
-        ) : (
-          <div className={styles.announcement}>
-            영어 이름 느낌 알아보기
-            <br />
-            <span className={styles.link} onClick={goToMain}>
-              내가 춘자라니? 바로가기 🎉
-            </span>
-          </div>
-        )}
-      </div>
+      <div className={styles.content}>{announcement}</div>
 
       <div className={styles.menuContainer}>
         <button className={styles.menuButton} onClick={toggleMenu}>
@@ -114,6 +158,15 @@ export default function Header() {
               }}
             >
               내가 앤이라니
+            </button>
+            <button
+              className={styles.dropdownItem}
+              onClick={() => {
+                goToTop100();
+                handleMenuClose();
+              }}
+            >
+              🇺🇸 2025 미국 아기이름 Top 100
             </button>
           </div>
         )}
