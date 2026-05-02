@@ -129,17 +129,17 @@ export default function SearchComponent({ allNameData }: SearchComponentProps) {
       {!isSearching && (
         <>
           <div
-            className={styles.updateNoteLink}
+            className={`${styles.updateNoteLink} ${styles.featuredLink}`}
             onClick={() => router.push("/your-english-name")}
           >
             NEW : 영어 이름 추천 🚀
           </div>
-          {/* <div
-            className={styles.updateNoteLink}
-            onClick={() => setShowUpdateBoard(!showUpdateBoard)}
+          <div
+            className={`${styles.updateNoteLink} ${styles.featuredLink}`}
+            onClick={() => router.push("/top-baby-names-2025")}
           >
-            💖 이름 업데이트 노트 보기
-          </div> */}
+            🇺🇸 2025 미국 아기이름 트렌드 Top 100
+          </div>
           {showUpdateBoard && <UpdateBoard updates={updateData} />}
           <div
             className={styles.updateNoteLink}

@@ -3,7 +3,15 @@
 import React from "react";
 import { NameData } from "../../types";
 import { characteristicMessages } from "../../constants/resultMessages";
+import top100Data from "../../data/top100-2025.json";
 import styles from "./SearchResult.module.css";
+
+const TOP100_NAMES_2025 = new Set<string>(
+  (top100Data as Array<{ boy: string; girl: string }>).flatMap((e) => [
+    e.boy,
+    e.girl,
+  ])
+);
 
 interface ResultContentProps {
   result: NameData;
@@ -70,9 +78,9 @@ export const ResultContent: React.FC<ResultContentProps> = ({ result }) => {
             이름이에요.
           </p>
         )}
-        {(result.trendyFemaleTop || result.trendyMaleTop) && (
+        {TOP100_NAMES_2025.has(result.name) && (
           <p className={styles.highlight}>
-            <strong>{result.name}</strong>은(는) 2024년 아기 이름 TOP 100에 드는
+            <strong>{result.name}</strong>은(는) 2025년 아기 이름 TOP 100에 드는
             이름이에요.
           </p>
         )}

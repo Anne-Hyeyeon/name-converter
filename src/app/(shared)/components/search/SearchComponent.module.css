@@ -121,6 +121,21 @@
  opacity: 0.7;
 }
 
+.featuredLink {
+ font-weight: 600;
+ color: #000000;
+ text-decoration: none;
+ background: linear-gradient(transparent 60%, #fff4a8 60%);
+ padding: 0 4px;
+ margin-top: 16px;
+ transition: background 0.2s ease;
+}
+
+.featuredLink:hover {
+ background: linear-gradient(transparent 55%, #ffea7a 55%);
+ opacity: 1;
+}
+
 .errorMessage {
  margin-top: 10px;
  white-space: pre-line;

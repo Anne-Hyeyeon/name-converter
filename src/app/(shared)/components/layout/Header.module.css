@@ -29,6 +29,15 @@
   line-height: 1.6;
 }
 
+.carouselSlide {
+  animation: carouselFade 0.6s ease;
+}
+
+@keyframes carouselFade {
+  0% { opacity: 0; transform: translateY(4px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
 .link {
   text-decoration: underline;
   font-weight: 600;
