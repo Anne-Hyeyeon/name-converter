@@ -86,10 +86,12 @@ export default function SearchComponent({ allNameData }: SearchComponentProps) {
             <Image
               src="/amI.png?v=1"
               alt="내가...춘자였다니..."
-              layout="responsive"
               width={250}
               height={250}
+              sizes="(max-width: 480px) 60vw, 250px"
+              style={{ width: "100%", height: "auto" }}
               className={styles.image}
+              priority
             />
           </a>
         </div>

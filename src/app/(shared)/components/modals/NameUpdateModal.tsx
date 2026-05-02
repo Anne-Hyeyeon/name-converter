@@ -30,7 +30,7 @@ const NameUpdateModal: React.FC<ModalProps> = ({ isOpen, onClose, update }) => {
             <a
               key={index}
               className={styles.nameLink}
-              href={`${process.env.NEXT_PUBLIC_API_URL}/result/${name}`}
+              href={`/result/${name}`}
               target="_blank"
               rel="noopener noreferrer"
             >
