@@ -50,7 +50,7 @@ export default function EnglishNameResult({
       });
       setShouldScrollToTop(false);
     }
-  }, [currentResult, shouldScrollToTop]);
+  }, [shouldScrollToTop]);
 
   const handleCapture = () => {
     captureElement(
@@ -62,7 +62,7 @@ export default function EnglishNameResult({
   const handleRetry = async () => {
     setIsGenerating(true);
 
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    await new Promise((resolve) => setTimeout(resolve, 400));
 
     const processedData = preprocessNameData(allNameData);
 

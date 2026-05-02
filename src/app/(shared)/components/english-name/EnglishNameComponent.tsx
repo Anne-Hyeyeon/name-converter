@@ -36,10 +36,12 @@ export default function EnglishNameComponent({
             <Image
               src="/amI-english-name.jpg"
               alt="메인 이미지"
-              layout="responsive"
               width={250}
               height={250}
+              sizes="(max-width: 480px) 60vw, 250px"
+              style={{ width: "100%", height: "auto" }}
               className={styles.image}
+              priority
             />
           </a>
         </div>
@@ -74,7 +76,7 @@ export default function EnglishNameComponent({
 
       {!showRecommendSelector && (
         <div className={styles.updateNoteLink} onClick={() => router.push("/")}>
-          내가 춘자라니&rsquo; 메인으로 돌아가기
+          &lsquo;내가 춘자라니&rsquo; 메인으로 돌아가기
         </div>
       )}
     </div>

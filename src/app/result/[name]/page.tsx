@@ -70,29 +70,40 @@ export default async function ResultPage({
 
   // 추천에서 온 경우 추천 결과 컴포넌트 렌더링
   if (isFromRecommendation) {
-    const gender = searchParams.gender as "male" | "female";
+    const genderRaw = searchParams.gender as string | undefined;
+    const gender =
+      genderRaw === "male" || genderRaw === "female" ? genderRaw : null;
     const generation = parseInt(searchParams.generation as string);
     const characteristics =
       (searchParams.characteristics as string)
         ?.split(",")
         ?.map((num) => parseInt(num))
         ?.filter((num) => !isNaN(num)) || [];
-    const koreanName = (searchParams.koreanName as string) || "";
+    const koreanName = ((searchParams.koreanName as string) || "").trim();
 
-    return (
-      <div className={styles.pageContainer}>
-        <div className={styles.contentWrapper}>
-          <EnglishNameResult
-            result={selectedNameData}
-            selectedCharacteristics={characteristics}
-            selectedGender={gender}
-            selectedGeneration={generation}
-            koreanName={koreanName}
-            allNameData={allNameData}
-          />
+    const hasValidRecommendationParams =
+      gender !== null &&
+      !isNaN(generation) &&
+      characteristics.length > 0 &&
+      koreanName.length > 0;
+
+    if (hasValidRecommendationParams) {
+      return (
+        <div className={styles.pageContainer}>
+          <div className={styles.contentWrapper}>
+            <EnglishNameResult
+              result={selectedNameData}
+              selectedCharacteristics={characteristics}
+              selectedGender={gender}
+              selectedGeneration={generation}
+              koreanName={koreanName}
+              allNameData={allNameData}
+            />
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
+    // 파라미터가 비어 있거나 손상된 경우엔 일반 검색 결과로 fallback
   }
 
   // 일반 검색에서 온 경우 기존 검색 결과 컴포넌트 렌더링

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 
 import { NameData } from "../../types";
@@ -67,7 +67,7 @@ export default function NameRecommendSelector({
   const handleGenerateNames = async () => {
     setIsGenerating(true);
 
-    await new Promise((resolve) => setTimeout(resolve, 2500));
+    await new Promise((resolve) => setTimeout(resolve, 400));
 
     const randomName = getRandomName(filteredData);
 
