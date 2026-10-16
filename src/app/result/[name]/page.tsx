@@ -28,6 +28,7 @@ export async function generateMetadata({
     return {
       title: `${name} - ${siteName}`,
       description: `${name}에 대한 결과를 찾을 수 없습니다.`,
+      robots: { index: false, follow: true },
     };
   }
 
