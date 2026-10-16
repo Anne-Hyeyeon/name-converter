@@ -9,6 +9,8 @@ if (!ssaDir) {
 }
 
 const OUTPUT = "src/app/(shared)/data/name-trends.json";
+const RANKING_OUTPUT = "src/app/(shared)/data/year-rankings.json";
+const RANKING_SIZE = 50;
 
 const readSheetNames = async () => {
   const credentials = JSON.parse(
@@ -39,14 +41,18 @@ const sheetNames = await readSheetNames();
 
 const counts = new Map();
 const ranks = new Map();
+const rankings = {};
 
 for (const [yearIndex, file] of files.entries()) {
   const lines = (await readFile(join(ssaDir, file), "utf8")).trim().split("\n");
   const rankBySex = { F: 0, M: 0 };
+  const ranking = { F: [], M: [] };
+  rankings[years[yearIndex]] = ranking;
   for (const line of lines) {
     const [name, sex, countText] = line.trim().split(",");
     const count = Number(countText);
     rankBySex[sex] += 1;
+    if (rankBySex[sex] <= RANKING_SIZE) ranking[sex].push([name, count]);
     if (!sheetNames.has(name)) continue;
     const key = `${name}|${sex}`;
     if (!counts.has(key)) {
@@ -109,6 +115,16 @@ await writeFile(
     firstYear: years[0],
     lastYear: years[years.length - 1],
     names: result,
+  })
+);
+
+await writeFile(
+  RANKING_OUTPUT,
+  JSON.stringify({
+    source: "U.S. Social Security Administration",
+    firstYear: years[0],
+    lastYear: years[years.length - 1],
+    years: rankings,
   })
 );
 

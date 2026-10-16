@@ -140,6 +140,12 @@ export default function SearchComponent({ names }: SearchComponentProps) {
           >
             🇺🇸 2025 미국 아기이름 트렌드 Top 100
           </Link>
+          <Link
+            href={URLS.YEAR_PAGE}
+            className={`${styles.updateNoteLink} ${styles.featuredLink}`}
+          >
+            📅 내가 태어난 해 미국 인기 이름
+          </Link>
           <div
             className={styles.updateNoteLink}
             onClick={() => {
