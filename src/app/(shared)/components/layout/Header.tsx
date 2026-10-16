@@ -1,35 +1,27 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import styles from "./Header.module.css";
 import { useNavigation } from "../../hooks";
+import { URLS } from "../../constants/urls";
 
 const CAROUSEL_INTERVAL = 4000;
 
 export default function Header() {
   const { goToMain, goToEnglishName, goToTop100 } = useNavigation();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isClient, setIsClient] = useState(false);
   const [carouselIndex, setCarouselIndex] = useState(0);
 
   const isEnglishNamePage = pathname === "/your-english-name";
   const isMainPage = pathname === "/";
   const isResultPage = pathname.startsWith("/result/");
   const isTop100Page = pathname === "/top-baby-names-2025";
-  const isFromRecommendation = isClient
-    ? searchParams.get("from") === "recommendation"
-    : false;
 
   // 메인/검색결과 페이지에서 두 가지 프로모를 캐러셀로 번갈아 노출
-  const showCarousel =
-    isMainPage || (isResultPage && !isFromRecommendation);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  const showCarousel = isMainPage || isResultPage;
 
   useEffect(() => {
     if (!showCarousel) return;
@@ -69,13 +61,13 @@ export default function Header() {
       key: "anne",
       text: "영어 이름 추천받기 서비스 오픈!",
       linkText: "내가 앤이라니? 바로가기 🎉",
-      onClick: goToEnglishName,
+      href: URLS.ENGLISH_NAME_PAGE,
     },
     {
       key: "top100",
       text: "🇺🇸 2025 미국 아기이름 Top 100!",
       linkText: "인기 이름 보러가기 ✨",
-      onClick: goToTop100,
+      href: URLS.TOP100_2025_PAGE,
     },
   ];
 
@@ -89,9 +81,9 @@ export default function Header() {
       >
         {slide.text}
         <br />
-        <span className={styles.link} onClick={slide.onClick}>
+        <Link href={slide.href} className={styles.link}>
           {slide.linkText}
-        </span>
+        </Link>
       </div>
     );
   } else if (isTop100Page) {
@@ -99,9 +91,9 @@ export default function Header() {
       <div className={styles.announcement}>
         🇺🇸 2025년 미국 아기이름 Top 100!
         <br />
-        <span className={styles.link} onClick={goToMain}>
+        <Link href={URLS.MAIN_PAGE} className={styles.link}>
           내가 춘자라니? 바로가기 🎉
-        </span>
+        </Link>
       </div>
     );
   } else if (isEnglishNamePage) {
@@ -109,9 +101,9 @@ export default function Header() {
       <div className={styles.announcement}>
         영어 이름 느낌 알아보기
         <br />
-        <span className={styles.link} onClick={goToMain}>
+        <Link href={URLS.MAIN_PAGE} className={styles.link}>
           내가 춘자라니! 바로가기 ✨
-        </span>
+        </Link>
       </div>
     );
   } else {
@@ -119,9 +111,9 @@ export default function Header() {
       <div className={styles.announcement}>
         영어 이름 느낌 알아보기
         <br />
-        <span className={styles.link} onClick={goToMain}>
+        <Link href={URLS.MAIN_PAGE} className={styles.link}>
           내가 춘자라니? 바로가기 🎉
-        </span>
+        </Link>
       </div>
     );
   }

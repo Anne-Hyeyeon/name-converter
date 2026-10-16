@@ -3,18 +3,23 @@ import getAllNameData from "@/app/(shared)/utils/getAllNameData";
 import styles from "./page.module.css";
 import NameNotFound from "@/app/(shared)/components/search/NameNotFound";
 import type { Metadata } from "next";
+import { NameData } from "@/app/(shared)/types";
 
 export const revalidate = 3600;
+
+const findName = (allNameData: NameData[], name: string) => {
+  const exactMatch = allNameData.find((data) => data.name === name);
+  if (exactMatch) return exactMatch;
+  const lowerName = decodeURIComponent(name).toLowerCase();
+  return allNameData.find((data) => data.name.toLowerCase() === lowerName);
+};
 
 export async function generateMetadata({
   params,
 }: {
   params: { name: string };
 }): Promise<Metadata> {
-  const allNameData = await getAllNameData();
-  const selectedNameData = allNameData.find(
-    (data) => data.name === params.name
-  );
+  const selectedNameData = findName(await getAllNameData(), params.name);
 
   const siteName = "내가 춘자라니";
 
@@ -31,6 +36,9 @@ export async function generateMetadata({
   return {
     title,
     description,
+    alternates: {
+      canonical: `/result/${selectedNameData.name}`,
+    },
     openGraph: {
       title,
       description,
@@ -45,10 +53,7 @@ export default async function ResultPage({
 }: {
   params: { name: string };
 }) {
-  const allNameData = await getAllNameData();
-  const selectedNameData = allNameData.find(
-    (data) => data.name === params.name
-  );
+  const selectedNameData = findName(await getAllNameData(), params.name);
 
   return (
     <div className={styles.pageContainer}>

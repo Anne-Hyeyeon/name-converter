@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 import NameRecommendSelector from "./NameRecommendSelector";
 import styles from "./EnglishNameComponent.module.css";
+import { URLS } from "../../constants/urls";
 
 interface EnglishNameComponentProps {
   availableCombos: string[];
@@ -15,7 +16,6 @@ export default function EnglishNameComponent({
   availableCombos,
 }: EnglishNameComponentProps) {
   const [showRecommendSelector, setShowRecommendSelector] = useState(false);
-  const router = useRouter();
 
   return (
     <div className={styles.container}>
@@ -74,9 +74,9 @@ export default function EnglishNameComponent({
       )}
 
       {!showRecommendSelector && (
-        <div className={styles.updateNoteLink} onClick={() => router.push("/")}>
+        <Link href={URLS.MAIN_PAGE} className={styles.updateNoteLink}>
           &lsquo;내가 춘자라니&rsquo; 메인으로 돌아가기
-        </div>
+        </Link>
       )}
     </div>
   );
