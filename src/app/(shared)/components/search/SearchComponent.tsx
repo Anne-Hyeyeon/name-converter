@@ -147,7 +147,7 @@ export default function SearchComponent({ names }: SearchComponentProps) {
               setShowGraphNotice(true);
             }}
           >
-            📈 이름 그래프 기능이 추가되었어요!
+            신규 기능 : 이름 그래프가 생겼어요! 🥳
           </div>
           <div
             className={styles.updateNoteLink}
