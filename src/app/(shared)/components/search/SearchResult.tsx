@@ -21,9 +21,13 @@ export const generateMetadata = ({ result }: { result: NameData }) => {
 
 interface SearchResultProps {
   result: NameData;
+  trendChart?: React.ReactNode;
 }
 
-export default function SearchResult({ result }: SearchResultProps) {
+export default function SearchResult({
+  result,
+  trendChart,
+}: SearchResultProps) {
   const { captureElement } = useImageCapture();
   const { goToMain, openSupport } = useNavigation();
 
@@ -48,6 +52,7 @@ export default function SearchResult({ result }: SearchResultProps) {
         </div>
         <ResultContent result={result} />
       </div>
+      {trendChart}
       <div className={styles.buttonWrapper}>
         <Link href={URLS.ENGLISH_NAME_PAGE} className={styles.recommendContainer}>
           <em>

@@ -26,6 +26,16 @@
 - 이름 추천은 서버 액션 `recommendName` 이 이름 하나만 골라서 돌려줍니다.
 - 같은 이름이 여러 행에 있으면 첫 행만 씁니다.
 
+## 연도별 출생아 수 데이터
+
+- 결과 페이지 그래프는 미국 사회보장국(SSA) 출생 이름 통계를 씁니다.
+- 데이터는 `src/app/(shared)/data/name-trends.json` 에 들어 있습니다.
+- 시트에 있는 이름만 추려서 만듭니다.
+- SSA는 매년 봄에 전년도 데이터를 공개합니다.
+- 갱신할 때는 SSA 사이트에서 National data(`names.zip`)를 받아 압축을 풉니다.
+- 그다음 `node --env-file=.env.local scripts/build-name-trends.mjs <압축 푼 폴더>` 를 실행합니다.
+- 시트에 이름을 추가한 뒤에도 같은 명령으로 다시 만들어야 그래프가 나옵니다.
+
 ## 페이지
 
 - `/` : 이름 검색
@@ -70,7 +80,7 @@ src/app/
 │  │  ├─ scripts/       # AdSense, GA 스크립트
 │  │  └─ search/        # 검색, 검색 결과, 없는 이름 안내
 │  ├─ constants/
-│  ├─ data/             # Top 100 데이터
+│  ├─ data/             # Top 100, 연도별 출생아 수 데이터
 │  ├─ hooks/
 │  ├─ types/
 │  └─ utils/            # 시트 읽기, 이름 찾기, 이벤트 추적
@@ -85,5 +95,6 @@ src/app/
 └─ sitemap.ts
 assets/fonts/           # 공유 이미지용 Noto Sans KR (OFL)
 e2e/                    # Playwright 테스트
+scripts/                # 연도별 출생아 수 데이터 생성
 lib/                    # 구글 시트 클라이언트
 ```

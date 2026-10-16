@@ -4,6 +4,11 @@ import styles from "./page.module.css";
 import NameNotFound from "@/app/(shared)/components/search/NameNotFound";
 import type { Metadata } from "next";
 import { findName, findSimilarNames } from "@/app/(shared)/utils/findName";
+import {
+  getNameTrend,
+  TREND_LAST_YEAR,
+} from "@/app/(shared)/utils/getNameTrend";
+import NameTrend from "@/app/(shared)/components/search/NameTrend";
 
 export const revalidate = 3600;
 
@@ -51,12 +56,25 @@ export default async function ResultPage({
   const { name } = await params;
   const allNameData = await getAllNameData();
   const selectedNameData = findName(allNameData, name);
+  const trend = selectedNameData ? getNameTrend(selectedNameData.name) : null;
 
   return (
     <div className={styles.pageContainer}>
       <div className={styles.contentWrapper}>
         {selectedNameData ? (
-          <SearchResult result={selectedNameData} />
+          <SearchResult
+            result={selectedNameData}
+            trendChart={
+              trend && (
+                <NameTrend
+                  name={selectedNameData.name}
+                  trend={trend}
+                  lastYear={TREND_LAST_YEAR}
+                  sheetTrendYear={selectedNameData.trendYear}
+                />
+              )
+            }
+          />
         ) : (
           <NameNotFound
             name={name}
