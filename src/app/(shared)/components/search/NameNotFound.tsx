@@ -5,6 +5,7 @@ import Link from "next/link";
 import styles from "./NameNotFound.module.css";
 import ReportPopup from "../modals/ReportPopup";
 import { useNavigation } from "../../hooks";
+import { trackEvent } from "../../utils";
 
 const EMOJIS = ["🤔", "🤩", "🧐", "🤗", "🥰", "🌟", "🧙", "😎"];
 
@@ -48,6 +49,12 @@ export default function NameNotFound({
                   <Link
                     href={`/result/${similarName}`}
                     className={styles.similarName}
+                    onClick={() =>
+                      trackEvent("similar_name_click", {
+                        from: name,
+                        to: similarName,
+                      })
+                    }
                   >
                     {similarName}
                   </Link>

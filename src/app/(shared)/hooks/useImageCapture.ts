@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import html2canvas from "html2canvas";
+import { trackEvent } from "../utils/trackEvent";
 
 export const useImageCapture = () => {
   const captureElement = useCallback((elementId: string, fileName: string) => {
@@ -12,6 +13,7 @@ export const useImageCapture = () => {
         link.href = canvas.toDataURL("image/png");
         link.download = `${fileName}.png`;
         link.click();
+        trackEvent("save_result_image", { file_name: fileName });
       })
       .catch((err) => {
         console.error("이미지 캡처 실패:", err);

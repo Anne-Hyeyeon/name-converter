@@ -3,7 +3,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { NameData } from "../../types";
-import { getEmoji, getSelectedCharacteristicsText } from "../../utils";
+import {
+  getEmoji,
+  getSelectedCharacteristicsText,
+  trackEvent,
+} from "../../utils";
 import { recommendName } from "../../actions/recommendName";
 import { useImageCapture, useNavigation } from "../../hooks";
 import styles from "./EnglishNameResult.module.css";
@@ -72,6 +76,7 @@ export default function EnglishNameResult({
     }
 
     if (randomName) {
+      trackEvent("recommend_retry", { name: randomName.name });
       setCurrentResult(randomName);
       setIsGenerating(false);
       setShouldScrollToTop(true);
