@@ -37,6 +37,11 @@
   line-height: 1.8;
 }
 
+.yearLink {
+  color: inherit;
+  text-decoration: underline;
+}
+
 .revival {
   margin-top: 8px;
   font-weight: bold;

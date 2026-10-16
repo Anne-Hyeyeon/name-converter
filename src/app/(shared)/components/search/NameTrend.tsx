@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styles from "./NameTrend.module.css";
 import type { NameTrendData } from "../../utils/getNameTrend";
 
@@ -105,8 +106,11 @@ export default function NameTrend({
       )}
       <ul className={styles.facts}>
         <li>
-          가장 많이 태어난 해: <strong>{trend.peakYear}년</strong> (
-          {trend.peakCount.toLocaleString("ko-KR")}명)
+          가장 많이 태어난 해:{" "}
+          <Link href={`/year/${trend.peakYear}`} className={styles.yearLink}>
+            <strong>{trend.peakYear}년</strong>
+          </Link>{" "}
+          ({trend.peakCount.toLocaleString("ko-KR")}명)
         </li>
         <li>
           {trend.latestRank !== null ? (
