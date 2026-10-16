@@ -36,22 +36,3 @@ export const CHARACTERISTIC_MAP = {
   17: "믿음직한",
   18: "매력적인",
 } as const;
-
-export const FEELING_NUM_MAP = {
-  1: "classic",
-  2: "boomer",
-  3: "gen X",
-  4: "Millennials",
-  5: "gen Z",
-  6: "꾸준히 인기",
-  7: "강아지 이름",
-  8: "인터내셔널",
-  9: "아시아",
-  10: "이름 아님",
-} as const;
-
-export interface Update {
-  date: string;
-  patchNotes: string[];
-  names: string[];
-}
