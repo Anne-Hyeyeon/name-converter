@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import styles from "./NameNotFound.module.css";
 import ReportPopup from "../modals/ReportPopup";
 import { useNavigation } from "../../hooks";
@@ -12,7 +13,13 @@ const pickEmoji = (name: string): string => {
   return EMOJIS[sum % EMOJIS.length];
 };
 
-export default function NameNotFound({ name }: { name: string }) {
+export default function NameNotFound({
+  name,
+  similarNames = [],
+}: {
+  name: string;
+  similarNames?: string[];
+}) {
   const { goToMain, openSupport } = useNavigation();
   const [showPopup, setShowPopup] = useState(false);
 
@@ -32,6 +39,23 @@ export default function NameNotFound({ name }: { name: string }) {
           <p className={styles.infoText}>
             <strong>{name}</strong>에 대한 정보를 찾을 수 없습니다.
           </p>
+          {similarNames.length > 0 && (
+            <p className={styles.infoText}>
+              혹시{" "}
+              {similarNames.map((similarName, index) => (
+                <React.Fragment key={similarName}>
+                  {index > 0 && ", "}
+                  <Link
+                    href={`/result/${similarName}`}
+                    className={styles.similarName}
+                  >
+                    {similarName}
+                  </Link>
+                </React.Fragment>
+              ))}
+              을(를) 찾으셨나요?
+            </p>
+          )}
           <p className={styles.infoText}>
             하지만 걱정하지 마세요! <br />
             <strong>내 이름이 등재되지 않은 이유</strong>를 소개해 드릴게요.
