@@ -3,14 +3,11 @@
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./SearchComponent.module.css";
-import ReportPopup from "../modals/ReportPopup";
 import Image from "next/image";
 import Link from "next/link";
-import UpdateBoard from "../UpdateBoard";
-import { getAllUpdateData } from "../../utils/getAllUpdateData";
 import NoticePopupWrapper from "../modals/NoticePopupWrapper";
 import { URLS } from "../../constants/urls";
-import { normalizeName } from "../../utils";
+import { normalizeName, trackEvent } from "../../utils";
 
 interface SearchComponentProps {
   names: string[];
@@ -18,15 +15,11 @@ interface SearchComponentProps {
 
 export default function SearchComponent({ names }: SearchComponentProps) {
   const [query, setQuery] = useState("");
-  const [showPopup, setShowPopup] = useState(false);
-  const [showUpdateBoard, setShowUpdateBoard] = useState(false);
   const [showNotice, setShowNotice] = useState(false);
   const [errorMessage, setErrorMessage] = useState<React.ReactNode | null>(
     null
   );
   const router = useRouter();
-
-  const updateData = getAllUpdateData();
 
   const filteredNames = useMemo(() => {
     const trimmedQuery = normalizeName(query.trim());
@@ -37,6 +30,7 @@ export default function SearchComponent({ names }: SearchComponentProps) {
   }, [names, query]);
 
   const handleSearch = (name: string) => {
+    trackEvent("search_name", { name });
     router.push(`/result/${name}`);
   };
 
@@ -120,7 +114,10 @@ export default function SearchComponent({ names }: SearchComponentProps) {
           ) : (
             <li
               className={styles.resultItem}
-              onClick={() => router.push(`/result/${query.trim()}`)}
+              onClick={() => {
+                trackEvent("search_not_found", { query: query.trim() });
+                router.push(`/result/${query.trim()}`);
+              }}
             >
               &quot;{query.trim()}&quot;가 없다고요?
             </li>
@@ -141,7 +138,6 @@ export default function SearchComponent({ names }: SearchComponentProps) {
           >
             🇺🇸 2025 미국 아기이름 트렌드 Top 100
           </Link>
-          {showUpdateBoard && <UpdateBoard updates={updateData} />}
           <div
             className={styles.updateNoteLink}
             onClick={() => setShowNotice(true)}
@@ -150,7 +146,6 @@ export default function SearchComponent({ names }: SearchComponentProps) {
           </div>
         </>
       )}
-      {showPopup && <ReportPopup onClose={() => setShowPopup(false)} />}
       {showNotice && (
         <NoticePopupWrapper onClose={() => setShowNotice(false)} />
       )}
