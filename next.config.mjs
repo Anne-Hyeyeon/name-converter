@@ -1,5 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    localPatterns: [
+      { pathname: "/**", search: "" },
+      { pathname: "/amI.png", search: "?v=1" },
+    ],
+  },
   async redirects() {
     return [
       {

@@ -35,11 +35,12 @@ const parseRecommendParams = (searchParams: SearchParams) => {
 export async function generateMetadata({
   params,
 }: {
-  params: { name: string };
+  params: Promise<{ name: string }>;
 }): Promise<Metadata> {
+  const { name } = await params;
   const siteName = "내가 앤이라니";
-  const title = `${params.name} - ${siteName}`;
-  const description = `${params.name}은 당신에게 추천하는 영어 이름입니다.`;
+  const title = `${name} - ${siteName}`;
+  const description = `${name}은 당신에게 추천하는 영어 이름입니다.`;
 
   return {
     title,
@@ -57,17 +58,18 @@ export default async function RecommendPage({
   params,
   searchParams,
 }: {
-  params: { name: string };
-  searchParams: SearchParams;
+  params: Promise<{ name: string }>;
+  searchParams: Promise<SearchParams>;
 }) {
+  const { name } = await params;
   const allNameData = await getAllNameData();
   const selectedNameData = allNameData.find(
-    (data) => data.name === params.name
+    (data) => data.name === name
   );
-  const recommendParams = parseRecommendParams(searchParams);
+  const recommendParams = parseRecommendParams(await searchParams);
 
   if (!selectedNameData || !recommendParams) {
-    redirect(`/result/${encodeURIComponent(params.name)}`);
+    redirect(`/result/${encodeURIComponent(name)}`);
   }
 
   return (
