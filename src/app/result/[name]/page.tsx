@@ -3,16 +3,9 @@ import getAllNameData from "@/app/(shared)/utils/getAllNameData";
 import styles from "./page.module.css";
 import NameNotFound from "@/app/(shared)/components/search/NameNotFound";
 import type { Metadata } from "next";
-import { NameData } from "@/app/(shared)/types";
+import { findName, findSimilarNames } from "@/app/(shared)/utils/findName";
 
 export const revalidate = 3600;
-
-const findName = (allNameData: NameData[], name: string) => {
-  const exactMatch = allNameData.find((data) => data.name === name);
-  if (exactMatch) return exactMatch;
-  const lowerName = decodeURIComponent(name).toLowerCase();
-  return allNameData.find((data) => data.name.toLowerCase() === lowerName);
-};
 
 export async function generateMetadata({
   params,
@@ -56,7 +49,8 @@ export default async function ResultPage({
   params: Promise<{ name: string }>;
 }) {
   const { name } = await params;
-  const selectedNameData = findName(await getAllNameData(), name);
+  const allNameData = await getAllNameData();
+  const selectedNameData = findName(allNameData, name);
 
   return (
     <div className={styles.pageContainer}>
@@ -64,7 +58,10 @@ export default async function ResultPage({
         {selectedNameData ? (
           <SearchResult result={selectedNameData} />
         ) : (
-          <NameNotFound name={name} />
+          <NameNotFound
+            name={name}
+            similarNames={findSimilarNames(allNameData, name)}
+          />
         )}
       </div>
     </div>
