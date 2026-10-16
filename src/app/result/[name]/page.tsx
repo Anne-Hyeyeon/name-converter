@@ -17,16 +17,17 @@ const findName = (allNameData: NameData[], name: string) => {
 export async function generateMetadata({
   params,
 }: {
-  params: { name: string };
+  params: Promise<{ name: string }>;
 }): Promise<Metadata> {
-  const selectedNameData = findName(await getAllNameData(), params.name);
+  const { name } = await params;
+  const selectedNameData = findName(await getAllNameData(), name);
 
   const siteName = "내가 춘자라니";
 
   if (!selectedNameData) {
     return {
-      title: `${params.name} - ${siteName}`,
-      description: `${params.name}에 대한 결과를 찾을 수 없습니다.`,
+      title: `${name} - ${siteName}`,
+      description: `${name}에 대한 결과를 찾을 수 없습니다.`,
     };
   }
 
@@ -51,9 +52,10 @@ export async function generateMetadata({
 export default async function ResultPage({
   params,
 }: {
-  params: { name: string };
+  params: Promise<{ name: string }>;
 }) {
-  const selectedNameData = findName(await getAllNameData(), params.name);
+  const { name } = await params;
+  const selectedNameData = findName(await getAllNameData(), name);
 
   return (
     <div className={styles.pageContainer}>
@@ -61,7 +63,7 @@ export default async function ResultPage({
         {selectedNameData ? (
           <SearchResult result={selectedNameData} />
         ) : (
-          <NameNotFound name={params.name} />
+          <NameNotFound name={name} />
         )}
       </div>
     </div>
