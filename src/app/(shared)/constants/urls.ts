@@ -1,4 +1,5 @@
 export const URLS = {
+  SITE: "https://chunja.vercel.app",
   SUPPORT: "https://buymeacoffee.com/annehyeyeon",
   MAIN_PAGE: "/",
   ENGLISH_NAME_PAGE: "/your-english-name",
