@@ -35,6 +35,15 @@ test.describe("페이지 이동과 기능", () => {
     expect(download.suggestedFilename()).toBe("Anne-result.png");
   });
 
+  test("이름 그래프 공지를 열고 예시 그래프로 이동한다", async ({ page }) => {
+    await open(page, "/");
+    await page.getByText("이름 그래프 기능이 추가되었어요").click();
+    await expect(page.getByText("이름 그래프가 생겼어요!")).toBeVisible();
+    await page.getByRole("link", { name: /Anne 그래프 먼저 보기/ }).click();
+    await page.waitForURL(/\/result\/Anne$/);
+    await expect(page.getByText("미국에서 태어난 Anne")).toBeVisible();
+  });
+
   test("감사 인사 팝업과 제보 팝업이 열린다", async ({ page }) => {
     await open(page, "/");
     await page.getByText("여러분께 감사 인사 드립니다").click();
