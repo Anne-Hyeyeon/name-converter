@@ -1,9 +1,8 @@
 import { Metadata } from "next";
-import { Suspense } from "react";
 import Header from "./(shared)/components/layout/Header";
 import Footer from "./(shared)/components/layout/Footer";
 import GoogleAnalyticsScript from "./(shared)/components/scripts/GoogleAnalyticsScript";
-import GoogleAdSenseScript from "./(shared)/components/scripts/GoogldAdSenseScript";
+import GoogleAdSenseScript from "./(shared)/components/scripts/GoogleAdSenseScript";
 import "./globals.css";
 import styles from "./layout.module.css";
 
@@ -54,9 +53,7 @@ export default function RootLayout({
         <GoogleAdSenseScript />
       </head>
       <body className={styles.body}>
-        <Suspense fallback={<div></div>}>
-          <Header />
-        </Suspense>
+        <Header />
         <main className={styles.main}>{children}</main>
         <Footer />
       </body>
