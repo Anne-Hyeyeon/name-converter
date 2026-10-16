@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import styles from "./Header.module.css";
 import { useNavigation } from "../../hooks";
 import { URLS } from "../../constants/urls";
@@ -12,6 +12,7 @@ const CAROUSEL_INTERVAL = 4000;
 export default function Header() {
   const { goToMain, goToEnglishName, goToTop100 } = useNavigation();
   const pathname = usePathname();
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [carouselIndex, setCarouselIndex] = useState(0);
 
@@ -159,6 +160,15 @@ export default function Header() {
               }}
             >
               🇺🇸 2025 미국 아기이름 Top 100
+            </button>
+            <button
+              className={styles.dropdownItem}
+              onClick={() => {
+                router.push(URLS.YEAR_PAGE);
+                handleMenuClose();
+              }}
+            >
+              📅 태어난 해 인기 이름
             </button>
           </div>
         )}
