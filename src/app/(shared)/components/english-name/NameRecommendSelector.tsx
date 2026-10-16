@@ -3,27 +3,23 @@
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 
-import { NameData } from "../../types";
 import {
   Gender,
   Generation,
   GENERATION_OPTIONS,
   CHARACTERISTIC_OPTIONS,
 } from "../../constants/recommendOptions";
-import {
-  preprocessNameData,
-  filterNameDataConditionally,
-  getRandomName,
-} from "../../utils";
+import { getComboKey } from "../../utils";
+import { recommendName } from "../../actions/recommendName";
 import { useNavigation } from "../../hooks";
 import styles from "./NameRecommendSelector.module.css";
 
 interface NameRecommendSelectorProps {
-  allNameData: NameData[];
+  availableCombos: string[];
 }
 
 export default function NameRecommendSelector({
-  allNameData,
+  availableCombos,
 }: NameRecommendSelectorProps) {
   const [koreanName, setKoreanName] = useState("");
   const [selectedGender, setSelectedGender] = useState<Gender | null>(null);
@@ -36,22 +32,16 @@ export default function NameRecommendSelector({
   const router = useRouter();
   const { goToEnglishName } = useNavigation();
 
-  const processedData = useMemo(() => {
-    return preprocessNameData(allNameData);
-  }, [allNameData]);
+  const comboSet = useMemo(() => new Set(availableCombos), [availableCombos]);
 
-  const filteredData = useMemo(() => {
-    return filterNameDataConditionally(processedData, {
-      gender: selectedGender,
-      generation: selectedGeneration,
-      characteristics: selectedCharacteristics,
-    });
-  }, [
-    processedData,
-    selectedGender,
-    selectedGeneration,
-    selectedCharacteristics,
-  ]);
+  const hasMatchingName = useMemo(() => {
+    if (!selectedGender || !selectedGeneration) return false;
+    return selectedCharacteristics.some((characteristic) =>
+      comboSet.has(
+        getComboKey(selectedGender, selectedGeneration, characteristic)
+      )
+    );
+  }, [comboSet, selectedGender, selectedGeneration, selectedCharacteristics]);
 
   const handleCharacteristicChange = (value: number) => {
     setSelectedCharacteristics((prev) => {
@@ -65,11 +55,26 @@ export default function NameRecommendSelector({
   };
 
   const handleGenerateNames = async () => {
+    if (!selectedGender || !selectedGeneration) return;
+
     setIsGenerating(true);
 
-    await new Promise((resolve) => setTimeout(resolve, 400));
-
-    const randomName = getRandomName(filteredData);
+    let randomName;
+    try {
+      [randomName] = await Promise.all([
+        recommendName({
+          gender: selectedGender,
+          generation: selectedGeneration,
+          characteristics: selectedCharacteristics,
+        }),
+        new Promise((resolve) => setTimeout(resolve, 400)),
+      ]);
+    } catch (err) {
+      console.error("이름 추천 실패:", err);
+      alert("이름 추천에 실패했어요. 잠시 후 다시 시도해 주세요. 😢");
+      setIsGenerating(false);
+      return;
+    }
 
     if (randomName) {
       const params = new URLSearchParams({
@@ -220,7 +225,7 @@ export default function NameRecommendSelector({
           <button
             className={styles.generateButton}
             onClick={handleGenerateNames}
-            disabled={isGenerating || filteredData.length === 0}
+            disabled={isGenerating || !hasMatchingName}
           >
             {isGenerating ? "이름 생성 중..." : "이름 추천 받기 🚀"}
           </button>
@@ -236,7 +241,7 @@ export default function NameRecommendSelector({
       )}
 
       {/* 조건에 맞는 이름이 없을 때 */}
-      {canGenerate && filteredData.length === 0 && (
+      {canGenerate && !hasMatchingName && (
         <div className={styles.noResultSection}>
           <p className={styles.noResultText}>
             선택하신 조건에 맞는 이름이 없습니다. 😅

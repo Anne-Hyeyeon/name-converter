@@ -1,7 +1,7 @@
 import "server-only";
 import { google, sheets_v4 } from "googleapis";
 
-const SCOPES = ["https://www.googleapis.com/auth/spreadsheets"];
+const SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly"];
 
 let cached: sheets_v4.Sheets | null = null;
 
