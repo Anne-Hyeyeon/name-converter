@@ -23,7 +23,9 @@ test.describe("이름 추천", () => {
     await page.getByRole("button", { name: /이름 추천 받기/ }).click();
 
     await page.waitForURL(/\/recommend\/[^/?]+\?.*koreanName=/);
-    await expect(page.getByText("추천하는 영어 이름은")).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: /추천하는 영어 이름은/ })
+    ).toBeVisible();
     await expect(page.getByText("혜연님")).toBeVisible();
 
     const firstName = await page.locator("h2").first().innerText();
