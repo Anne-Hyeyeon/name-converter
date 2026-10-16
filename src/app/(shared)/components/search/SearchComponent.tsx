@@ -10,6 +10,7 @@ import UpdateBoard from "../UpdateBoard";
 import { getAllUpdateData } from "../../utils/getAllUpdateData";
 import NoticePopupWrapper from "../modals/NoticePopupWrapper";
 import { URLS } from "../../constants/urls";
+import { normalizeName } from "../../utils";
 
 interface SearchComponentProps {
   names: string[];
@@ -28,10 +29,10 @@ export default function SearchComponent({ names }: SearchComponentProps) {
   const updateData = getAllUpdateData();
 
   const filteredNames = useMemo(() => {
-    const trimmedQuery = query.trim().toLowerCase();
+    const trimmedQuery = normalizeName(query.trim());
     if (!trimmedQuery) return [];
     return names
-      .filter((name) => name.toLowerCase().startsWith(trimmedQuery))
+      .filter((name) => normalizeName(name).startsWith(trimmedQuery))
       .slice(0, 10);
   }, [names, query]);
 
@@ -45,9 +46,9 @@ export default function SearchComponent({ names }: SearchComponentProps) {
     const inputValue = e.target.value;
     setQuery(inputValue);
 
-    const englishOnly = /^[a-zA-Z\s]*$/;
+    const englishOnly = /^[a-zA-Z\u00C0-\u017F\s'-]*$/;
 
-    if (inputValue.length > 10) {
+    if (inputValue.length > 20) {
       setErrorMessage(<p>이름이 너무 길어요! 😅</p>);
     } else if (!englishOnly.test(inputValue)) {
       setErrorMessage(
