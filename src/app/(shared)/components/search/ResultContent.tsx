@@ -19,7 +19,7 @@ interface ResultContentProps {
 
 export const ResultContent: React.FC<ResultContentProps> = ({ result }) => {
   const renderMainInfo = () => {
-    if (Number(result.characteristic) === 10) return null;
+    if (Number(result.characteristic) === 10 || !result.koreanName) return null;
 
     return (
       <>
@@ -34,7 +34,8 @@ export const ResultContent: React.FC<ResultContentProps> = ({ result }) => {
   };
 
   const renderTrendYear = () => {
-    if ([7, 8, 9, 10].includes(Number(result.characteristic))) return null;
+    if ([7, 8, 9, 10].includes(Number(result.characteristic)) || !result.trendYear)
+      return null;
 
     return (
       <p className={styles.infoText}>

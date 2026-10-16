@@ -3,6 +3,15 @@ import { emojiMap } from "../constants";
 import { Gender } from "../constants/recommendOptions";
 
 /**
+ * 악센트를 제거하고 소문자로 바꿔 이름 비교에 씁니다.
+ */
+export const normalizeName = (name: string): string =>
+  name
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+
+/**
  * 성별과 특성 번호에 따라 적절한 이모지를 반환합니다.
  */
 export const getEmoji = (gender: string, characteristic: number): string => {
