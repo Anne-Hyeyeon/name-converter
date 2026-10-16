@@ -5,9 +5,10 @@ import GoogleAnalyticsScript from "./(shared)/components/scripts/GoogleAnalytics
 import GoogleAdSenseScript from "./(shared)/components/scripts/GoogleAdSenseScript";
 import "./globals.css";
 import styles from "./layout.module.css";
+import { URLS } from "./(shared)/constants/urls";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://chunja.vercel.app"),
+  metadataBase: new URL(URLS.SITE),
   title: "내가 춘자라니",
   description:
     "Anne이 미국에선 춘자라고? 내가 춘자라니! 내 영어 이름이 미국에서 촌스러운 이름인지, 트렌디한 이름인지 알아보기! 이름의 유행 연도도 알 수 있어요ㅎㅎ",
