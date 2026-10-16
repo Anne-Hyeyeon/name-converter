@@ -4,7 +4,7 @@ import { getSheetsClient } from "../../../../lib/google-sheets-api";
 import { snakeToCamel } from "./snakeToCamel";
 import { NameData } from "../types";
 
-const SPREADSHEET_RANGE = "names!A1:O5000";
+const SPREADSHEET_RANGE = "names!A:O";
 const NUMERIC_FIELDS = ["characteristic", "feelingNum", "births"];
 const BOOLEAN_FIELDS = [
   "femaleTop",
@@ -59,7 +59,13 @@ async function fetchAllNames(): Promise<NameData[]> {
     snakeToCamel(h.toLowerCase().replace(/\s+/g, "_"))
   );
 
-  return rows.slice(1).map((r) => processRow(r, headers)) as unknown as NameData[];
+  const seen = new Set<string>();
+  return (rows.slice(1).map((r) => processRow(r, headers)) as unknown as NameData[])
+    .filter((data) => {
+      if (!data.name || seen.has(data.name)) return false;
+      seen.add(data.name);
+      return true;
+    });
 }
 
 const getAllNameData = unstable_cache(fetchAllNames, ["all-name-data"], {
