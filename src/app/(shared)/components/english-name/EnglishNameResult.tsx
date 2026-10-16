@@ -4,13 +4,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { NameData } from "../../types";
 import { getPersonalizedComment } from "../../constants";
-import {
-  getEmoji,
-  getSelectedCharacteristicsText,
-  preprocessNameData,
-  filterNameData,
-  getRandomName,
-} from "../../utils";
+import { getEmoji, getSelectedCharacteristicsText } from "../../utils";
+import { recommendName } from "../../actions/recommendName";
 import { useImageCapture, useNavigation } from "../../hooks";
 import styles from "./EnglishNameResult.module.css";
 
@@ -20,7 +15,6 @@ interface EnglishNameResultProps {
   selectedGender: "male" | "female";
   selectedGeneration: number;
   koreanName: string;
-  allNameData: NameData[];
 }
 
 export default function EnglishNameResult({
@@ -29,7 +23,6 @@ export default function EnglishNameResult({
   selectedGender,
   selectedGeneration,
   koreanName,
-  allNameData,
 }: EnglishNameResultProps) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [currentResult, setCurrentResult] = useState(result);
@@ -62,18 +55,23 @@ export default function EnglishNameResult({
   const handleRetry = async () => {
     setIsGenerating(true);
 
-    await new Promise((resolve) => setTimeout(resolve, 400));
-
-    const processedData = preprocessNameData(allNameData);
-
-    const filteredData = filterNameData(processedData, {
-      gender: selectedGender,
-      generation: selectedGeneration,
-      characteristics: selectedCharacteristics,
-      excludeName: currentResult.name,
-    });
-
-    const randomName = getRandomName(filteredData);
+    let randomName;
+    try {
+      [randomName] = await Promise.all([
+        recommendName({
+          gender: selectedGender,
+          generation: selectedGeneration,
+          characteristics: selectedCharacteristics,
+          excludeName: currentResult.name,
+        }),
+        new Promise((resolve) => setTimeout(resolve, 400)),
+      ]);
+    } catch (err) {
+      console.error("이름 추천 실패:", err);
+      alert("이름 추천에 실패했어요. 잠시 후 다시 시도해 주세요. 😢");
+      setIsGenerating(false);
+      return;
+    }
 
     if (randomName) {
       setCurrentResult(randomName);

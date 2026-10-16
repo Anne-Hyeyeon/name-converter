@@ -4,16 +4,15 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-import { NameData } from "../../types";
 import NameRecommendSelector from "./NameRecommendSelector";
 import styles from "./EnglishNameComponent.module.css";
 
 interface EnglishNameComponentProps {
-  allNameData: NameData[];
+  availableCombos: string[];
 }
 
 export default function EnglishNameComponent({
-  allNameData,
+  availableCombos,
 }: EnglishNameComponentProps) {
   const [showRecommendSelector, setShowRecommendSelector] = useState(false);
   const router = useRouter();
@@ -64,7 +63,7 @@ export default function EnglishNameComponent({
 
       {showRecommendSelector && (
         <>
-          <NameRecommendSelector allNameData={allNameData} />
+          <NameRecommendSelector availableCombos={availableCombos} />
           <button
             className={styles.backButton}
             onClick={() => setShowRecommendSelector(false)}

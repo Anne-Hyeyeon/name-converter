@@ -2,7 +2,6 @@
 
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { NameData } from "../../types";
 import styles from "./SearchComponent.module.css";
 import ReportPopup from "../modals/ReportPopup";
 import Image from "next/image";
@@ -11,10 +10,10 @@ import { getAllUpdateData } from "../../utils/getAllUpdateData";
 import NoticePopupWrapper from "../modals/NoticePopupWrapper";
 
 interface SearchComponentProps {
-  allNameData: NameData[];
+  names: string[];
 }
 
-export default function SearchComponent({ allNameData }: SearchComponentProps) {
+export default function SearchComponent({ names }: SearchComponentProps) {
   const [query, setQuery] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const [showUpdateBoard, setShowUpdateBoard] = useState(false);
@@ -29,14 +28,13 @@ export default function SearchComponent({ allNameData }: SearchComponentProps) {
   const filteredNames = useMemo(() => {
     const trimmedQuery = query.trim().toLowerCase();
     if (!trimmedQuery) return [];
-    return allNameData
-      .filter((data) => data.name.toLowerCase().startsWith(trimmedQuery))
-      .sort((a, b) => a.name.localeCompare(b.name))
+    return names
+      .filter((name) => name.toLowerCase().startsWith(trimmedQuery))
       .slice(0, 10);
-  }, [allNameData, query]);
+  }, [names, query]);
 
-  const handleSearch = (name: NameData) => {
-    router.push(`/result/${name.name}`);
+  const handleSearch = (name: string) => {
+    router.push(`/result/${name}`);
   };
 
   const isSearching = query.trim() !== "";
@@ -109,11 +107,11 @@ export default function SearchComponent({ allNameData }: SearchComponentProps) {
           {filteredNames.length > 0 ? (
             filteredNames.map((name) => (
               <li
-                key={name.name}
+                key={name}
                 onClick={() => handleSearch(name)}
                 className={styles.resultItem}
               >
-                {name.name}
+                {name}
               </li>
             ))
           ) : (
