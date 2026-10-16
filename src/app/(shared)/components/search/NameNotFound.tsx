@@ -1,19 +1,22 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import styles from "./NameNotFound.module.css";
 import ReportPopup from "../modals/ReportPopup";
 import { useNavigation } from "../../hooks";
+
+const EMOJIS = ["🤔", "🤩", "🧐", "🤗", "🥰", "🌟", "🧙", "😎"];
+
+const pickEmoji = (name: string): string => {
+  const sum = Array.from(name).reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
+  return EMOJIS[sum % EMOJIS.length];
+};
 
 export default function NameNotFound({ name }: { name: string }) {
   const { goToMain, openSupport } = useNavigation();
   const [showPopup, setShowPopup] = useState(false);
 
-  const emojis = ["🤔", "🤩", "🧐", "🤗", "🥰", "🌟", "🧙", "😎"];
-
-  const randomEmoji = useMemo(() => {
-    return emojis[Math.floor(Math.random() * emojis.length)];
-  }, []);
+  const randomEmoji = pickEmoji(name);
 
   return (
     <div>
