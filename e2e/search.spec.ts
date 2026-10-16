@@ -13,7 +13,7 @@ test.describe("이름 검색", () => {
     await page.locator("li", { hasText: /^Anne$/ }).click();
     await page.waitForURL(/\/result\/Anne$/);
     await expect(page.locator("h1").first()).toHaveText("Anne");
-    await expect(page.getByText("미국에서")).toBeVisible();
+    await expect(page.locator("#resultPage")).toContainText("미국에서");
   });
 
   test("10자가 넘는 이름도 검색된다", async ({ page }) => {

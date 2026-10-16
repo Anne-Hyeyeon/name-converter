@@ -1,0 +1,49 @@
+.trend {
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  padding: 16px 12px 12px;
+  margin: 0 20px 20px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.caption {
+  color: #6c757d;
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+}
+
+.chart {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.rare {
+  font-weight: bold;
+  margin: 12px 0 4px;
+}
+
+.facts {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+  line-height: 1.8;
+}
+
+.revival {
+  margin-top: 8px;
+  font-weight: bold;
+}
+
+.source {
+  margin-top: 8px;
+  color: #868e96;
+  font-size: 0.75rem;
+}
