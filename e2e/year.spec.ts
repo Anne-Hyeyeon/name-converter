@@ -7,6 +7,7 @@ test.describe("연도별 인기 이름", () => {
       .getByRole("link", { name: /내가 태어난 해 미국 인기 이름/ })
       .click();
     await page.waitForURL(/\/year$/);
+    await page.getByText("1950년 이전 보기").click();
     await expect(
       page.getByRole("link", { name: "1880", exact: true })
     ).toBeVisible();
@@ -31,13 +32,25 @@ test.describe("연도별 인기 이름", () => {
 
   test("이전, 다음 연도로 이동할 수 있다", async ({ page }) => {
     await open(page, "/year/1995");
-    await page.getByRole("link", { name: "1996 →" }).click();
+    await page.getByRole("link", { name: "1996 ›" }).click();
     await page.waitForURL(/\/year\/1996$/);
-    await page.getByRole("link", { name: "← 1995" }).click();
+    await page.getByRole("link", { name: "‹ 1995" }).click();
     await page.waitForURL(/\/year\/1995$/);
 
     await open(page, "/year/1880");
-    await expect(page.getByRole("link", { name: /← 1879/ })).toHaveCount(0);
+    await expect(page.getByRole("link", { name: /1879/ })).toHaveCount(0);
+  });
+
+  test("출생연도를 입력하면 그 연도 페이지로 간다", async ({ page }) => {
+    await open(page, "/year");
+    await page.getByLabel("태어난 해를 입력해 보세요").fill("1870");
+    await page.getByRole("button", { name: "보러 가기" }).click();
+    await expect(
+      page.getByText("1880년부터 2025년 사이로 입력해 주세요.")
+    ).toBeVisible();
+    await page.getByLabel("태어난 해를 입력해 보세요").fill("2001");
+    await page.getByRole("button", { name: "보러 가기" }).click();
+    await page.waitForURL(/\/year\/2001$/);
   });
 
   test("없는 연도는 404다", async ({ request }) => {
