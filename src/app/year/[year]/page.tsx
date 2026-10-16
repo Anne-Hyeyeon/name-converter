@@ -92,17 +92,23 @@ export default async function YearPage({
           <br />
           {year}년생이라면, 미국 동갑 친구들은 이런 이름이었을 거예요 👀
         </p>
-        <nav className={yearStyles.yearNav} aria-label="연도 이동">
+        <nav className={yearStyles.stepper} aria-label="연도 이동">
           {year > RANKING_FIRST_YEAR ? (
-            <Link href={`/year/${year - 1}`}>← {year - 1}</Link>
+            <Link href={`/year/${year - 1}`} className={yearStyles.stepButton}>
+              ‹ {year - 1}
+            </Link>
           ) : (
-            <span className={yearStyles.yearNavPlaceholder} />
+            <span className={yearStyles.stepPlaceholder} />
           )}
-          <Link href="/year">다른 연도 고르기</Link>
+          <Link href="/year" className={yearStyles.stepCenter}>
+            연도 고르기
+          </Link>
           {year < RANKING_LAST_YEAR ? (
-            <Link href={`/year/${year + 1}`}>{year + 1} →</Link>
+            <Link href={`/year/${year + 1}`} className={yearStyles.stepButton}>
+              {year + 1} ›
+            </Link>
           ) : (
-            <span className={yearStyles.yearNavPlaceholder} />
+            <span className={yearStyles.stepPlaceholder} />
           )}
         </nav>
       </header>
