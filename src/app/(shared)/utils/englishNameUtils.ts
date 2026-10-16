@@ -1,6 +1,6 @@
 import { NameData, CHARACTERISTIC_MAP } from "../types";
 import { emojiMap } from "../constants";
-import { Gender, Generation } from "../constants/recommendOptions";
+import { Gender } from "../constants/recommendOptions";
 
 /**
  * 성별과 특성 번호에 따라 적절한 이모지를 반환합니다.
@@ -73,44 +73,25 @@ export const filterNameData = (
 };
 
 /**
- * 조건부 필터링 - 각 조건이 있을 때만 필터링을 적용합니다.
+ * 성별, 세대, 특성 번호 조합을 하나의 키로 만듭니다.
  */
-export const filterNameDataConditionally = (
-  nameData: NameData[],
-  filters: {
-    gender?: Gender | null;
-    generation?: Generation | null;
-    characteristics?: number[];
-  }
-): NameData[] => {
-  let filtered = nameData;
+export const getComboKey = (
+  gender: Gender,
+  generation: number,
+  feelingNum: number
+): string => `${gender}-${generation}-${feelingNum}`;
 
-  // 성별 필터 (선택된 경우만)
-  if (filters.gender) {
-    filtered = filtered.filter(
-      (data) => data.gender === (filters.gender === "male" ? "M" : "F")
-    );
+/**
+ * 이름 데이터에서 존재하는 성별, 세대, 특성 조합 키 목록을 만듭니다.
+ */
+export const getAvailableCombos = (nameData: NameData[]): string[] => {
+  const combos = new Set<string>();
+  for (const data of preprocessNameData(nameData)) {
+    if (data.gender !== "M" && data.gender !== "F") continue;
+    const gender: Gender = data.gender === "M" ? "male" : "female";
+    combos.add(getComboKey(gender, data.characteristic, data.feelingNum ?? 0));
   }
-
-  // 세대 필터 (선택된 경우만)
-  if (filters.generation) {
-    filtered = filtered.filter(
-      (data) => data.characteristic === filters.generation
-    );
-  }
-
-  // 특성 필터 (선택된 특성이 있는 경우만)
-  if (filters.characteristics && filters.characteristics.length > 0) {
-    filtered = filtered.filter((data) => {
-      const feelingNum = data.feelingNum;
-      return (
-        feelingNum !== undefined &&
-        filters.characteristics!.includes(feelingNum)
-      );
-    });
-  }
-
-  return filtered;
+  return Array.from(combos);
 };
 
 /**
