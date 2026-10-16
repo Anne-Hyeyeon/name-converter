@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { NameData } from "../../types";
-import { getPersonalizedComment } from "../../constants";
 import { getEmoji, getSelectedCharacteristicsText } from "../../utils";
 import { recommendName } from "../../actions/recommendName";
 import { useImageCapture, useNavigation } from "../../hooks";
@@ -15,6 +14,7 @@ interface EnglishNameResultProps {
   selectedGender: "male" | "female";
   selectedGeneration: number;
   koreanName: string;
+  personalizedComment: string;
 }
 
 export default function EnglishNameResult({
@@ -23,13 +23,11 @@ export default function EnglishNameResult({
   selectedGender,
   selectedGeneration,
   koreanName,
+  personalizedComment,
 }: EnglishNameResultProps) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [currentResult, setCurrentResult] = useState(result);
   const [shouldScrollToTop, setShouldScrollToTop] = useState(false);
-  const [personalizedComment] = useState(() =>
-    getPersonalizedComment(selectedCharacteristics)
-  );
   const topRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const { captureElement } = useImageCapture();
