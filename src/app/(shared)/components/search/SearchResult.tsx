@@ -1,11 +1,13 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { NameData } from "../../types";
 import { getEmoji } from "../../utils";
 import { useImageCapture, useNavigation } from "../../hooks";
 import { ResultContent } from "./ResultContent";
 import styles from "./SearchResult.module.css";
+import { URLS } from "../../constants/urls";
 
 export const generateMetadata = ({ result }: { result: NameData }) => {
   const title = `이름 검색 결과 : ${result.name}은 촌스러운 이름일까?`;
@@ -23,7 +25,7 @@ interface SearchResultProps {
 
 export default function SearchResult({ result }: SearchResultProps) {
   const { captureElement } = useImageCapture();
-  const { goToMain, goToEnglishName, openSupport } = useNavigation();
+  const { goToMain, openSupport } = useNavigation();
 
   const handleCapture = () => {
     captureElement("resultPage", `${result.name}-result`);
@@ -47,7 +49,7 @@ export default function SearchResult({ result }: SearchResultProps) {
         <ResultContent result={result} />
       </div>
       <div className={styles.buttonWrapper}>
-        <div className={styles.recommendContainer} onClick={goToEnglishName}>
+        <Link href={URLS.ENGLISH_NAME_PAGE} className={styles.recommendContainer}>
           <em>
             이미지에 맞는 영어 이름을 추천받고 싶다면?
             <br />
@@ -56,7 +58,7 @@ export default function SearchResult({ result }: SearchResultProps) {
             </strong>{" "}
             바로 가기 ✨
           </em>
-        </div>
+        </Link>
         <button
           className={`${styles.button} ${styles.captureButton}`}
           onClick={handleCapture}
