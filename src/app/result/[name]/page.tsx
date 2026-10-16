@@ -97,7 +97,6 @@ export default async function ResultPage({
               selectedGender={gender}
               selectedGeneration={generation}
               koreanName={koreanName}
-              allNameData={allNameData}
             />
           </div>
         </div>
