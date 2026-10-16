@@ -1,23 +1,12 @@
 import { ImageResponse } from "next/og";
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
 import getAllNameData from "@/app/(shared)/utils/getAllNameData";
 import { findName } from "@/app/(shared)/utils/findName";
 import { getEmoji } from "@/app/(shared)/utils";
+import { loadOgFont } from "@/app/(shared)/utils/loadOgFont";
 
 export const alt = "내가 춘자라니 이름 검색 결과";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-
-let fontData: Promise<Buffer> | null = null;
-const loadFont = () => {
-  if (!fontData) {
-    fontData = readFile(
-      join(process.cwd(), "assets/fonts/NotoSansKR-Bold.ttf")
-    );
-  }
-  return fontData;
-};
 
 export default async function Image({
   params,
@@ -112,7 +101,7 @@ export default async function Image({
       fonts: [
         {
           name: "NotoSansKR",
-          data: await loadFont(),
+          data: await loadOgFont(),
           weight: 700,
           style: "normal",
         },

@@ -114,6 +114,26 @@
   transform: translateY(0);
 }
 
+.kakaoButton {
+  background-color: #fee500;
+  color: #191919;
+  font-weight: 700;
+}
+
+.kakaoButton:hover {
+  background-color: #f4dc00;
+}
+
+.copyButton {
+  background-color: #ffffff;
+  color: #333;
+  border: 1px solid #dee2e6;
+}
+
+.copyButton:hover {
+  background-color: #f8f9fa;
+}
+
 .supportButton {
   background-color: #f5f5dc;
   color: #333;
