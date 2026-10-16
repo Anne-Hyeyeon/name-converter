@@ -6,7 +6,8 @@
   "dev": "next dev",
   "build": "next build",
   "start": "next start",
-  "lint": "eslint ."
+  "lint": "eslint .",
+  "test:e2e": "playwright test"
  },
  "dependencies": {
   "googleapis": "^140.0.1",
@@ -16,6 +17,7 @@
   "react-dom": "^19.3.1"
  },
  "devDependencies": {
+  "@playwright/test": "^1.64.1",
   "@types/node": "^24.19.2",
   "@types/react": "^19.3.0",
   "@types/react-dom": "^19.3.0",
