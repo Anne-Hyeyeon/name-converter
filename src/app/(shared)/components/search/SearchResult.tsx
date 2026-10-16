@@ -6,6 +6,7 @@ import { NameData } from "../../types";
 import { getEmoji } from "../../utils";
 import { useImageCapture, useNavigation } from "../../hooks";
 import { ResultContent } from "./ResultContent";
+import ShareButtons from "./ShareButtons";
 import styles from "./SearchResult.module.css";
 import { URLS } from "../../constants/urls";
 
@@ -64,6 +65,7 @@ export default function SearchResult({
             바로 가기 ✨
           </em>
         </Link>
+        <ShareButtons result={result} />
         <button
           className={`${styles.button} ${styles.captureButton}`}
           onClick={handleCapture}
