@@ -78,14 +78,13 @@ export default function NameRecommendSelector({
 
     if (randomName) {
       const params = new URLSearchParams({
-        from: "recommendation",
         gender: selectedGender || "",
         generation: selectedGeneration?.toString() || "",
         characteristics: selectedCharacteristics.join(","),
         koreanName: koreanName.trim(),
       });
 
-      router.push(`/result/${randomName.name}?${params.toString()}`);
+      router.push(`/recommend/${randomName.name}?${params.toString()}`);
     } else {
       setIsGenerating(false);
       goToEnglishName();
