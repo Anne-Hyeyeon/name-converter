@@ -6,6 +6,7 @@ import styles from "./SearchComponent.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import NoticePopupWrapper from "../modals/NoticePopupWrapper";
+import GraphNoticePopup from "../modals/GraphNoticePopup";
 import { URLS } from "../../constants/urls";
 import { normalizeName, trackEvent } from "../../utils";
 
@@ -16,6 +17,7 @@ interface SearchComponentProps {
 export default function SearchComponent({ names }: SearchComponentProps) {
   const [query, setQuery] = useState("");
   const [showNotice, setShowNotice] = useState(false);
+  const [showGraphNotice, setShowGraphNotice] = useState(false);
   const [errorMessage, setErrorMessage] = useState<React.ReactNode | null>(
     null
   );
@@ -140,11 +142,23 @@ export default function SearchComponent({ names }: SearchComponentProps) {
           </Link>
           <div
             className={styles.updateNoteLink}
+            onClick={() => {
+              trackEvent("graph_notice_open");
+              setShowGraphNotice(true);
+            }}
+          >
+            📈 이름 그래프 기능이 추가되었어요!
+          </div>
+          <div
+            className={styles.updateNoteLink}
             onClick={() => setShowNotice(true)}
           >
             여러분께 감사 인사 드립니다 💖
           </div>
         </>
+      )}
+      {showGraphNotice && (
+        <GraphNoticePopup onClose={() => setShowGraphNotice(false)} />
       )}
       {showNotice && (
         <NoticePopupWrapper onClose={() => setShowNotice(false)} />
