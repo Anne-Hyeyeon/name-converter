@@ -37,7 +37,7 @@ test.describe("페이지 이동과 기능", () => {
 
   test("이름 그래프 공지를 열고 예시 그래프로 이동한다", async ({ page }) => {
     await open(page, "/");
-    await page.getByText("이름 그래프 기능이 추가되었어요").click();
+    await page.getByText("신규 기능 : 이름 그래프가 생겼어요!").click();
     await expect(page.getByText("이름 그래프가 생겼어요!")).toBeVisible();
     await page.getByRole("link", { name: /Anne 그래프 먼저 보기/ }).click();
     await page.waitForURL(/\/result\/Anne$/);
