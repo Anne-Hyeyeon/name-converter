@@ -5,9 +5,11 @@ import { useRouter } from "next/navigation";
 import styles from "./SearchComponent.module.css";
 import ReportPopup from "../modals/ReportPopup";
 import Image from "next/image";
+import Link from "next/link";
 import UpdateBoard from "../UpdateBoard";
 import { getAllUpdateData } from "../../utils/getAllUpdateData";
 import NoticePopupWrapper from "../modals/NoticePopupWrapper";
+import { URLS } from "../../constants/urls";
 
 interface SearchComponentProps {
   names: string[];
@@ -126,18 +128,18 @@ export default function SearchComponent({ names }: SearchComponentProps) {
       )}
       {!isSearching && (
         <>
-          <div
+          <Link
+            href={URLS.ENGLISH_NAME_PAGE}
             className={`${styles.updateNoteLink} ${styles.featuredLink}`}
-            onClick={() => router.push("/your-english-name")}
           >
             NEW : 영어 이름 추천 🚀
-          </div>
-          <div
+          </Link>
+          <Link
+            href={URLS.TOP100_2025_PAGE}
             className={`${styles.updateNoteLink} ${styles.featuredLink}`}
-            onClick={() => router.push("/top-baby-names-2025")}
           >
             🇺🇸 2025 미국 아기이름 트렌드 Top 100
-          </div>
+          </Link>
           {showUpdateBoard && <UpdateBoard updates={updateData} />}
           <div
             className={styles.updateNoteLink}

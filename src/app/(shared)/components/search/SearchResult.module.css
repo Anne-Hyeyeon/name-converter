@@ -64,6 +64,8 @@
 }
 
 .recommendContainer {
+  display: block;
+  text-decoration: none;
   text-align: center;
 
   color: #495057;
