@@ -39,3 +39,7 @@ next-env.d.ts
 # bkit
 .bkit
 
+
+# playwright
+/test-results/
+/playwright-report/
