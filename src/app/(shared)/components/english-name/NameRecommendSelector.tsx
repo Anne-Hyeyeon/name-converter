@@ -9,7 +9,7 @@ import {
   GENERATION_OPTIONS,
   CHARACTERISTIC_OPTIONS,
 } from "../../constants/recommendOptions";
-import { getComboKey } from "../../utils";
+import { getComboKey, trackEvent } from "../../utils";
 import { recommendName } from "../../actions/recommendName";
 import { useNavigation } from "../../hooks";
 import styles from "./NameRecommendSelector.module.css";
@@ -84,6 +84,12 @@ export default function NameRecommendSelector({
         koreanName: koreanName.trim(),
       });
 
+      trackEvent("recommend_name", {
+        name: randomName.name,
+        gender: selectedGender,
+        generation: selectedGeneration,
+        characteristics: selectedCharacteristics.join(","),
+      });
       router.push(`/recommend/${randomName.name}?${params.toString()}`);
     } else {
       setIsGenerating(false);

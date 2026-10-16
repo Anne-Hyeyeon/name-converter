@@ -1,6 +1,7 @@
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { URLS } from "../constants/urls";
+import { trackEvent } from "../utils/trackEvent";
 
 export const useNavigation = () => {
   const router = useRouter();
@@ -18,6 +19,7 @@ export const useNavigation = () => {
   }, [router]);
 
   const openSupport = useCallback(() => {
+    trackEvent("support_click");
     window.open(URLS.SUPPORT, "_blank");
   }, []);
 
