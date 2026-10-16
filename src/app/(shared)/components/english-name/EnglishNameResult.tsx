@@ -19,6 +19,7 @@ interface EnglishNameResultProps {
   selectedGeneration: number;
   koreanName: string;
   personalizedComment: string;
+  trendChart?: React.ReactNode;
 }
 
 export default function EnglishNameResult({
@@ -28,6 +29,7 @@ export default function EnglishNameResult({
   selectedGeneration,
   koreanName,
   personalizedComment,
+  trendChart,
 }: EnglishNameResultProps) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [currentResult, setCurrentResult] = useState(result);
@@ -135,6 +137,8 @@ export default function EnglishNameResult({
           )}
         </div>
       </div>
+
+      {currentResult.name === result.name && trendChart}
 
       <div className={styles.retrySection}>
         <span className={styles.tip}>

@@ -5,6 +5,11 @@ import styles from "@/app/result/[name]/page.module.css";
 import { Gender } from "@/app/(shared)/constants/recommendOptions";
 import { getPersonalizedComment } from "@/app/(shared)/constants";
 import type { Metadata } from "next";
+import {
+  getNameTrend,
+  TREND_LAST_YEAR,
+} from "@/app/(shared)/utils/getNameTrend";
+import NameTrend from "@/app/(shared)/components/search/NameTrend";
 
 type SearchParams = { [key: string]: string | string[] | undefined };
 
@@ -73,6 +78,8 @@ export default async function RecommendPage({
     redirect(`/result/${encodeURIComponent(name)}`);
   }
 
+  const trend = getNameTrend(selectedNameData.name);
+
   return (
     <div className={styles.pageContainer}>
       <div className={styles.contentWrapper}>
@@ -85,6 +92,16 @@ export default async function RecommendPage({
           personalizedComment={getPersonalizedComment(
             recommendParams.characteristics
           )}
+          trendChart={
+            trend && (
+              <NameTrend
+                name={selectedNameData.name}
+                trend={trend}
+                lastYear={TREND_LAST_YEAR}
+                sheetTrendYear={selectedNameData.trendYear}
+              />
+            )
+          }
         />
       </div>
     </div>
