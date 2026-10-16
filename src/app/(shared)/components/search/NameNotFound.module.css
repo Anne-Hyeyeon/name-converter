@@ -32,6 +32,12 @@
   margin-bottom: 10px;
 }
 
+.similarName {
+  font-weight: bold;
+  color: inherit;
+  text-decoration: underline;
+}
+
 .koreanName {
   font-weight: bold;
   font-size: 3rem;
