@@ -118,26 +118,28 @@ export default function KoreanNameResult({
         firstYear={birthYearRange[0]}
         lastYear={birthYearRange[1]}
       />
-      <div className={styles.buttonWrapper}>
-        <KoreanShareButtons name={name} shareText={shareText} />
+      <div className={localStyles.actions}>
+        <KoreanShareButtons
+          name={name}
+          shareText={shareText}
+          onSave={saveImage}
+        />
         <button
-          className={`${styles.button} ${styles.captureButton}`}
-          onClick={saveImage}
-        >
-          {t.result.save}
-        </button>
-        <button
-          className={styles.button}
+          type="button"
+          className={localStyles.textAction}
           onClick={() => router.push(KOREAN_NAME_URLS.HOME)}
         >
           {t.result.back}
         </button>
-        <button
-          className={`${styles.button} ${styles.supportButton}`}
-          onClick={openSupport}
-        >
-          {t.result.support}
-        </button>
+        <div className={localStyles.supportArea}>
+          <button
+            type="button"
+            className={localStyles.supportAction}
+            onClick={openSupport}
+          >
+            {t.result.support}
+          </button>
+        </div>
       </div>
     </div>
   );

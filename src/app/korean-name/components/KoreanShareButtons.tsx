@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { URLS } from "@/app/(shared)/constants/urls";
 import { trackEvent } from "@/app/(shared)/utils";
-import styles from "@/app/(shared)/components/search/SearchResult.module.css";
+import styles from "../korean-name.module.css";
 import { getDictionary } from "../i18n";
 import { KOREAN_NAME_URLS } from "../constants";
 
@@ -12,9 +12,11 @@ const t = getDictionary();
 export default function KoreanShareButtons({
   name,
   shareText,
+  onSave,
 }: {
   name: string;
   shareText: string | null;
+  onSave: () => void;
 }) {
   const [copied, setCopied] = useState(false);
   const copiedTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
@@ -54,15 +56,17 @@ export default function KoreanShareButtons({
 
   return (
     <>
-      <button className={styles.button} onClick={share}>
+      <button type="button" className={styles.primaryAction} onClick={share}>
         {t.result.share}
       </button>
-      <button
-        className={`${styles.button} ${styles.copyButton}`}
-        onClick={copyLink}
-      >
-        {copied ? t.result.copied : t.result.copy}
-      </button>
+      <div className={styles.secondaryActions}>
+        <button type="button" className={styles.secondaryAction} onClick={copyLink}>
+          {copied ? t.result.copied : t.result.copy}
+        </button>
+        <button type="button" className={styles.secondaryAction} onClick={onSave}>
+          {t.result.save}
+        </button>
+      </div>
     </>
   );
 }

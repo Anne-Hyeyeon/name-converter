@@ -76,9 +76,9 @@ export const en: Dictionary = {
     copy: "Copy link",
     copied: "Link copied ✓",
     copyFailed: (url) => `Couldn't copy the link. Please copy it yourself:\n${url}`,
-    save: "Save as image",
+    save: "Save image",
     saveFailed: "Couldn't save the image. Please try again later. 😢",
-    back: "Search another name",
+    back: "Search another name →",
     support: "☕️ Support the developer",
     shareText: (koreanName, romanized, label) =>
       `My Korean name is ${koreanName} (${romanized}). It's ${withArticle(label)} name! What's yours?`,
