@@ -6,8 +6,8 @@ import { usePathname, useRouter } from "next/navigation";
 import styles from "./Header.module.css";
 import { useNavigation } from "../../hooks";
 import { URLS } from "../../constants/urls";
-import { getDictionary } from "@/app/korean-name/i18n";
-import { KOREAN_NAME_URLS } from "@/app/korean-name/constants";
+import { getDictionary } from "@/app/(en)/korean-name/i18n";
+import { KOREAN_NAME_URLS } from "@/app/(en)/korean-name/constants";
 
 const koreanNameText = getDictionary().header;
 
