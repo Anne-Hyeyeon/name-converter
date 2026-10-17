@@ -2,11 +2,11 @@ import type { MetadataRoute } from "next";
 import getAllNameData from "./(shared)/utils/getAllNameData";
 import { URLS } from "./(shared)/constants/urls";
 import { getRankingYears } from "./(shared)/utils/getYearRanking";
-import { KOREAN_NAME_URLS } from "./korean-name/constants";
-import { getKoreanYearData } from "./korean-name/utils/koreanYearNames";
-import { romanizeSlug } from "./korean-name/utils/romanize";
-import { getKoreanNameStats } from "./korean-name/utils/koreanNameStats";
-import { getKoreanCelebrityData } from "./korean-name/utils/koreanCelebrities";
+import { KOREAN_NAME_URLS } from "./(en)/korean-name/constants";
+import { getKoreanYearData } from "./(en)/korean-name/utils/koreanYearNames";
+import { romanizeSlug } from "./(en)/korean-name/utils/romanize";
+import { getKoreanNameStats } from "./(en)/korean-name/utils/koreanNameStats";
+import { getKoreanCelebrityData } from "./(en)/korean-name/utils/koreanCelebrities";
 
 export const revalidate = 3600;
 
