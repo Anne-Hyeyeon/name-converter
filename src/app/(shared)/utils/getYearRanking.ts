@@ -1,5 +1,5 @@
 import "server-only";
-import rankings from "../data/year-rankings.json";
+import { getSheetTab } from "./getSheetTab";
 
 type RankingEntry = [name: string, count: number];
 
@@ -8,16 +8,32 @@ export type YearRanking = {
   M: RankingEntry[];
 };
 
-const years = rankings.years as unknown as Record<string, YearRanking>;
+let indexed: { rows: unknown; years: Map<number, YearRanking> } | null = null;
 
-export const RANKING_FIRST_YEAR = rankings.firstYear;
-export const RANKING_LAST_YEAR = rankings.lastYear;
+const loadRankings = async () => {
+  const rows = await getSheetTab("us_year_rankings");
+  if (indexed?.rows === rows) return indexed.years;
+  const years = new Map<number, YearRanking>();
+  for (const row of rows) {
+    const year = Number(row.year);
+    const ranking = years.get(year) ?? { F: [], M: [] };
+    ranking[row.sex === "M" ? "M" : "F"][Number(row.rank) - 1] = [
+      row.name,
+      Number(row.count),
+    ];
+    years.set(year, ranking);
+  }
+  indexed = { rows, years };
+  return years;
+};
 
-export const getRankingYears = (): number[] =>
-  Array.from(
-    { length: RANKING_LAST_YEAR - RANKING_FIRST_YEAR + 1 },
-    (_, i) => RANKING_FIRST_YEAR + i
-  );
+export const getRankingYears = async (): Promise<number[]> =>
+  [...(await loadRankings()).keys()].sort((a, b) => a - b);
 
-export const getYearRanking = (year: number): YearRanking | null =>
-  years[String(year)] ?? null;
+export const getRankingRange = async () => {
+  const years = await getRankingYears();
+  return { first: years[0], last: years[years.length - 1] };
+};
+
+export const getYearRanking = async (year: number): Promise<YearRanking | null> =>
+  (await loadRankings()).get(year) ?? null;

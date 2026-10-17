@@ -1,6 +1,7 @@
-import { readdir, readFile, writeFile } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { google } from "googleapis";
+import { readTab } from "./lib/sheets.mjs";
+import { writeUsNameTabs } from "./lib/us-name-tabs.mjs";
 
 const ssaDir = process.argv[2];
 if (!ssaDir) {
@@ -8,26 +9,11 @@ if (!ssaDir) {
   process.exit(1);
 }
 
-const OUTPUT = "src/app/(shared)/data/name-trends.json";
-const RANKING_OUTPUT = "src/app/(shared)/data/year-rankings.json";
 const RANKING_SIZE = 50;
 
 const readSheetNames = async () => {
-  const credentials = JSON.parse(
-    Buffer.from(process.env.GOOGLE_APPLICATION_CREDENTIALS, "base64").toString()
-  );
-  const auth = new google.auth.GoogleAuth({
-    credentials,
-    scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
-  });
-  const sheets = google.sheets({ version: "v4", auth });
-  const response = await sheets.spreadsheets.values.get({
-    spreadsheetId: process.env.SPREADSHEET_ID,
-    range: "names!A:C",
-  });
-  const [, ...rows] = response.data.values;
   const names = new Map();
-  for (const [name, , gender] of rows) {
+  for (const { name, gender } of await readTab("names")) {
     if (name && !names.has(name)) names.set(name, gender);
   }
   return names;
@@ -108,26 +94,13 @@ for (const [name, gender] of sheetNames) {
   };
 }
 
-await writeFile(
-  OUTPUT,
-  JSON.stringify({
-    source: "U.S. Social Security Administration",
-    firstYear: years[0],
-    lastYear: years[years.length - 1],
-    names: result,
-  })
-);
-
-await writeFile(
-  RANKING_OUTPUT,
-  JSON.stringify({
-    source: "U.S. Social Security Administration",
-    firstYear: years[0],
-    lastYear: years[years.length - 1],
-    years: rankings,
-  })
-);
+await writeUsNameTabs({
+  firstYear: years[0],
+  lastYear: years[years.length - 1],
+  names: result,
+  years: rankings,
+});
 
 console.log(
-  `${Object.keys(result).length}/${sheetNames.size}개 이름, ${years[0]}-${years[years.length - 1]}년 -> ${OUTPUT}`
+  `${Object.keys(result).length}/${sheetNames.size}개 이름, ${years[0]}-${years[years.length - 1]}년을 시트에 썼습니다.`
 );

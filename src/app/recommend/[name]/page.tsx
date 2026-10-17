@@ -7,7 +7,7 @@ import { getPersonalizedComment } from "@/app/(shared)/constants";
 import type { Metadata } from "next";
 import {
   getNameTrend,
-  TREND_LAST_YEAR,
+  getTrendLastYear,
 } from "@/app/(shared)/utils/getNameTrend";
 import NameTrend from "@/app/(shared)/components/search/NameTrend";
 
@@ -78,7 +78,8 @@ export default async function RecommendPage({
     redirect(`/result/${encodeURIComponent(name)}`);
   }
 
-  const trend = getNameTrend(selectedNameData.name);
+  const trend = await getNameTrend(selectedNameData.name);
+  const lastYear = await getTrendLastYear();
 
   return (
     <div className={styles.pageContainer}>
@@ -97,7 +98,7 @@ export default async function RecommendPage({
               <NameTrend
                 name={selectedNameData.name}
                 trend={trend}
-                lastYear={TREND_LAST_YEAR}
+                lastYear={lastYear}
                 sheetTrendYear={selectedNameData.trendYear}
               />
             )

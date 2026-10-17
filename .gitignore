@@ -43,3 +43,11 @@ next-env.d.ts
 # playwright
 /test-results/
 /playwright-report/
+
+# korean name poc
+/scripts/korean-name/.cache/
+
+# 이름 데이터는 구글 시트에 둡니다
+/src/app/(shared)/data/
+/scripts/data/
+/data/

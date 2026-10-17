@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import top100 from "../(shared)/data/top100-2025.json";
+import { getTop100 } from "../(shared)/utils/getTop100";
 import styles from "./page.module.css";
-
-type Entry = { rank: number; boy: string; girl: string };
 
 export const metadata: Metadata = {
   title: "2025 미국 아기이름 Top 100 - 내가 춘자라니",
@@ -78,8 +76,10 @@ const TRENDS = [
   },
 ];
 
-export default function Top100Page() {
-  const entries = top100 as Entry[];
+export const revalidate = 3600;
+
+export default async function Top100Page() {
+  const entries = await getTop100();
   const podium = entries.slice(0, 3);
 
   return (

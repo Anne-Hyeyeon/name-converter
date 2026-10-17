@@ -5,17 +5,16 @@ import styles from "@/app/top-baby-names-2025/page.module.css";
 import yearStyles from "../year.module.css";
 import getAllNameData from "@/app/(shared)/utils/getAllNameData";
 import {
+  getRankingRange,
   getRankingYears,
   getYearRanking,
-  RANKING_FIRST_YEAR,
-  RANKING_LAST_YEAR,
 } from "@/app/(shared)/utils/getYearRanking";
 
 export const revalidate = 3600;
 export const dynamicParams = false;
 
-export function generateStaticParams() {
-  return getRankingYears().map((year) => ({ year: String(year) }));
+export async function generateStaticParams() {
+  return (await getRankingYears()).map((year) => ({ year: String(year) }));
 }
 
 export async function generateMetadata({
@@ -66,7 +65,9 @@ export default async function YearPage({
 }) {
   const { year: yearParam } = await params;
   const year = Number(yearParam);
-  const ranking = getYearRanking(year);
+  const ranking = await getYearRanking(year);
+  const { first: RANKING_FIRST_YEAR, last: RANKING_LAST_YEAR } =
+    await getRankingRange();
   if (!ranking) notFound();
 
   const knownNames = new Set((await getAllNameData()).map((data) => data.name));

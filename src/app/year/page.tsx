@@ -4,16 +4,21 @@ import styles from "@/app/top-baby-names-2025/page.module.css";
 import yearStyles from "./year.module.css";
 import YearJumpForm from "./YearJumpForm";
 import {
+  getRankingRange,
   getRankingYears,
   getYearRanking,
-  RANKING_FIRST_YEAR,
-  RANKING_LAST_YEAR,
 } from "@/app/(shared)/utils/getYearRanking";
 
-export const metadata: Metadata = {
-  title: "태어난 해 미국 인기 이름 - 내가 춘자라니",
-  description: `${RANKING_FIRST_YEAR}년부터 ${RANKING_LAST_YEAR}년까지, 내가 태어난 해에 미국에서 가장 많이 태어난 이름을 알아보세요.`,
-  alternates: { canonical: "/year" },
+export const revalidate = 3600;
+
+export const generateMetadata = async (): Promise<Metadata> => {
+  const { first: RANKING_FIRST_YEAR, last: RANKING_LAST_YEAR } =
+    await getRankingRange();
+  return {
+    title: "태어난 해 미국 인기 이름 - 내가 춘자라니",
+    description: `${RANKING_FIRST_YEAR}년부터 ${RANKING_LAST_YEAR}년까지, 내가 태어난 해에 미국에서 가장 많이 태어난 이름을 알아보세요.`,
+    alternates: { canonical: "/year" },
+  };
 };
 
 const OLDER_THAN = 1950;
@@ -47,17 +52,26 @@ const DecadeCard = ({ decade, years, boy, girl }: Decade) => (
   </section>
 );
 
-export default function YearIndexPage() {
+export default async function YearIndexPage() {
+  const { first: RANKING_FIRST_YEAR, last: RANKING_LAST_YEAR } =
+    await getRankingRange();
+  const rankings = new Map(
+    await Promise.all(
+      (await getRankingYears()).map(
+        async (year) => [year, (await getYearRanking(year))!] as const
+      )
+    )
+  );
   const byDecade = new Map<number, number[]>();
-  for (const year of getRankingYears().reverse()) {
+  for (const year of [...rankings.keys()].reverse()) {
     const decade = Math.floor(year / 10) * 10;
     byDecade.set(decade, [...(byDecade.get(decade) ?? []), year]);
   }
   const decades: Decade[] = [...byDecade].map(([decade, years]) => ({
     decade,
     years,
-    boy: mostFrequent(years.map((year) => getYearRanking(year)!.M[0][0])),
-    girl: mostFrequent(years.map((year) => getYearRanking(year)!.F[0][0])),
+    boy: mostFrequent(years.map((year) => rankings.get(year)!.M[0][0])),
+    girl: mostFrequent(years.map((year) => rankings.get(year)!.F[0][0])),
   }));
   const recent = decades.filter((d) => d.decade >= OLDER_THAN);
   const older = decades.filter((d) => d.decade < OLDER_THAN);

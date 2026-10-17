@@ -6,8 +6,9 @@ import type { Metadata } from "next";
 import { findName, findSimilarNames } from "@/app/(shared)/utils/findName";
 import {
   getNameTrend,
-  TREND_LAST_YEAR,
+  getTrendLastYear,
 } from "@/app/(shared)/utils/getNameTrend";
+import { getTop100Names } from "@/app/(shared)/utils/getTop100";
 import NameTrend from "@/app/(shared)/components/search/NameTrend";
 
 export const revalidate = 3600;
@@ -56,7 +57,13 @@ export default async function ResultPage({
   const { name } = await params;
   const allNameData = await getAllNameData();
   const selectedNameData = findName(allNameData, name);
-  const trend = selectedNameData ? getNameTrend(selectedNameData.name) : null;
+  const trend = selectedNameData
+    ? await getNameTrend(selectedNameData.name)
+    : null;
+  const lastYear = await getTrendLastYear();
+  const isTop100 = selectedNameData
+    ? (await getTop100Names()).has(selectedNameData.name)
+    : false;
 
   return (
     <div className={styles.pageContainer}>
@@ -64,12 +71,13 @@ export default async function ResultPage({
         {selectedNameData ? (
           <SearchResult
             result={selectedNameData}
+            isTop100={isTop100}
             trendChart={
               trend && (
                 <NameTrend
                   name={selectedNameData.name}
                   trend={trend}
-                  lastYear={TREND_LAST_YEAR}
+                  lastYear={lastYear}
                   sheetTrendYear={selectedNameData.trendYear}
                 />
               )

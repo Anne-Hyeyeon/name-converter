@@ -1,0 +1,391 @@
+.localeRoot {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nameCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 8px 0 4px;
+}
+
+.hangul {
+  font-size: 3rem;
+  font-weight: bold;
+  line-height: 1.2;
+  background: linear-gradient(transparent 60%, #fff4a8 60%);
+  padding: 0 8px;
+}
+
+.romanized {
+  margin-top: 6px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #495057;
+  letter-spacing: 0.02em;
+}
+
+.hearButton {
+  margin-top: 10px;
+  padding: 6px 14px;
+  border: 1px solid #dee2e6;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #333;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.hearButton:hover {
+  background-color: #f8f9fa;
+}
+
+.generationBadge {
+  display: inline-block;
+  margin: 18px 0 6px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background-color: #212529;
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.born {
+  width: 100%;
+  margin: 10px 0 0;
+  padding: 18px 16px;
+  border: 1px solid #dee2e6;
+  border-radius: 12px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.bornTitle {
+  margin: 0 0 6px;
+  font-size: 1.1rem;
+}
+
+.bornLede {
+  margin: 0 0 14px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #495057;
+}
+
+.bornControls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.select {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #ffffff;
+  font-size: 16px;
+  color: #333;
+}
+
+.genderToggle {
+  display: inline-flex;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.genderButton {
+  padding: 8px 14px;
+  border: none;
+  background: #ffffff;
+  color: #333;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.genderButtonActive {
+  background: #4a4a4a;
+  color: #ffffff;
+}
+
+.bornNames {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.bornName {
+  min-width: 84px;
+  padding: 10px 8px;
+  border-radius: 10px;
+  background-color: #f8f8f8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.bornRank {
+  font-size: 0.75rem;
+  color: #86868b;
+  font-weight: 600;
+}
+
+.bornHangul {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.bornRomanized {
+  font-size: 0.8rem;
+  color: #495057;
+}
+
+.bornNote {
+  margin: 12px 0 0;
+  font-size: 0.8rem;
+  color: #86868b;
+}
+
+.bornLink {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.checkForm {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto 20px;
+}
+
+.checkInput {
+  flex: 1;
+  min-width: 0;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.checkButton {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #4a4a4a;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.appearances {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+
+.appearance {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background-color: #f0f0f0;
+  font-size: 0.8rem;
+  color: #333;
+  text-decoration: none;
+}
+
+.englishNames {
+  margin-top: 6px;
+  font-size: 0.9rem;
+}
+
+.englishNames a {
+  color: inherit;
+  font-weight: 600;
+}
+
+.linkButton {
+  display: block;
+  box-sizing: border-box;
+  text-align: center;
+  text-decoration: none;
+}
+
+.tableName {
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
+}
+
+.tableRomanized {
+  font-size: 0.75rem;
+  font-weight: 500;
+  opacity: 0.75;
+}
+
+.backBar {
+  width: 100%;
+  max-width: 480px;
+  margin: -8px 0 4px;
+  box-sizing: border-box;
+}
+
+.backButton {
+  padding: 6px 10px 6px 4px;
+  border: none;
+  background: none;
+  color: #495057;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.backButton:hover {
+  color: #212529;
+}
+
+.exampleLabel {
+  margin: 8px 0 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #86868b;
+  text-align: center;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.examples {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.example {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-areas:
+    "name arrow korean"
+    "badge badge badge";
+  align-items: center;
+  gap: 6px 10px;
+  padding: 12px 14px;
+  border: 1px solid #ececee;
+  border-radius: 14px;
+  color: #1d1d1f;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.example:hover {
+  background-color: #f8f8f8;
+}
+
+.exampleName {
+  grid-area: name;
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-align: right;
+}
+
+.exampleArrow {
+  grid-area: arrow;
+  color: #86868b;
+}
+
+.exampleKorean {
+  grid-area: korean;
+  display: flex;
+  flex-direction: column;
+}
+
+.exampleHangul {
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.exampleRomanized {
+  font-size: 0.8rem;
+  color: #495057;
+}
+
+.exampleBadge {
+  grid-area: badge;
+  justify-self: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background-color: #212529;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.celebrities {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+
+.celebrity {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+
+.celebrityName {
+  font-weight: 700;
+}
+
+.celebrityMeta {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.celebrityMore {
+  margin: 8px 0 0;
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.heroEmoji {
+  display: flex;
+  justify-content: center;
+  margin: 4px 0 0;
+  font-size: 200px;
+  line-height: 1;
+}
+
+@media (max-width: 600px) {
+  .heroEmoji {
+    font-size: 150px;
+  }
+}

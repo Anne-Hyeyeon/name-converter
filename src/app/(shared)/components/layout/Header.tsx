@@ -6,6 +6,10 @@ import { usePathname, useRouter } from "next/navigation";
 import styles from "./Header.module.css";
 import { useNavigation } from "../../hooks";
 import { URLS } from "../../constants/urls";
+import { getDictionary } from "@/app/korean-name/i18n";
+import { KOREAN_NAME_URLS } from "@/app/korean-name/constants";
+
+const koreanNameText = getDictionary().header;
 
 const CAROUSEL_INTERVAL = 4000;
 
@@ -20,6 +24,7 @@ export default function Header() {
   const isMainPage = pathname === "/";
   const isResultPage = pathname.startsWith("/result/");
   const isTop100Page = pathname === "/top-baby-names-2025";
+  const isKoreanNamePage = pathname.startsWith(KOREAN_NAME_URLS.HOME);
 
   // 메인/검색결과 페이지에서 두 가지 프로모를 캐러셀로 번갈아 노출
   const showCarousel = isMainPage || isResultPage;
@@ -73,7 +78,21 @@ export default function Header() {
   ];
 
   let announcement: React.ReactNode;
-  if (showCarousel) {
+  if (isKoreanNamePage) {
+    const isHome = pathname === KOREAN_NAME_URLS.HOME;
+    const isCheck = pathname.startsWith(KOREAN_NAME_URLS.CHECK);
+    announcement = (
+      <div className={styles.announcement}>
+        {isCheck
+          ? koreanNameText.checkAnnouncement
+          : koreanNameText.announcement}
+        <br />
+        <Link href={KOREAN_NAME_URLS.HOME} className={styles.link}>
+          {isHome ? koreanNameText.link : koreanNameText.homeLink}
+        </Link>
+      </div>
+    );
+  } else if (showCarousel) {
     const slide = carouselSlides[carouselIndex];
     announcement = (
       <div
@@ -132,7 +151,28 @@ export default function Header() {
           </div>
         </button>
 
-        {isMenuOpen && (
+        {isMenuOpen && isKoreanNamePage && (
+          <div className={styles.dropdown}>
+            {[
+              [koreanNameText.menu.home, KOREAN_NAME_URLS.HOME],
+              [koreanNameText.menu.born, KOREAN_NAME_URLS.BORN],
+              [koreanNameText.menu.check, KOREAN_NAME_URLS.CHECK],
+              [koreanNameText.menu.korean, URLS.MAIN_PAGE],
+            ].map(([label, href]) => (
+              <button
+                key={href}
+                className={styles.dropdownItem}
+                onClick={() => {
+                  router.push(href);
+                  handleMenuClose();
+                }}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        )}
+        {isMenuOpen && !isKoreanNamePage && (
           <div className={styles.dropdown}>
             <button
               className={styles.dropdownItem}
@@ -169,6 +209,15 @@ export default function Header() {
               }}
             >
               📅 태어난 해 인기 이름
+            </button>
+            <button
+              className={styles.dropdownItem}
+              onClick={() => {
+                router.push(KOREAN_NAME_URLS.HOME);
+                handleMenuClose();
+              }}
+            >
+              🌏 What&apos;s my Korean name?
             </button>
           </div>
         )}

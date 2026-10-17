@@ -22,11 +22,13 @@ export const generateMetadata = ({ result }: { result: NameData }) => {
 
 interface SearchResultProps {
   result: NameData;
+  isTop100: boolean;
   trendChart?: React.ReactNode;
 }
 
 export default function SearchResult({
   result,
+  isTop100,
   trendChart,
 }: SearchResultProps) {
   const { captureElement } = useImageCapture();
@@ -51,7 +53,7 @@ export default function SearchResult({
             {emoji}
           </span>
         </div>
-        <ResultContent result={result} />
+        <ResultContent result={result} isTop100={isTop100} />
       </div>
       {trendChart}
       <div className={styles.buttonWrapper}>

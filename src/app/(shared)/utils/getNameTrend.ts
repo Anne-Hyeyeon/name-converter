@@ -1,5 +1,5 @@
 import "server-only";
-import trends from "../data/name-trends.json";
+import { getSheetMeta, getSheetTab } from "./getSheetTab";
 
 export type NameTrendData = {
   sex: "F" | "M";
@@ -14,9 +14,32 @@ export type NameTrendData = {
   total: number;
 };
 
-const names = trends.names as Record<string, NameTrendData>;
+let indexed: { rows: unknown; names: Map<string, NameTrendData> } | null = null;
 
-export const TREND_LAST_YEAR = trends.lastYear;
+const loadTrends = async () => {
+  const rows = await getSheetTab("us_name_trends");
+  if (indexed?.rows === rows) return indexed.names;
+  const names = new Map<string, NameTrendData>();
+  for (const row of rows) {
+    names.set(row.name, {
+      sex: row.sex === "M" ? "M" : "F",
+      start: Number(row.start),
+      births: row.births.split(",").map(Number),
+      peakYear: Number(row.peak_year),
+      peakCount: Number(row.peak_count),
+      bestRank: Number(row.best_rank),
+      bestRankYear: Number(row.best_rank_year),
+      latestRank: row.latest_rank ? Number(row.latest_rank) : null,
+      latestCount: Number(row.latest_count),
+      total: Number(row.total),
+    });
+  }
+  indexed = { rows, names };
+  return names;
+};
 
-export const getNameTrend = (name: string): NameTrendData | null =>
-  names[name] ?? null;
+export const getTrendLastYear = async (): Promise<number> =>
+  Number(await getSheetMeta("us_trends_last_year"));
+
+export const getNameTrend = async (name: string): Promise<NameTrendData | null> =>
+  (await loadTrends()).get(name) ?? null;
