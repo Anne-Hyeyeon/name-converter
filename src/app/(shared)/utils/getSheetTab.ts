@@ -1,37 +1,65 @@
 import "server-only";
-import { getSheetsClient } from "../../../../lib/google-sheets-api";
+import {
+  getSheetsClient,
+  withSheetsRetry,
+} from "../../../../lib/google-sheets-api";
 
 const TTL_MS = 60 * 60 * 1000;
 
+const DATA_TABS = [
+  "data_meta",
+  "us_name_trends",
+  "us_year_rankings",
+  "us_top100_2025",
+  "korean_year_names",
+  "korean_name_stats",
+  "korean_celebrities",
+] as const;
+
+export type SheetTab = (typeof DATA_TABS)[number];
+
 export type SheetRow = Record<string, string>;
 
-const cache = new Map<string, { at: number; rows: Promise<SheetRow[]> }>();
+let cache: { at: number; tabs: Promise<Map<string, SheetRow[]>> } | null = null;
 
-const fetchTab = async (tab: string): Promise<SheetRow[]> => {
-  const spreadsheetId = process.env.SPREADSHEET_ID;
-  if (!spreadsheetId) {
-    throw new Error("Missing SPREADSHEET_ID environment variable");
-  }
-  const response = await getSheetsClient().spreadsheets.values.get({
-    spreadsheetId,
-    range: `${tab}!A:Z`,
-  });
-  const [headers = [], ...rows] = (response.data.values ?? []) as string[][];
+const toRows = (values: string[][] | null | undefined): SheetRow[] => {
+  const [headers = [], ...rows] = values ?? [];
   return rows.map((row) =>
     Object.fromEntries(headers.map((header, i) => [header, row[i] ?? ""]))
   );
 };
 
+const fetchAllTabs = async (): Promise<Map<string, SheetRow[]>> => {
+  const spreadsheetId = process.env.SPREADSHEET_ID;
+  if (!spreadsheetId) {
+    throw new Error("Missing SPREADSHEET_ID environment variable");
+  }
+  const response = await withSheetsRetry(() =>
+    getSheetsClient().spreadsheets.values.batchGet({
+      spreadsheetId,
+      ranges: DATA_TABS.map((tab) => `${tab}!A:Z`),
+    })
+  );
+  return new Map(
+    DATA_TABS.map((tab, i) => [
+      tab,
+      toRows(response.data.valueRanges?.[i]?.values as string[][] | undefined),
+    ])
+  );
+};
+
 /**
- * 시트 탭을 헤더 이름을 키로 한 행 목록으로 읽습니다. 서버 메모리에 1시간 둡니다.
+ * 데이터 탭을 한 번의 요청으로 모두 읽어 서버 메모리에 1시간 둡니다.
  */
-export const getSheetTab = (tab: string): Promise<SheetRow[]> => {
-  const hit = cache.get(tab);
-  if (hit && Date.now() - hit.at < TTL_MS) return hit.rows;
-  const rows = fetchTab(tab);
-  cache.set(tab, { at: Date.now(), rows });
-  rows.catch(() => cache.delete(tab));
-  return rows;
+export const getSheetTab = async (tab: SheetTab): Promise<SheetRow[]> => {
+  if (!cache || Date.now() - cache.at >= TTL_MS) {
+    const tabs = fetchAllTabs();
+    cache = { at: Date.now(), tabs };
+    tabs.catch(() => {
+      cache = null;
+    });
+  }
+  return (await cache.tabs).get(tab) ?? [];
 };
 
 /**

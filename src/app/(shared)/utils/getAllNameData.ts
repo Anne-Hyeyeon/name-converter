@@ -1,6 +1,9 @@
 import "server-only";
 import { unstable_cache } from "next/cache";
-import { getSheetsClient } from "../../../../lib/google-sheets-api";
+import {
+  getSheetsClient,
+  withSheetsRetry,
+} from "../../../../lib/google-sheets-api";
 import { snakeToCamel } from "./snakeToCamel";
 import { NameData } from "../types";
 
@@ -47,10 +50,12 @@ async function fetchAllNames(): Promise<NameData[]> {
   }
 
   const sheets = getSheetsClient();
-  const response = await sheets.spreadsheets.values.get({
-    spreadsheetId,
-    range: SPREADSHEET_RANGE,
-  });
+  const response = await withSheetsRetry(() =>
+    sheets.spreadsheets.values.get({
+      spreadsheetId,
+      range: SPREADSHEET_RANGE,
+    })
+  );
 
   const rows = (response.data.values || []) as RawRow[];
   if (rows.length === 0) return [];
