@@ -44,11 +44,13 @@ test.describe("SEO와 광고", () => {
 
   test("결과 페이지마다 공유 이미지가 생성된다", async ({ page, request }) => {
     await open(page, "/result/Anne");
-    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    const ogImage = page.locator('meta[property="og:image"]');
+    await expect(ogImage).toHaveAttribute(
       "content",
       /\/result\/Anne\/opengraph-image/
     );
-    const image = await request.get("/result/Anne/opengraph-image", {
+    const url = new URL((await ogImage.getAttribute("content"))!);
+    const image = await request.get(url.pathname + url.search, {
       headers: authHeaders,
     });
     expect(image.status()).toBe(200);

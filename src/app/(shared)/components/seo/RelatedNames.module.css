@@ -1,0 +1,44 @@
+.related {
+  margin: 24px 20px 20px;
+  text-align: center;
+}
+
+.title {
+  margin: 0 0 10px;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 8px 12px;
+  border: 1px solid #dee2e6;
+  border-radius: 999px;
+  background-color: #ffffff;
+  color: #343a40;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.chip:hover {
+  background-color: #f8f9fa;
+}
+
+.sub {
+  font-weight: 500;
+  color: #868e96;
+}

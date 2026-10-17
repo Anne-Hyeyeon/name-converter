@@ -66,7 +66,18 @@
 - 보정 탭을 고친 뒤에는 아래 두 명령을 차례로 실행합니다.
 - `node scripts/fetch-korean-celebrities.mjs` 는 Wikidata에서 받아 `scripts/data/` 에 둡니다. 이 폴더는 커밋하지 않습니다.
 - `node --env-file=.env.local scripts/build-korean-names.mjs` 는 보정 탭을 합쳐 `korean_celebrities`, `korean_name_stats` 탭을 다시 씁니다.
-- 화면 문구는 `src/app/korean-name/i18n/` 에 있습니다. 언어를 늘릴 때 같은 형태의 사전을 추가합니다.
+- 화면 문구는 `src/app/(en)/korean-name/i18n/` 에 있습니다. 언어를 늘릴 때 같은 형태의 사전을 추가합니다.
+
+## SEO
+
+- 한국어와 영어 페이지는 루트 레이아웃이 따로 있습니다. 그래서 `<html lang>` 이 페이지 언어와 맞습니다.
+- 두 그룹 사이를 오갈 때는 페이지 전체를 새로 불러옵니다.
+- 모든 페이지에 WebSite 구조화 데이터가 있습니다.
+- 결과, 연도, 이름 확인 페이지에는 BreadcrumbList 가 있습니다.
+- 순위 페이지에는 ItemList 가 있습니다.
+- 결과 페이지 아래에는 같은 세대, 같은 성별 이름 6개를 링크합니다.
+- 푸터에 주요 페이지와 한국어 / English 전환 링크가 있습니다.
+- 라우트 그룹 안의 공유 이미지 주소에는 Next가 고정 해시를 붙입니다. 예: `/result/Anne/opengraph-image-cfmilx`. 페이지의 og:image 태그를 기준으로 쓰면 됩니다.
 
 ## 로컬 실행
 
@@ -94,6 +105,19 @@
 
 ```
 src/app/
+├─ (ko)/                # 한국어 페이지. 루트 레이아웃이 <html lang="ko">
+│  ├─ recommend/[name]/ # 추천 결과
+│  ├─ result/[name]/    # 검색 결과, 공유 이미지
+│  ├─ top-baby-names-2025/
+│  ├─ year/
+│  ├─ your-english-name/
+│  ├─ error.tsx
+│  ├─ layout.tsx
+│  └─ page.tsx
+├─ (en)/                # 영어 페이지. 루트 레이아웃이 <html lang="en">
+│  ├─ korean-name/      # 외국인용 한국 이름 서비스
+│  ├─ error.tsx
+│  └─ layout.tsx
 ├─ (shared)/
 │  ├─ actions/          # 서버 액션 (이름 추천)
 │  ├─ components/
@@ -101,18 +125,14 @@ src/app/
 │  │  ├─ layout/        # 헤더, 푸터
 │  │  ├─ modals/        # 감사 인사, 이름 제보 팝업
 │  │  ├─ scripts/       # AdSense, GA 스크립트
-│  │  └─ search/        # 검색, 검색 결과, 없는 이름 안내
+│  │  ├─ search/        # 검색, 검색 결과, 없는 이름 안내
+│  │  └─ seo/           # 구조화 데이터, 관련 이름 링크
 │  ├─ constants/
 │  ├─ hooks/
+│  ├─ styles/           # 두 루트 레이아웃이 같이 쓰는 스타일
 │  ├─ types/
 │  └─ utils/            # 시트 읽기, 이름 찾기, 이벤트 추적
-├─ recommend/[name]/    # 추천 결과
-├─ result/[name]/       # 검색 결과, 공유 이미지
-├─ top-baby-names-2025/
-├─ your-english-name/
-├─ error.tsx
-├─ layout.tsx
-├─ page.tsx
+├─ kakao-card/[name]/   # 카카오톡 공유 카드 이미지
 ├─ robots.ts
 └─ sitemap.ts
 assets/fonts/           # 공유 이미지용 Noto Sans KR (OFL)
