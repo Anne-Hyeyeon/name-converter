@@ -7,6 +7,7 @@ import { KOREAN_NAME_URLS } from "../constants";
 import BornJumpForm from "../components/BornJumpForm";
 import { getKoreanYearData } from "../utils/koreanYearNames";
 import { romanizeName } from "../utils/romanize";
+import localStyles from "../korean-name.module.css";
 
 const t = getDictionary();
 
@@ -17,6 +18,13 @@ export const metadata: Metadata = {
 };
 
 export const revalidate = 3600;
+
+const YEARLY_FROM = 2000;
+
+const representativeYear = (decade: number, years: number[]) =>
+  years.reduce((best, year) =>
+    Math.abs(year - (decade + 5)) < Math.abs(best - (decade + 5)) ? year : best
+  );
 
 export default async function KoreanBornIndexPage() {
   const koreanYears = await getKoreanYearData();
@@ -44,7 +52,9 @@ export default async function KoreanBornIndexPage() {
         <h2 className={styles.sectionTitle}>{t.born.allYears}</h2>
         <div className={yearStyles.decadeList}>
           {[...byDecade].map(([decade, years]) => {
-            const latest = koreanYears.get(years[0])!;
+            const yearly = decade >= YEARLY_FROM;
+            const shownYear = yearly ? years[0] : representativeYear(decade, years);
+            const latest = koreanYears.get(shownYear)!;
             return (
               <section
                 key={decade}
@@ -64,18 +74,27 @@ export default async function KoreanBornIndexPage() {
                     </span>
                   </span>
                 </div>
-                <ul className={yearStyles.yearGrid}>
-                  {years.map((year) => (
-                    <li key={year}>
-                      <Link
-                        href={KOREAN_NAME_URLS.born(year)}
-                        className={yearStyles.yearLink}
-                      >
-                        {year}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+                {yearly ? (
+                  <ul className={yearStyles.yearGrid}>
+                    {years.map((year) => (
+                      <li key={year}>
+                        <Link
+                          href={KOREAN_NAME_URLS.born(year)}
+                          className={yearStyles.yearLink}
+                        >
+                          {year}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <Link
+                    href={KOREAN_NAME_URLS.born(shownYear)}
+                    className={`${yearStyles.yearLink} ${localStyles.decadeLink}`}
+                  >
+                    {t.born.decadeLink(decade, shownYear)}
+                  </Link>
+                )}
               </section>
             );
           })}

@@ -101,6 +101,7 @@ export type Dictionary = {
     prev: (year: number) => string;
     next: (year: number) => string;
     allYears: string;
+    decadeLink: (decade: number, year: number) => string;
     sourceOfficial: string;
     sourcePress: (source: string) => string;
     partialYear: string;
@@ -110,7 +111,7 @@ export type Dictionary = {
     title: string;
     placeholder: string;
     button: string;
-    lede: string;
+    lede: string[];
     peak: (year: number) => string;
     peakRank: (year: number, rank: number, gender: string) => string;
     girls: string;

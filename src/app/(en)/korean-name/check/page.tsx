@@ -12,7 +12,7 @@ const EXAMPLES = ["지민", "서연", "영자", "지훈", "민준", "춘자"];
 
 export const metadata: Metadata = {
   title: `${t.check.title} - ${t.siteName}`,
-  description: t.check.lede,
+  description: t.check.lede.join(" "),
   alternates: { canonical: KOREAN_NAME_URLS.CHECK },
 };
 
@@ -20,7 +20,14 @@ export default function KoreanNameCheckPage() {
   return (
     <div className={searchStyles.container}>
       <h1 className={searchStyles.title}>{t.check.title}</h1>
-      <p className={searchStyles.infoText}>{t.check.lede}</p>
+      <p className={searchStyles.infoText}>
+        {t.check.lede.map((line, index) => (
+          <span key={line}>
+            {index > 0 && <br />}
+            {line}
+          </span>
+        ))}
+      </p>
       <KoreanNameCheckForm />
       {EXAMPLES.map((name) => (
         <Link
