@@ -27,20 +27,20 @@ export const en: Dictionary = {
     bornIndexDescription:
       "If you were born in Korea, what would your name be? See the most popular Korean names from 1945 to today.",
     checkTitle: (koreanName, romanized) =>
-      `${romanized} (${koreanName}): Which generation is this Korean name? - Am I Chunja?!`,
+      `What does the name ${romanized} (${koreanName}) feel like in Korea? - Am I Chunja?!`,
     checkDescription: (romanized) =>
-      `When was ${romanized} popular in Korea? Find out which generation your favorite Korean name belongs to.`,
+      `Want a Korean name inspired by your bias? See when ${romanized} was popular in Korea, which generation it belongs to, and which Korean stars share the same real name.`,
   },
   header: {
     announcement: "Your generation's Korean name 🇰🇷",
-    checkAnnouncement: "Which generation is this name? 🔍",
+    checkAnnouncement: "How does my bias's name feel? 💜",
     link: "Find my Korean name ✨",
     homeLink: "Back to My Korean Name 🎉",
     back: "‹ Back",
     menu: {
       home: "👵 My Korean name",
       born: "📅 Korean names by birth year",
-      check: "🔍 Check a Korean name",
+      check: "💜 My bias's name",
       korean: "🇰🇷 한국어 사이트",
     },
   },
@@ -58,7 +58,7 @@ export const en: Dictionary = {
     exampleLabel: "For example",
     heroEmojiLabel: "Chunja",
     bornLink: "📅 If I were born in Korea, what would my name be?",
-    checkLink: "🔍 Which generation is my favorite Korean name?",
+    checkLink: "💜 What does my bias's name feel like?",
   },
   result: {
     lead: (name) => `If ${name} were Korean,`,
@@ -109,6 +109,7 @@ export const en: Dictionary = {
     prev: (year) => `‹ ${year}`,
     next: (year) => `${year} ›`,
     allYears: "All years",
+    decadeLink: (decade, year) => `See popular names (${year} data) →`,
     sourceOfficial:
       "Source: Supreme Court of Korea, birth registration statistics (provisional, as of Oct 2026).",
     sourcePress: (source) =>
@@ -118,10 +119,14 @@ export const en: Dictionary = {
       "Sources: Supreme Court of Korea birth registration statistics (2008 onward) and Korean news reports of Supreme Court data (before 2008).",
   },
   check: {
-    title: "Which generation is my favorite Korean name? 🔍",
-    placeholder: "Korean name, e.g. Jimin or 지민",
+    title: "What does my bias's name feel like? 💜",
+    placeholder: "Your bias's name, e.g. Jimin or 지민",
     button: "Check",
-    lede: "Type a Korean name in English letters or in Hangul.",
+    lede: [
+      "Want a Korean name inspired by your bias (최애)?",
+      "Type their Korean name in English letters or Hangul.",
+      "See which generation it belongs to, when it was popular, and which stars share it.",
+    ],
     peak: (year) => `Most popular in Korea around ${year}.`,
     peakRank: (year, rank, gender) =>
       `In ${year}, it was the #${rank} name for Korean ${gender}.`,

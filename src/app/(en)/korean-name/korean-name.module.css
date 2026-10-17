@@ -487,3 +487,7 @@
 .supportAction:hover {
   background-color: #fff3c4;
 }
+
+.decadeLink {
+  padding: 9px 0;
+}

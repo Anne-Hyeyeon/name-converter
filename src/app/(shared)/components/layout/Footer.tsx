@@ -22,7 +22,7 @@ const LINKS = {
     items: [
       { href: KOREAN_NAME_URLS.HOME, label: "My Korean name" },
       { href: KOREAN_NAME_URLS.BORN, label: "Korean names by birth year" },
-      { href: KOREAN_NAME_URLS.CHECK, label: "Check a Korean name" },
+      { href: KOREAN_NAME_URLS.CHECK, label: "My bias's name" },
     ],
     switchLabel: "한국어",
     switchHref: URLS.MAIN_PAGE,

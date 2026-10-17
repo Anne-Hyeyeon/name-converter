@@ -27,7 +27,7 @@ test.describe("외국인용 한국 이름 (Korean name)", () => {
   test("이름 확인 페이지 헤더는 할머니 이름 질문을 보여준다", async ({ page }) => {
     await open(page, "/korean-name/check");
     await expect(page.locator("header")).toContainText(
-      "Which generation is this name?"
+      "How does my bias's name feel?"
     );
   });
 
@@ -185,5 +185,13 @@ test.describe("외국인용 한국 이름 (Korean name)", () => {
     await open(page, "/korean-name/check/nayeon");
     await expect(page.getByText("Lim Na-yeon (임나연)")).toBeVisible();
     await expect(page.getByText(/TWICE/).first()).toBeVisible();
+  });
+
+  test("2000년 이전은 10년 단위 버튼 하나로 보여준다", async ({ page }) => {
+    await open(page, "/korean-name/born");
+    await expect(page.getByRole("link", { name: "1998", exact: true })).toHaveCount(0);
+    await expect(page.getByRole("link", { name: "2008", exact: true })).toBeVisible();
+    await page.getByRole("link", { name: "See popular names (1995 data) →" }).click();
+    await page.waitForURL(/\/korean-name\/born\/1995$/);
   });
 });
