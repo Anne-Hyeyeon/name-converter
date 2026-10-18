@@ -16,7 +16,8 @@ export type GenerationKey =
 type GenerationText = {
   label: string;
   emoji: string;
-  lines: string[];
+  intro: string;
+  fun: string[];
 };
 
 export type Dictionary = {
