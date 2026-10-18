@@ -9,11 +9,45 @@ const FIRST_YEAR = 1880;
 const AXIS_YEARS = [1900, 1950, 2000];
 const RARE_PEAK_COUNT = 50;
 
+export type NameTrendText = {
+  title: (name: string) => string;
+  caption: (first: number, last: number) => string;
+  rare: string;
+  chartLabel: (name: string, peakYear: number) => string;
+  peakYear: string;
+  peakYearValue: (year: number) => string;
+  peakCount: (count: number) => string;
+  latestRank: (year: number) => string;
+  latestRankValue: (rank: number) => string;
+  notRanked: (year: number) => string;
+  revival: string;
+  source: string;
+  yearHref: ((year: number) => string) | null;
+};
+
+const KO_TEXT: NameTrendText = {
+  title: (name) => `📈 미국에서 태어난 ${name}`,
+  caption: (first, last) => `연도별 출생아 수 (${first}-${last})`,
+  rare: "미국에서도 아주 드문 이름이에요.",
+  chartLabel: (name, peakYear) =>
+    `${name} 이름의 연도별 출생아 수 그래프, ${peakYear}년에 가장 많음`,
+  peakYear: "가장 많이 태어난 해:",
+  peakYearValue: (year) => `${year}년`,
+  peakCount: (count) => `${count.toLocaleString("ko-KR")}명`,
+  latestRank: (year) => `${year}년 순위:`,
+  latestRankValue: (rank) => `${rank.toLocaleString("ko-KR")}위`,
+  notRanked: (year) => `${year}년에는 5명 미만으로 태어났어요`,
+  revival: "🔁 옛날 이름이 요즘 다시 인기예요!",
+  source: "출처: 미국 사회보장국(SSA)",
+  yearHref: (year) => `/year/${year}`,
+};
+
 interface NameTrendProps {
   name: string;
   trend: NameTrendData;
   lastYear: number;
   sheetTrendYear?: string;
+  text?: NameTrendText;
 }
 
 const isRevival = (trend: NameTrendData, sheetTrendYear?: string) => {
@@ -32,6 +66,7 @@ export default function NameTrend({
   trend,
   lastYear,
   sheetTrendYear,
+  text = KO_TEXT,
 }: NameTrendProps) {
   const plotWidth = WIDTH - PADDING.left - PADDING.right;
   const plotHeight = HEIGHT - PADDING.top - PADDING.bottom;
@@ -56,18 +91,16 @@ export default function NameTrend({
 
   return (
     <section className={styles.trend}>
-      <h2 className={styles.title}>📈 미국에서 태어난 {name}</h2>
-      <p className={styles.caption}>
-        연도별 출생아 수 ({FIRST_YEAR}-{lastYear})
-      </p>
+      <h2 className={styles.title}>{text.title(name)}</h2>
+      <p className={styles.caption}>{text.caption(FIRST_YEAR, lastYear)}</p>
       {isRare ? (
-        <p className={styles.rare}>미국에서도 아주 드문 이름이에요.</p>
+        <p className={styles.rare}>{text.rare}</p>
       ) : (
         <svg
           className={styles.chart}
           viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
           role="img"
-          aria-label={`${name} 이름의 연도별 출생아 수 그래프, ${trend.peakYear}년에 가장 많음`}
+          aria-label={text.chartLabel(name, trend.peakYear)}
         >
           <path d={area} fill="#fff4a8" />
           <path d={line} fill="none" stroke="#343a40" strokeWidth="1.5" />
@@ -106,27 +139,31 @@ export default function NameTrend({
       )}
       <ul className={styles.facts}>
         <li>
-          가장 많이 태어난 해:{" "}
-          <Link href={`/year/${trend.peakYear}`} className={styles.yearLink}>
-            <strong>{trend.peakYear}년</strong>
-          </Link>{" "}
-          ({trend.peakCount.toLocaleString("ko-KR")}명)
+          {text.peakYear}{" "}
+          {text.yearHref ? (
+            <Link href={text.yearHref(trend.peakYear)} className={styles.yearLink}>
+              <strong>{text.peakYearValue(trend.peakYear)}</strong>
+            </Link>
+          ) : (
+            <strong>{text.peakYearValue(trend.peakYear)}</strong>
+          )}{" "}
+          ({text.peakCount(trend.peakCount)})
         </li>
         <li>
           {trend.latestRank !== null ? (
             <>
-              {lastYear}년 순위:{" "}
-              <strong>{trend.latestRank.toLocaleString("ko-KR")}위</strong>
+              {text.latestRank(lastYear)}{" "}
+              <strong>{text.latestRankValue(trend.latestRank)}</strong>
             </>
           ) : (
-            <>{lastYear}년에는 5명 미만으로 태어났어요</>
+            <>{text.notRanked(lastYear)}</>
           )}
         </li>
       </ul>
       {isRevival(trend, sheetTrendYear) && (
-        <p className={styles.revival}>🔁 옛날 이름이 요즘 다시 인기예요!</p>
+        <p className={styles.revival}>{text.revival}</p>
       )}
-      <p className={styles.source}>출처: 미국 사회보장국(SSA)</p>
+      <p className={styles.source}>{text.source}</p>
     </section>
   );
 }

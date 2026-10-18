@@ -5,7 +5,10 @@ export const revalidate = 3600;
 
 export const metadata = {
   title: "내가 춘자라니 - 내 영어 이름, 미국에선 몇 년생 느낌일까?",
-  alternates: { canonical: "/" },
+  alternates: {
+    canonical: "/",
+    languages: { ko: "/", "zh-Hant-TW": "/zh-tw" },
+  },
 };
 
 export default async function Home() {

@@ -7,6 +7,8 @@ import { getKoreanYearData } from "./(en)/korean-name/utils/koreanYearNames";
 import { romanizeSlug } from "./(en)/korean-name/utils/romanize";
 import { getKoreanNameStats } from "./(en)/korean-name/utils/koreanNameStats";
 import { getKoreanCelebrityData } from "./(en)/korean-name/utils/koreanCelebrities";
+import { ZH_URLS } from "./(zh)/zh-tw/constants";
+import { isTaiwanMatchable } from "./(zh)/zh-tw/utils/match";
 
 export const revalidate = 3600;
 
@@ -41,6 +43,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
     ...nameData.map((data) => ({
       url: `${URLS.SITE}/result/${encodeURIComponent(data.name)}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    })),
+    {
+      url: `${URLS.SITE}${ZH_URLS.HOME}`,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    ...nameData.filter(isTaiwanMatchable).map((data) => ({
+      url: `${URLS.SITE}${ZH_URLS.result(data.name)}`,
       changeFrequency: "monthly" as const,
       priority: 0.6,
     })),

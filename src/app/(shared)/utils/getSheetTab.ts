@@ -14,6 +14,7 @@ const DATA_TABS = [
   "korean_year_names",
   "korean_name_stats",
   "korean_celebrities",
+  "tw_decade_names",
 ] as const;
 
 export type SheetTab = (typeof DATA_TABS)[number];

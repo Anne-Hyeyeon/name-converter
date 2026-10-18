@@ -3,6 +3,7 @@ import Link from "next/link";
 import styles from "./Footer.module.css";
 import { URLS } from "../../constants/urls";
 import { KOREAN_NAME_URLS } from "@/app/(en)/korean-name/constants";
+import { ZH_URLS } from "@/app/(zh)/zh-tw/constants";
 
 const LINKS = {
   ko: {
@@ -28,9 +29,16 @@ const LINKS = {
     switchHref: URLS.MAIN_PAGE,
     switchLang: "ko",
   },
+  zh: {
+    label: "網站選單",
+    items: [{ href: ZH_URLS.HOME, label: "原來我是淑芬？！英文名字年代查詢" }],
+    switchLabel: "한국어",
+    switchHref: URLS.MAIN_PAGE,
+    switchLang: "ko",
+  },
 } as const;
 
-const Footer = ({ locale }: { locale: "ko" | "en" }) => {
+const Footer = ({ locale }: { locale: "ko" | "en" | "zh" }) => {
   const links = LINKS[locale];
   return (
     <footer className={styles.footer}>

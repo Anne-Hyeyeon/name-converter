@@ -9,6 +9,8 @@ import { URLS } from "../../constants/urls";
 import { getDictionary } from "@/app/(en)/korean-name/i18n";
 import { KOREAN_NAME_URLS } from "@/app/(en)/korean-name/constants";
 import BackButton from "@/app/(en)/korean-name/components/BackButton";
+import { zh } from "@/app/(zh)/zh-tw/i18n";
+import { ZH_URLS } from "@/app/(zh)/zh-tw/constants";
 
 const koreanNameText = getDictionary().header;
 
@@ -26,6 +28,7 @@ export default function Header() {
   const isResultPage = pathname.startsWith("/result/");
   const isTop100Page = pathname === "/top-baby-names-2025";
   const isKoreanNamePage = pathname.startsWith(KOREAN_NAME_URLS.HOME);
+  const isZhPage = pathname.startsWith(ZH_URLS.HOME);
 
   // 메인/검색결과 페이지에서 두 가지 프로모를 캐러셀로 번갈아 노출
   const showCarousel = isMainPage || isResultPage;
@@ -79,7 +82,17 @@ export default function Header() {
   ];
 
   let announcement: React.ReactNode;
-  if (isKoreanNamePage) {
+  if (isZhPage) {
+    announcement = (
+      <div className={styles.announcement}>
+        {zh.header.announcement}
+        <br />
+        <Link href={ZH_URLS.HOME} className={styles.link}>
+          {zh.header.link}
+        </Link>
+      </div>
+    );
+  } else if (isKoreanNamePage) {
     const isHome = pathname === KOREAN_NAME_URLS.HOME;
     const isCheck = pathname.startsWith(KOREAN_NAME_URLS.CHECK);
     announcement = (
@@ -174,7 +187,27 @@ export default function Header() {
             ))}
           </div>
         )}
-        {isMenuOpen && !isKoreanNamePage && (
+        {isMenuOpen && isZhPage && (
+          <div className={styles.dropdown}>
+            {[
+              [zh.header.menu.home, ZH_URLS.HOME],
+              [zh.header.menu.korean, URLS.MAIN_PAGE],
+              [zh.header.menu.english, KOREAN_NAME_URLS.HOME],
+            ].map(([label, href]) => (
+              <button
+                key={href}
+                className={styles.dropdownItem}
+                onClick={() => {
+                  router.push(href);
+                  handleMenuClose();
+                }}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        )}
+        {isMenuOpen && !isKoreanNamePage && !isZhPage && (
           <div className={styles.dropdown}>
             <button
               className={styles.dropdownItem}
@@ -220,6 +253,15 @@ export default function Header() {
               }}
             >
               🌏 What&apos;s my Korean name?
+            </button>
+            <button
+              className={styles.dropdownItem}
+              onClick={() => {
+                router.push(ZH_URLS.HOME);
+                handleMenuClose();
+              }}
+            >
+              🇹🇼 原來我是淑芬？！
             </button>
           </div>
         )}

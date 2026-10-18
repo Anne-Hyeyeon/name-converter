@@ -42,3 +42,11 @@
   font-weight: 500;
   color: #868e96;
 }
+
+.plain {
+  cursor: default;
+}
+
+.plain:hover {
+  background-color: #ffffff;
+}

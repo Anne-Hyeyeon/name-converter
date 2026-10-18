@@ -52,6 +52,10 @@ export async function generateMetadata({
     description,
     alternates: {
       canonical: `/result/${selectedNameData.name}`,
+      languages: {
+        ko: `/result/${encodeURIComponent(selectedNameData.name)}`,
+        "zh-Hant-TW": `/zh-tw/name/${encodeURIComponent(selectedNameData.name)}`,
+      },
     },
     openGraph: {
       title,

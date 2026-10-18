@@ -1,0 +1,161 @@
+.pitch {
+  margin: 20px 0 10px;
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.6;
+  text-align: center;
+  color: #212529;
+}
+
+.pitchMark {
+  padding: 0 4px;
+  background: linear-gradient(transparent 58%, #fff4a8 58%);
+  color: inherit;
+}
+
+.lede {
+  margin: 0 0 22px;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  text-align: center;
+  color: #495057;
+}
+
+.exampleLabel {
+  margin: 8px 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #86868b;
+  text-align: center;
+  letter-spacing: 0.08em;
+}
+
+.examples {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.example {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid #ececee;
+  border-radius: 14px;
+  color: #1d1d1f;
+  text-decoration: none;
+}
+
+.example:hover {
+  background-color: #f8f8f8;
+}
+
+.exampleName {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.exampleArrow {
+  color: #86868b;
+}
+
+.exampleTw {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.twCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 6px 0 4px;
+}
+
+.twName {
+  font-size: 3rem;
+  font-weight: bold;
+  line-height: 1.25;
+  background: linear-gradient(transparent 60%, #fff4a8 60%);
+  padding: 0 8px;
+}
+
+.twNote {
+  margin: 8px 0 0;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #6c757d;
+}
+
+.badge {
+  display: inline-block;
+  margin: 18px 0 6px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background-color: #212529;
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.lines {
+  line-height: 1.7;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 400px;
+  margin: 28px auto 0;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.primaryAction {
+  width: 100%;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 12px;
+  background-color: #ffd43b;
+  color: #212529;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 0 #e0b400;
+}
+
+.secondaryAction {
+  width: 100%;
+  padding: 12px 10px;
+  border: 1px solid #ced4da;
+  border-radius: 12px;
+  background-color: #ffffff;
+  color: #343a40;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.textAction {
+  align-self: center;
+  margin-top: 4px;
+  padding: 8px 12px;
+  color: #495057;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-underline-offset: 3px;
+}
+
+.source {
+  margin: 24px 20px 0;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: #868e96;
+  text-align: center;
+}

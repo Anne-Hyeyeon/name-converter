@@ -47,6 +47,8 @@
 - `/korean-name/[name]` : 한국 이름 결과와 "한국에서 태어났다면" 연도별 이름
 - `/korean-name/born`, `/korean-name/born/[year]` : 연도별 한국 인기 이름 Top 10
 - `/korean-name/check/[slug]` : 한국 이름의 유행 시기 확인
+- `/zh-tw` : 대만판(번체 중국어) POC. 영어 이름의 미국 유행 연대를 알려줍니다
+- `/zh-tw/name/[name]` : 미국 연대와 같은 시대의 대만 인기 이름
 - `/sitemap.xml`, `/robots.txt` : 검색엔진용
 
 ## 시트 데이터
@@ -66,6 +68,9 @@
 - 보정 탭을 고친 뒤에는 아래 두 명령을 차례로 실행합니다.
 - `node scripts/fetch-korean-celebrities.mjs` 는 Wikidata에서 받아 `scripts/data/` 에 둡니다. 이 폴더는 커밋하지 않습니다.
 - `node --env-file=.env.local scripts/build-korean-names.mjs` 는 보정 탭을 합쳐 `korean_celebrities`, `korean_name_stats` 탭을 다시 씁니다.
+- `tw_decade_names` 는 출생 연대별 대만 인기 이름 Top 10 입니다. 내정부 「全國姓名統計分析」 112년판 표 56입니다.
+- 이 통계는 조사 시점에 살아 있는 사람 기준입니다. 1912~1920년 연대는 인원이 적어 매칭에 쓰지 않습니다.
+- 새 판이 나오면 PDF를 `scripts/data/tw/` 에 받고 `node --env-file=.env.local scripts/build-tw-names.mjs <PDF 경로>` 를 실행합니다. `pdftotext` 가 필요합니다.
 - 화면 문구는 `src/app/(en)/korean-name/i18n/` 에 있습니다. 언어를 늘릴 때 같은 형태의 사전을 추가합니다.
 
 ## SEO
@@ -118,6 +123,10 @@ src/app/
 │  └─ page.tsx
 ├─ (en)/                # 영어 페이지. 루트 레이아웃이 <html lang="en">
 │  ├─ korean-name/      # 외국인용 한국 이름 서비스
+│  ├─ error.tsx
+│  └─ layout.tsx
+├─ (zh)/                # 대만판. 루트 레이아웃이 <html lang="zh-Hant-TW">
+│  ├─ zh-tw/
 │  ├─ error.tsx
 │  └─ layout.tsx
 ├─ (shared)/
