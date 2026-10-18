@@ -9,6 +9,7 @@ import { useNavigation } from "@/app/(shared)/hooks";
 import { getDictionary, type Gender, type GenerationKey } from "../i18n";
 import { KOREAN_NAME_URLS } from "../constants";
 import HearButton from "./HearButton";
+import GenerationLines from "./GenerationLines";
 import BornInKorea from "./BornInKorea";
 import KoreanShareButtons from "./KoreanShareButtons";
 import localStyles from "../korean-name.module.css";
@@ -88,11 +89,12 @@ export default function KoreanNameResult({
                 {label} {t.result.labelSuffix} {generationText.emoji}
               </p>
               <div className={styles.messageContainer}>
-                {generationText.lines.map((line) => (
-                  <p key={line} className={styles.infoText}>
-                    {line}
-                  </p>
-                ))}
+                <GenerationLines
+                  intro={generationText.intro}
+                  fun={generationText.fun}
+                  seed={name}
+                  className={styles.infoText}
+                />
               </div>
             </>
           ) : (

@@ -171,73 +171,109 @@ export const en: Dictionary = {
     silentGen: {
       label: "SILENT GEN",
       emoji: "🕰️",
-      lines: [
-        "A 1920s and 30s name. 🕰️",
-        "Born before TV, raised on radio dramas. A true classic.",
+      intro: "A 1920s and 30s name. 🕰️",
+      fun: [
+        "Born before TV, raised on radio dramas. A true classic. 📻",
+        "Back when letters took weeks and every word counted. ✉️",
+        "This name has seen trams, typewriters, and a whole century. 🚋",
+        "Old-school charm that never needed Wi-Fi. 🎩",
+        "The kind of name you'd find in a black-and-white family photo. 📷",
+        "A name with stories older than your grandparents' wedding album. 📜",
       ],
     },
     boomer: {
       label: "BOOMER",
       emoji: "✌️",
-      lines: [
-        "Korean parents loved this name in the 1940s and 50s. ✌️",
-        "The generation that built modern Korea from the ground up.",
+      intro: "Korean parents loved this name in the 1940s and 50s. ✌️",
+      fun: [
+        "The generation that built modern Korea from the ground up. 🏗️",
+        "Think postwar grit, packed buses, and endless hard work. 🚌",
+        "Raised on radio, now ruling the family group chat. 📱",
+        "The ones who turned a country around in a single lifetime. 🌏",
+        "Trot music fans before trot was cool again. 🎶",
+        "They walked to school uphill both ways, and they'll tell you about it. 🥾",
       ],
     },
     genX: {
       label: "GEN X",
       emoji: "📼",
-      lines: [
-        "A 1960s and 70s name. 📼",
-        "Cassette tapes, arcade games, and the first Korean TV dramas.",
+      intro: "A 1960s and 70s name. 📼",
+      fun: [
+        "Cassette tapes, arcade games, and the first Korean TV dramas. 🕹️",
+        "Grew up with mixtapes and dial phones, now masters of the office dinner. 🍻",
+        "The first generation to blast pop songs on a Walkman. 🎧",
+        "Watched the 1988 Seoul Olympics and still remembers Hodori the tiger. 🐯",
+        "Pagers in their pockets and big dreams in their hearts. 📟",
+        "The original K-drama fans, one episode a week, no skipping. 📺",
       ],
     },
     millennial: {
       label: "MILLENNIAL",
       emoji: "💿",
-      lines: [
-        "A 1980s and 90s name. 💿",
+      intro: "A 1980s and 90s name. 💿",
+      fun: [
         "The generation that grew up with the first wave of K-pop and PC bangs. 🎮",
+        "Cyworld profiles, flip phones, and karaoke till midnight. 📱",
+        "Lived through dial-up internet and the very first K-pop fandoms. 🌐",
+        "StarCraft at the PC bang after school, every single day. 🖱️",
+        "Collected idol photo cards before it was a whole economy. 🃏",
+        "Studied for exams by day, ran fan cafés by night. ✏️",
       ],
     },
     genZ: {
       label: "GEN Z",
       emoji: "📱",
-      lines: [
-        "A 2000s name. 📱",
-        "Same generation as today's K-pop idols.",
+      intro: "A 2000s name. 📱",
+      fun: [
+        "Same generation as today's K-pop idols. 🎤",
+        "Grew up with smartphones while K-pop went global. 🌍",
+        "Speaks fluent emoji and learned every dance from YouTube. 💃",
+        "Watched K-pop take over the world in real time. 🚀",
+        "Born online, from mukbang videos to idol livestreams. 📹",
+        "Their class group chat had more members than most idol groups. 💬",
       ],
     },
     genAlpha: {
       label: "GEN ALPHA",
       emoji: "👶",
-      lines: [
-        "Korean parents are choosing this name right now.",
+      intro: "Korean parents are choosing this name right now. 👶",
+      fun: [
         "The newest generation in Korea. 🍼",
+        "Can swipe a tablet before they can tie their shoes. 📲",
+        "Their first favorite song was probably a baby shark remix. 🦈",
+        "Growing up with AI speakers that answer every single 'why?'. 🤖",
+        "The future K-pop trainees of the 2030s. ⭐",
+        "Born into a world where K-content is everywhere. 🌐",
       ],
     },
     timeless: {
       label: "TIMELESS",
       emoji: "✨",
-      lines: [
-        "Loved in the past and still loved today.",
+      intro: "Loved in the past and still loved today.",
+      fun: [
         "Classic and trendy at the same time! 🤩",
+        "Never out of style, like a crisp white T-shirt. 👕",
+        "Grandparents and Gen Z both approve of this one. 🤝",
       ],
     },
     puppy: {
       label: "PUPPY",
       emoji: "🐶",
-      lines: [
-        "Plot twist: in Korea this sounds like a puppy's name.",
+      intro: "Plot twist: in Korea this sounds like a puppy's name.",
+      fun: [
         "Cute, though! 🐕",
+        "Don't be surprised if someone turns around at the dog park. 🐾",
+        "Honestly, a very good name for a very good friend. 🦴",
       ],
     },
     unique: {
       label: "ONE-OF-A-KIND",
       emoji: "🌍",
-      lines: [
-        "Your name comes from outside the American mainstream.",
+      intro: "Your name comes from outside the American mainstream.",
+      fun: [
         "So here's a Korean name with a similar feel. ✨",
+        "A rare find, just like you. 💎",
+        "One of a kind in any language. 🌈",
       ],
     },
   },

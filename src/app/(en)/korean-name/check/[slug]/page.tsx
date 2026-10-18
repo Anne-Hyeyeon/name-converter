@@ -7,6 +7,7 @@ import pageStyles from "@/app/(ko)/result/[name]/page.module.css";
 import { getDictionary } from "../../i18n";
 import { KOREAN_NAME_URLS } from "../../constants";
 import HearButton from "../../components/HearButton";
+import GenerationLines from "../../components/GenerationLines";
 import KoreanNameNotFound from "../../components/KoreanNameNotFound";
 import KoreanNameCheckForm from "../../components/KoreanNameCheckForm";
 import KoreanNameTrendChart from "../../components/KoreanNameTrendChart";
@@ -99,11 +100,12 @@ const KoreanNameCheckResult = ({ info }: { info: KoreanNameInfo }) => {
             {label} {t.result.labelSuffix} {generation.emoji}
           </p>
           <div className={styles.messageContainer}>
-            {generation.lines.map((line) => (
-              <p key={line} className={styles.infoText}>
-                {line}
-              </p>
-            ))}
+            <GenerationLines
+              intro={generation.intro}
+              fun={generation.fun}
+              seed={info.koreanName}
+              className={styles.infoText}
+            />
             {info.generationFromCelebrities && (
               <p className={styles.developerNote}>{t.celebrities.basedOn}</p>
             )}
