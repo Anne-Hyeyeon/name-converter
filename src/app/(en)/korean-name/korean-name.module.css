@@ -243,26 +243,8 @@
   opacity: 0.75;
 }
 
-.backBar {
-  width: 100%;
-  max-width: 480px;
-  margin: -8px 0 4px;
-  box-sizing: border-box;
-}
 
-.backButton {
-  padding: 6px 10px 6px 4px;
-  border: none;
-  background: none;
-  color: #495057;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-}
 
-.backButton:hover {
-  color: #212529;
-}
 
 .exampleLabel {
   margin: 8px 0 8px;
@@ -490,4 +472,32 @@
 
 .decadeLink {
   padding: 9px 0;
+}
+
+.podiumLink {
+  color: inherit;
+  text-decoration: none;
+}
+
+.pitch {
+  margin: 20px 0 10px;
+  font-size: 1.3rem;
+  font-weight: 800;
+  line-height: 1.6;
+  text-align: center;
+  color: #212529;
+}
+
+.pitchMark {
+  padding: 0 4px;
+  background: linear-gradient(transparent 58%, #fff4a8 58%);
+  color: inherit;
+}
+
+.lede {
+  margin: 0 0 22px;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  text-align: center;
+  color: #495057;
 }

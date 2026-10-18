@@ -70,6 +70,34 @@ const KoreanName = ({
     <span className={className} />
   );
 
+const PodiumName = ({
+  entry,
+  label,
+  className,
+  nameClassName,
+  labelClassName,
+}: {
+  entry: KoreanNameEntry | undefined;
+  label: string;
+  className: string;
+  nameClassName: string;
+  labelClassName: string;
+}) =>
+  entry ? (
+    <Link
+      href={KOREAN_NAME_URLS.check(romanizeSlug(entry[0]))}
+      className={`${className} ${localStyles.podiumLink}`}
+    >
+      <span className={labelClassName}>{label}</span>
+      <span className={nameClassName} lang="ko">
+        {entry[0]}
+      </span>
+      <span className={labelClassName}>{romanizeName(entry[0])}</span>
+    </Link>
+  ) : (
+    <div className={className} />
+  );
+
 export default async function KoreanBornYearPage({
   params,
 }: {
@@ -136,6 +164,7 @@ export default async function KoreanBornYearPage({
 
       <section className={styles.section} aria-label={t.born.top3}>
         <h2 className={styles.sectionTitle}>{t.born.top3}</h2>
+        <p className={styles.tableHelper}>{t.born.tapHint}</p>
         <ol className={styles.podium}>
           {podium.map((e) => (
             <li
@@ -147,25 +176,21 @@ export default async function KoreanBornYearPage({
                 <span>#{e.rank}</span>
               </div>
               <div className={styles.podiumNames}>
-                <div className={`${styles.podiumNameCol} ${styles.boyCol}`}>
-                  <span className={styles.podiumLabel}>{t.born.boy.toUpperCase()}</span>
-                  <span className={styles.podiumName} lang="ko">
-                    {e.boy?.[0]}
-                  </span>
-                  <span className={styles.podiumLabel}>
-                    {e.boy && romanizeName(e.boy[0])}
-                  </span>
-                </div>
+                <PodiumName
+                  entry={e.boy}
+                  label={t.born.boy.toUpperCase()}
+                  className={`${styles.podiumNameCol} ${styles.boyCol}`}
+                  nameClassName={styles.podiumName}
+                  labelClassName={styles.podiumLabel}
+                />
                 <div className={styles.podiumDivider} />
-                <div className={`${styles.podiumNameCol} ${styles.girlCol}`}>
-                  <span className={styles.podiumLabel}>{t.born.girl.toUpperCase()}</span>
-                  <span className={styles.podiumName} lang="ko">
-                    {e.girl?.[0]}
-                  </span>
-                  <span className={styles.podiumLabel}>
-                    {e.girl && romanizeName(e.girl[0])}
-                  </span>
-                </div>
+                <PodiumName
+                  entry={e.girl}
+                  label={t.born.girl.toUpperCase()}
+                  className={`${styles.podiumNameCol} ${styles.girlCol}`}
+                  nameClassName={styles.podiumName}
+                  labelClassName={styles.podiumLabel}
+                />
               </div>
             </li>
           ))}
@@ -174,6 +199,7 @@ export default async function KoreanBornYearPage({
 
       <section className={styles.section} aria-label={t.born.topList}>
         <h2 className={styles.sectionTitle}>{t.born.topList}</h2>
+        <p className={styles.tableHelper}>{t.born.tapHint}</p>
         <div className={styles.table}>
           <div className={styles.tableHead}>
             <span className={styles.colRank}>{t.born.rank}</span>

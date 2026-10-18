@@ -8,6 +8,7 @@ import { useNavigation } from "../../hooks";
 import { URLS } from "../../constants/urls";
 import { getDictionary } from "@/app/(en)/korean-name/i18n";
 import { KOREAN_NAME_URLS } from "@/app/(en)/korean-name/constants";
+import BackButton from "@/app/(en)/korean-name/components/BackButton";
 
 const koreanNameText = getDictionary().header;
 
@@ -140,6 +141,7 @@ export default function Header() {
 
   return (
     <header className={styles.header}>
+      {isKoreanNamePage && <BackButton className={styles.backButton} />}
       <div className={styles.content}>{announcement}</div>
 
       <div className={styles.menuContainer}>

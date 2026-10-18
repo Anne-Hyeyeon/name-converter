@@ -82,16 +82,21 @@ export default function KoreanNameSearch({
             👩
           </span>
         </div>
-        <p className={styles.infoText}>
-          <strong>{t.landing.introStrong}</strong>
-          <strong className={styles.secondLine}>
-            {t.landing.introSecond.map((line, index) => (
-              <span key={line}>
-                {index > 0 && <br />}
-                {line}
-              </span>
-            ))}
-          </strong>
+        <p className={localStyles.pitch}>
+          {t.landing.introStrong.map((line, index) => (
+            <span key={line}>
+              {index > 0 && <br />}
+              <mark className={localStyles.pitchMark}>{line}</mark>
+            </span>
+          ))}
+        </p>
+        <p className={localStyles.lede}>
+          {t.landing.introSecond.map((line, index) => (
+            <span key={line}>
+              {index > 0 && <br />}
+              {line}
+            </span>
+          ))}
         </p>
         {examples.length > 0 && (
           <section aria-label={t.landing.exampleLabel}>

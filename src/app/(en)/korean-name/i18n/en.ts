@@ -36,7 +36,7 @@ export const en: Dictionary = {
     checkAnnouncement: "How does my bias's name feel? 💜",
     link: "Find my Korean name ✨",
     homeLink: "Back to My Korean Name 🎉",
-    back: "‹ Back",
+    back: "Back",
     menu: {
       home: "👵 My Korean name",
       born: "📅 Korean names by birth year",
@@ -50,10 +50,11 @@ export const en: Dictionary = {
     tooLong: "That name is too long! 😅",
     englishOnly: "Please type your name in English letters only.",
     notListed: (query) => `Can't find "${query}"?`,
-    introStrong: "Your Korean name, matched to your generation. 🇰🇷",
+    introStrong: ["Type your English name,", "get your Korean name! ✨"],
     introSecond: [
       "Every English name has an era.",
-      "We find the Korean name that was popular in that same era.",
+      "We match it with a Korean name",
+      "that was popular in that same era.",
     ],
     exampleLabel: "For example",
     heroEmojiLabel: "Chunja",
@@ -104,6 +105,7 @@ export const en: Dictionary = {
       "Pick a year. We collected the most popular Korean baby names from 1945 to today.",
     top3: "Top 3",
     topList: "Top 10",
+    tapHint: "Tap a name to see its name card, pronunciation, and generation.",
     rank: "Rank",
     births: (count) => `${count.toLocaleString("en-US")} babies`,
     prev: (year) => `‹ ${year}`,
@@ -122,6 +124,7 @@ export const en: Dictionary = {
     title: "What does my bias's name feel like? 💜",
     placeholder: "Your bias's name, e.g. Jimin or 지민",
     button: "Check",
+    examplesTitle: "Popular bias names to try",
     lede: [
       "Want a Korean name inspired by your bias (최애)?",
       "Type their Korean name in English letters or Hangul.",
