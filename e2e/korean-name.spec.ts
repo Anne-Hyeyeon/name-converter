@@ -144,13 +144,13 @@ test.describe("외국인용 한국 이름 (Korean name)", () => {
     await open(page, "/korean-name/born/1988");
     await page.getByRole("link", { name: "‹ 1978" }).click();
     await page.waitForURL(/\/korean-name\/born\/1978$/);
-    await page.getByRole("button", { name: "‹ Back" }).click();
+    await page.getByRole("button", { name: "Back", exact: true }).click();
     await page.waitForURL(/\/korean-name\/born\/1988$/);
 
     await open(page, "/korean-name/check/jimin");
-    await page.getByRole("button", { name: "‹ Back" }).click();
+    await page.getByRole("button", { name: "Back", exact: true }).click();
     await page.waitForURL(/\/korean-name$/);
-    await expect(page.getByRole("button", { name: "‹ Back" })).toHaveCount(0);
+    await expect(page.getByRole("button", { name: "Back", exact: true })).toHaveCount(0);
   });
 
   test("상위 10위 밖 이름도 연도별 그래프와 세대를 보여준다", async ({
@@ -193,5 +193,15 @@ test.describe("외국인용 한국 이름 (Korean name)", () => {
     await expect(page.getByRole("link", { name: "2008", exact: true })).toBeVisible();
     await page.getByRole("link", { name: "See popular names (1995 data) →" }).click();
     await page.waitForURL(/\/korean-name\/born\/1995$/);
+  });
+
+  test("연도 페이지 Top 3 이름을 누르면 이름카드 페이지로 간다", async ({ page }) => {
+    await open(page, "/korean-name/born/2025");
+    await page
+      .getByRole("region", { name: "Top 3" })
+      .getByRole("link", { name: /도윤/ })
+      .click();
+    await page.waitForURL(/\/korean-name\/check\/doyun$/);
+    await expect(page.getByRole("heading", { name: "Do-yun", exact: true })).toBeVisible();
   });
 });

@@ -53,7 +53,7 @@ export type Dictionary = {
     tooLong: string;
     englishOnly: string;
     notListed: (query: string) => string;
-    introStrong: string;
+    introStrong: string[];
     introSecond: string[];
     exampleLabel: string;
     heroEmojiLabel: string;
@@ -96,6 +96,7 @@ export type Dictionary = {
     indexLede: string;
     top3: string;
     topList: string;
+    tapHint: string;
     rank: string;
     births: (count: number) => string;
     prev: (year: number) => string;
@@ -111,6 +112,7 @@ export type Dictionary = {
     title: string;
     placeholder: string;
     button: string;
+    examplesTitle: string;
     lede: string[];
     peak: (year: number) => string;
     peakRank: (year: number, rank: number, gender: string) => string;

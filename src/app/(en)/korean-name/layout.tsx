@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { getDictionary } from "./i18n";
 import styles from "./korean-name.module.css";
-import BackButton from "./components/BackButton";
 
 const t = getDictionary();
 
@@ -30,7 +29,6 @@ export default function KoreanNameLayout({
 }) {
   return (
     <div className={styles.localeRoot}>
-      <BackButton />
       {children}
     </div>
   );
