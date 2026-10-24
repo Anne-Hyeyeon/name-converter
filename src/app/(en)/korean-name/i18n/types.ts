@@ -29,8 +29,13 @@ export type Dictionary = {
     title: string;
     description: string;
     keywords: string;
-    resultTitle: (name: string, koreanName: string) => string;
-    resultDescription: (name: string, koreanName: string, label: string) => string;
+    resultTitle: (name: string, hangul: string, koreanName: string | null) => string;
+    resultDescription: (
+      name: string,
+      hangul: string,
+      koreanName: string | null,
+      label: string | null
+    ) => string;
     notFoundTitle: (name: string) => string;
     notFoundDescription: (name: string) => string;
     bornTitle: (year: number) => string;
@@ -62,6 +67,8 @@ export type Dictionary = {
     checkLink: string;
   };
   result: {
+    spellingTitle: (name: string) => string;
+    spellingLede: (name: string) => string;
     lead: (name: string) => string;
     youWouldBe: string;
     labelSuffix: string;

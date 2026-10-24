@@ -120,6 +120,41 @@ test.describe("외국인용 한국 이름 (Korean name)", () => {
     expect(response.headers()["content-type"]).toContain("image/png");
   });
 
+  test("영어 이름 결과 맨 위에 한글 표기와 검색어 제목이 있다", async ({
+    page,
+  }) => {
+    await open(page, "/korean-name/Emily");
+    await expect(page).toHaveTitle(
+      "Emily in Korean: 에밀리 | Korean Name 수진 (Su-jin)"
+    );
+    await expect(
+      page.getByRole("heading", { level: 1, name: "Emily in Korean" })
+    ).toBeVisible();
+    await expect(page.getByText("에밀리", { exact: true })).toBeVisible();
+    await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
+  });
+
+  test("많이 쓰지 않는 영어 이름은 색인하지 않는다", async ({ page }) => {
+    await open(page, "/korean-name/Selly");
+    await expect(page.getByText("셀리", { exact: true })).toBeVisible();
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+      "content",
+      "noindex, follow"
+    );
+  });
+
+  test("sitemap의 영어 페이지는 많이 쓰는 이름만 담는다", async ({
+    request,
+  }) => {
+    const response = await request.get("/sitemap.xml", { headers: authHeaders });
+    const body = await response.text();
+    const results = body.match(/\/korean-name\/[A-Z][A-Za-z%0-9]*<\/loc>/g) ?? [];
+    const checks = body.match(/\/korean-name\/check\/[a-z]+<\/loc>/g) ?? [];
+    expect(results.length).toBeLessThanOrEqual(500);
+    expect(checks.length).toBeLessThan(1500);
+    expect(body).not.toContain("https://chunja.vercel.app/korean-name/Selly<");
+  });
+
   test("sitemap에 한국 이름 페이지가 들어 있다", async ({ request }) => {
     const response = await request.get("/sitemap.xml", { headers: authHeaders });
     const body = await response.text();

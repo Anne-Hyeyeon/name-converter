@@ -26,6 +26,7 @@ import {
   romanizeName,
   romanizeSlug,
 } from "../../utils/romanize";
+import { getIndexedKoreanNames } from "../../utils/indexing";
 import localStyles from "../../korean-name.module.css";
 
 export const revalidate = 3600;
@@ -60,16 +61,11 @@ export async function generateMetadata({
   }
   const title = t.meta.checkTitle(info.koreanName, info.romanized);
   const description = t.meta.checkDescription(info.romanized);
-  const isThin =
-    !info.peak &&
-    !info.generation &&
-    info.englishNames.length === 0 &&
-    !info.celebrities &&
-    (info.trend?.peakCount ?? 0) < 50;
+  const indexed = (await getIndexedKoreanNames()).has(info.koreanName);
   return {
     title,
     description,
-    ...(isThin && { robots: { index: false, follow: true } }),
+    ...(!indexed && { robots: { index: false, follow: true } }),
     alternates: { canonical: KOREAN_NAME_URLS.check(info.slug) },
     openGraph: {
       title,

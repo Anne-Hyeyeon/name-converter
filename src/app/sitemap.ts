@@ -5,8 +5,10 @@ import { getRankingYears } from "./(shared)/utils/getYearRanking";
 import { KOREAN_NAME_URLS } from "./(en)/korean-name/constants";
 import { getKoreanYearData } from "./(en)/korean-name/utils/koreanYearNames";
 import { romanizeSlug } from "./(en)/korean-name/utils/romanize";
-import { getKoreanNameStats } from "./(en)/korean-name/utils/koreanNameStats";
-import { getKoreanCelebrityData } from "./(en)/korean-name/utils/koreanCelebrities";
+import {
+  getIndexedEnglishNames,
+  getIndexedKoreanNames,
+} from "./(en)/korean-name/utils/indexing";
 
 export const revalidate = 3600;
 
@@ -14,8 +16,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const nameData = await getAllNameData();
   const rankingYears = await getRankingYears();
   const koreanYears = await getKoreanYearData();
-  const koreanStats = await getKoreanNameStats();
-  const celebrityData = await getKoreanCelebrityData();
+  const indexedEnglish = await getIndexedEnglishNames(nameData);
+  const indexedKorean = await getIndexedKoreanNames();
 
   return [
     { url: URLS.SITE, changeFrequency: "weekly", priority: 1 },
@@ -64,21 +66,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "yearly" as const,
       priority: 0.6,
     })),
-    ...[
-      ...new Set(
-        [
-          ...koreanYears.rankedNames(),
-          ...koreanStats.names(50),
-          ...celebrityData.givenNames(),
-        ].map(romanizeSlug)
-      ),
-    ].map((slug) => ({
+    ...[...new Set([...indexedKorean].map(romanizeSlug))].map((slug) => ({
       url: `${URLS.SITE}${KOREAN_NAME_URLS.check(slug)}`,
       changeFrequency: "yearly" as const,
       priority: 0.5,
     })),
     ...nameData
-      .filter((data) => data.koreanName && Number(data.characteristic) !== 10)
+      .filter((data) => indexedEnglish.has(data.name))
       .map((data) => ({
         url: `${URLS.SITE}${KOREAN_NAME_URLS.result(data.name)}`,
         changeFrequency: "monthly" as const,
