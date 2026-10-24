@@ -9,15 +9,19 @@ export const en: Dictionary = {
   siteName: "Am I Chunja?!",
   withArticle,
   meta: {
-    title: "What's My Korean Name? Find the Korean Name From Your Generation 🇰🇷",
+    title: "My Name in Korean: Hangul Spelling and Your Generation's Korean Name 🇰🇷",
     description:
-      "Every English name has a generation. Type yours and get the Korean name that was popular in the same era, with Hangul and how to say it.",
+      "Type your English name to see how it's written in Hangul and hear how it sounds. Then get the Korean name that was popular in your generation.",
     keywords:
-      "korean name, my korean name, korean name generator, what is my korean name, korean name from my generation, popular korean names by year, korean baby names",
-    resultTitle: (name, koreanName) =>
-      `${name} in Korea is ${koreanName} - Am I Chunja?!`,
-    resultDescription: (name, koreanName, label) =>
-      `${name} would be ${koreanName} in Korea. That's ${withArticle(label)} name! Find out what your English name sounds like in Korea.`,
+      "my name in korean, name in hangul, how to write my name in korean, korean name, my korean name, korean name generator, what is my korean name, popular korean names by year",
+    resultTitle: (name, hangul, koreanName) =>
+      koreanName
+        ? `${name} in Korean: ${hangul} | Korean Name ${koreanName}`
+        : `${name} in Korean: ${hangul} | Hangul Spelling`,
+    resultDescription: (name, hangul, koreanName, label) =>
+      koreanName && label
+        ? `${name} is written ${hangul} in Korean Hangul. If ${name} were Korean, the name would be ${koreanName}, ${withArticle(label)} name. Hear how it sounds.`
+        : `${name} is written ${hangul} in Korean Hangul. Hear how it sounds and find your Korean name.`,
     notFoundTitle: (name) => `${name} - Am I Chunja?!`,
     notFoundDescription: (name) => `We couldn't find ${name} yet.`,
     bornTitle: (year) => `Popular Korean Names in ${year} - Am I Chunja?!`,
@@ -50,7 +54,7 @@ export const en: Dictionary = {
     tooLong: "That name is too long! 😅",
     englishOnly: "Please type your name in English letters only.",
     notListed: (query) => `Can't find "${query}"?`,
-    introStrong: ["Type your English name,", "get your Korean name! ✨"],
+    introStrong: ["Type your English name,", "see it in Hangul and get your Korean name! ✨"],
     introSecond: [
       "Every English name has an era.",
       "We match it with a Korean name",
@@ -62,6 +66,8 @@ export const en: Dictionary = {
     checkLink: "💜 What does my bias's name feel like?",
   },
   result: {
+    spellingTitle: (name) => `${name} in Korean`,
+    spellingLede: (name) => `This is how ${name} is written in Hangul, the Korean alphabet.`,
     lead: (name) => `If ${name} were Korean,`,
     youWouldBe: "you would be",
     labelSuffix: "name",

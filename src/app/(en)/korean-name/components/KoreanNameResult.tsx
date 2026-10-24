@@ -18,6 +18,7 @@ const t = getDictionary();
 
 export type KoreanNameResultProps = {
   name: string;
+  hangul: string | null;
   gender: Gender;
   characteristic: number;
   koreanName: string | null;
@@ -31,6 +32,7 @@ export type KoreanNameResultProps = {
 
 export default function KoreanNameResult({
   name,
+  hangul,
   gender,
   characteristic,
   koreanName,
@@ -67,7 +69,24 @@ export default function KoreanNameResult({
   return (
     <div>
       <div id="resultPage" className={styles.resultPage}>
-        <h1 className={styles.name}>{name}</h1>
+        {hangul ? (
+          <>
+            <h1 className={localStyles.spellingTitle}>
+              {t.result.spellingTitle(name)}
+            </h1>
+            <div className={localStyles.spellingCard}>
+              <span lang="ko" className={localStyles.hangul}>
+                {hangul}
+              </span>
+              <HearButton hangul={hangul} />
+              <p className={localStyles.spellingLede}>
+                {t.result.spellingLede(name)}
+              </p>
+            </div>
+          </>
+        ) : (
+          <h1 className={styles.name}>{name}</h1>
+        )}
         <div className={styles.emojiContainer}>
           <span role="img" aria-label="character" className={styles.largeEmoji}>
             {getEmoji(gender, characteristic)}

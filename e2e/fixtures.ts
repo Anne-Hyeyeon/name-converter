@@ -8,13 +8,13 @@ export const authHeaders: Record<string, string> = token
   ? { "x-vercel-trusted-oidc-idp-token": token }
   : {};
 
-const AD_HOSTS =
-  /googlesyndication\.com|doubleclick\.net|googleadservices\.com|adtrafficquality\.google/;
+const BLOCKED_HOSTS =
+  /googlesyndication\.com|doubleclick\.net|googleadservices\.com|adtrafficquality\.google|google-analytics\.com|analytics\.google\.com/;
 
 export const test = base.extend({
   context: async ({ context, baseURL }, provide) => {
     if (!process.env.ALLOW_ADS) {
-      await context.route((url) => AD_HOSTS.test(url.hostname), (route) =>
+      await context.route((url) => BLOCKED_HOSTS.test(url.hostname), (route) =>
         route.abort()
       );
     }

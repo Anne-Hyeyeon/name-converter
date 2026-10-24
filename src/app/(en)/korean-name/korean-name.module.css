@@ -20,6 +20,38 @@
   padding: 0 8px;
 }
 
+.spellingTitle {
+  font-size: 2.6rem;
+  line-height: 1.2;
+  margin-bottom: 12px;
+  text-align: center;
+  word-break: keep-all;
+}
+
+.spellingCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 0 24px;
+  padding: 20px 24px;
+  border: 2px solid #212529;
+  border-radius: 16px;
+  background: #ffffff;
+}
+
+.spellingLede {
+  margin: 12px 0 0;
+  font-size: 0.95rem;
+  color: #495057;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .spellingTitle {
+    font-size: 2rem;
+  }
+}
+
 .romanized {
   margin-top: 6px;
   font-size: 1.2rem;
