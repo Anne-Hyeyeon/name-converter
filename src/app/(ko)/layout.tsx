@@ -27,8 +27,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/amI.png",
-        width: 1200,
-        height: 630,
+        width: 200,
+        height: 150,
         alt: "춘자의 이름 변환기 - 내 영어 이름은 촌스러울까?",
       },
     ],
