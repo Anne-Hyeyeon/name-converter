@@ -87,6 +87,23 @@ test.describe("페이지 이동과 기능", () => {
     expect(download.suggestedFilename()).toBe("Anne-korean-name.png");
   });
 
+  test("긴 페이지는 창 전체가 스크롤되고 헤더는 위에 남는다", async ({
+    page,
+  }) => {
+    await open(page, "/result/Anne");
+    const main = page.locator("main");
+    expect(
+      await main.evaluate((el) => el.scrollHeight - el.clientHeight)
+    ).toBe(0);
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+    const headerTop = await page
+      .locator("header")
+      .evaluate((el) => el.getBoundingClientRect().top);
+    expect(headerTop).toBe(0);
+    await expect(page.locator("footer")).toBeInViewport();
+  });
+
   test("없는 주소는 사이트 모양의 404 페이지를 보여준다", async ({ page }) => {
     const response = await open(page, "/no-such-page");
     expect(response!.status()).toBe(404);
