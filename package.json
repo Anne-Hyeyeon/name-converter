@@ -10,7 +10,7 @@
   "test:e2e": "playwright test"
  },
  "dependencies": {
-  "googleapis": "^140.0.1",
+  "@googleapis/sheets": "^18.1.2",
   "html2canvas": "^1.4.1",
   "next": "^16.4.2",
   "react": "^19.3.1",
