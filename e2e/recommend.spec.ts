@@ -51,4 +51,25 @@ test.describe("이름 추천", () => {
       "noindex, follow"
     );
   });
+
+  test("없는 세대 값이 들어간 추천 링크는 검색 결과로 이동한다", async ({
+    page,
+  }) => {
+    await open(
+      page,
+      "/recommend/Anne?gender=female&generation=99&characteristics=3&koreanName=a"
+    );
+    await expect(page).toHaveURL(/\/result\/Anne$/);
+  });
+
+  test("추천 링크의 모르는 특성 값은 빼고 보여준다", async ({ page }) => {
+    await open(
+      page,
+      "/recommend/Anne?gender=female&generation=4&characteristics=3,99&koreanName=%ED%98%9C%EC%97%B0"
+    );
+    await expect(page.getByText("혜연님")).toBeVisible();
+    await expect(page.locator("#englishNameResultPage")).not.toContainText(
+      "undefined"
+    );
+  });
 });

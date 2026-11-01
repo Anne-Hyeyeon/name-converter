@@ -29,3 +29,10 @@ export const CHARACTERISTIC_OPTIONS = [
   { value: 17, label: "🛡️ 믿음직한", emoji: "🛡️" },
   { value: 18, label: "😍 매력적인", emoji: "😍" },
 ];
+
+export const GENERATION_VALUES: number[] = GENERATION_OPTIONS.map((o) => o.value);
+export const CHARACTERISTIC_VALUES: number[] = CHARACTERISTIC_OPTIONS.map(
+  (o) => o.value
+);
+export const MAX_CHARACTERISTICS = 3;
+export const KOREAN_NAME_MAX_LENGTH = 10;

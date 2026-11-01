@@ -2,7 +2,11 @@
 
 import getAllNameData from "../utils/getAllNameData";
 import { filterNameData, getRandomName, preprocessNameData } from "../utils";
-import { CHARACTERISTIC_OPTIONS, GENERATION_OPTIONS } from "../constants";
+import {
+  CHARACTERISTIC_VALUES,
+  GENERATION_VALUES,
+  MAX_CHARACTERISTICS,
+} from "../constants/recommendOptions";
 import { NameData } from "../types";
 
 interface RecommendNameInput {
@@ -12,15 +16,12 @@ interface RecommendNameInput {
   excludeName?: string;
 }
 
-const GENERATION_VALUES: number[] = GENERATION_OPTIONS.map((o) => o.value);
-const CHARACTERISTIC_VALUES: number[] = CHARACTERISTIC_OPTIONS.map((o) => o.value);
-
 const isValidInput = (input: RecommendNameInput): boolean =>
   (input.gender === "male" || input.gender === "female") &&
   GENERATION_VALUES.includes(input.generation) &&
   Array.isArray(input.characteristics) &&
   input.characteristics.length > 0 &&
-  input.characteristics.length <= 3 &&
+  input.characteristics.length <= MAX_CHARACTERISTICS &&
   input.characteristics.every((c) => CHARACTERISTIC_VALUES.includes(c)) &&
   (input.excludeName === undefined || typeof input.excludeName === "string");
 
