@@ -46,7 +46,13 @@ const buildYears = (
       row.count ? Number(row.count) : null,
     ];
   }
-  return [...years.values()].sort((a, b) => a.year - b.year);
+  return [...years.values()]
+    .map((entry) => ({
+      ...entry,
+      M: entry.M.filter(Boolean),
+      F: entry.F.filter(Boolean),
+    }))
+    .sort((a, b) => a.year - b.year);
 };
 
 const closest = (dataYears: number[], year: number) =>
