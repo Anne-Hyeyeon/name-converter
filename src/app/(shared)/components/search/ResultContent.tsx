@@ -1,8 +1,7 @@
-// components/ResultContent.tsx
-
 import React from "react";
 import { NameData } from "../../types";
 import { characteristicMessages } from "../../constants/resultMessages";
+import { hasKoreanName } from "../../utils/englishNameUtils";
 import styles from "./SearchResult.module.css";
 
 interface ResultContentProps {
@@ -12,7 +11,7 @@ interface ResultContentProps {
 
 export const ResultContent: React.FC<ResultContentProps> = ({ result, isTop100 }) => {
   const renderMainInfo = () => {
-    if (Number(result.characteristic) === 10 || !result.koreanName) return null;
+    if (!hasKoreanName(result)) return null;
 
     return (
       <>

@@ -4,6 +4,7 @@ import { findName, findSimilarNames } from "@/app/(shared)/utils/findName";
 import pageStyles from "@/app/(ko)/result/[name]/page.module.css";
 import { getTop100 } from "@/app/(shared)/utils/getTop100";
 import type { NameData } from "@/app/(shared)/types";
+import { hasKoreanName } from "@/app/(shared)/utils";
 import { getDictionary } from "../i18n";
 import { KOREAN_NAME_URLS } from "../constants";
 import KoreanNameResult, {
@@ -28,16 +29,13 @@ export const revalidate = 3600;
 const t = getDictionary();
 const BIRTH_YEAR_FIRST = 1940;
 
-const hasKoreanMatch = (data: NameData) =>
-  !!data.koreanName && Number(data.characteristic) !== 10;
-
 const toResultProps = (
   data: NameData,
   years: KoreanYearData,
   hangul: string | null
 ): KoreanNameResultProps => {
   const characteristic = Number(data.characteristic);
-  const matched = hasKoreanMatch(data);
+  const matched = hasKoreanName(data);
   const generation = matched ? getGenerationByCharacteristic(characteristic) : null;
   return {
     name: data.name,
@@ -135,7 +133,7 @@ export default async function KoreanNameResultPage({
               <RelatedNames
                 title={t.result.relatedTitle}
                 names={getRelatedNames(allNameData, data)
-                  .filter(hasKoreanMatch)
+                  .filter(hasKoreanName)
                   .map((related) => ({
                     href: KOREAN_NAME_URLS.result(related.name),
                     label: related.name,

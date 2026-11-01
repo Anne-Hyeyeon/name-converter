@@ -5,4 +5,6 @@ export const URLS = {
   ENGLISH_NAME_PAGE: "/your-english-name",
   TOP100_2025_PAGE: "/top-baby-names-2025",
   YEAR_PAGE: "/year",
+  result: (name: string) => `/result/${encodeURIComponent(name)}`,
+  recommend: (name: string) => `/recommend/${encodeURIComponent(name)}`,
 } as const;

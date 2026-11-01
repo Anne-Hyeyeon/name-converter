@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import getAllNameData from "@/app/(shared)/utils/getAllNameData";
 import { findName } from "@/app/(shared)/utils/findName";
-import { getEmoji } from "@/app/(shared)/utils";
+import { getEmoji, hasKoreanName } from "@/app/(shared)/utils";
 import { loadOgFont } from "@/app/(shared)/utils/loadOgFont";
 import { getDictionary } from "../i18n";
 import { getGenerationByCharacteristic, toGender } from "../utils/generation";
@@ -22,7 +22,7 @@ export default async function Image({
   const data = findName(await getAllNameData(), name);
   const characteristic = Number(data?.characteristic);
   const generation =
-    data?.koreanName && characteristic !== 10
+    data && hasKoreanName(data)
       ? getGenerationByCharacteristic(characteristic)
       : null;
   const gender = toGender(data?.gender);

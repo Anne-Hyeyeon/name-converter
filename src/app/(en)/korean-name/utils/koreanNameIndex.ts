@@ -27,6 +27,7 @@ import {
   romanizeName,
   romanizeSlug,
 } from "./romanize";
+import { hasKoreanName } from "@/app/(shared)/utils/englishNameUtils";
 
 export type KoreanNameInfo = {
   koreanName: string;
@@ -51,9 +52,6 @@ const mostCommon = <T,>(values: T[]): T | undefined => {
   for (const value of values) counts.set(value, (counts.get(value) ?? 0) + 1);
   return [...counts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0];
 };
-
-const hasKoreanMatch = (data: NameData) =>
-  !!data.koreanName && Number(data.characteristic) !== 10;
 
 type Datasets = {
   years: KoreanYearData;
@@ -134,7 +132,7 @@ export const buildKoreanNameIndex = async (allNameData: NameData[]) => {
     celebrityData: await getKoreanCelebrityData(),
   };
   const sheetRowsByName = new Map<string, NameData[]>();
-  for (const row of allNameData.filter(hasKoreanMatch)) {
+  for (const row of allNameData.filter(hasKoreanName)) {
     const rows = sheetRowsByName.get(row.koreanName) ?? [];
     rows.push(row);
     sheetRowsByName.set(row.koreanName, rows);

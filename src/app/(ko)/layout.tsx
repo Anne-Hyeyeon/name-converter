@@ -15,14 +15,12 @@ const DESCRIPTION =
 export const metadata: Metadata = {
   metadataBase: new URL(URLS.SITE),
   title: "내가 춘자라니",
-  description:
-    "Anne이 미국에선 춘자라고? 내가 춘자라니! 내 영어 이름이 미국에서 촌스러운 이름인지, 트렌디한 이름인지 알아보기! 이름의 유행 연도도 알 수 있어요ㅎㅎ",
+  description: DESCRIPTION,
   keywords:
     "영어이름, 촌스러운영어이름, 트렌디한영어이름, 영어이름추천, 영어이름생성기, 내가 춘자라니, 영어이름추천, 트렌디한영어이름",
   openGraph: {
     title: "내가 춘자라니",
-    description:
-      "Anne이 미국에선 춘자라고? 내가 춘자라니! 내 영어 이름이 미국에서 촌스러운 이름인지, 트렌디한 이름인지 알아보기! 이름의 유행 연도도 알 수 있어요ㅎㅎ",
+    description: DESCRIPTION,
     type: "website",
     siteName: "내가 춘자라니",
     locale: "ko_KR",
@@ -38,8 +36,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "내가 춘자라니",
-    description:
-      "Anne이 미국에선 춘자라고? 내가 춘자라니! 내 영어 이름이 미국에서 촌스러운 이름인지, 트렌디한 이름인지 알아보기! 이름의 유행 연도도 알 수 있어요ㅎㅎ",
+    description: DESCRIPTION,
     images: ["/amI.png"],
   },
   icons: {

@@ -10,16 +10,6 @@ import ShareButtons from "./ShareButtons";
 import styles from "./SearchResult.module.css";
 import { URLS } from "../../constants/urls";
 
-export const generateMetadata = ({ result }: { result: NameData }) => {
-  const title = `이름 검색 결과 : ${result.name}은 촌스러운 이름일까?`;
-  const description = `${result.name}은 미국에서 촌스러운 이름인지, 트렌디한 이름인지 알아보세요.`;
-
-  return {
-    title,
-    description,
-  };
-};
-
 interface SearchResultProps {
   result: NameData;
   isTop100: boolean;

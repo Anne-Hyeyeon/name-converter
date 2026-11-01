@@ -14,10 +14,8 @@ import RelatedNames from "@/app/(shared)/components/seo/RelatedNames";
 import JsonLd from "@/app/(shared)/components/seo/JsonLd";
 import { getRelatedNames } from "@/app/(shared)/utils/getRelatedNames";
 import { breadcrumbJsonLd } from "@/app/(shared)/utils/structuredData";
-import type { NameData } from "@/app/(shared)/types";
-
-const hasKoreanName = (data: NameData) =>
-  !!data.koreanName && Number(data.characteristic) !== 10;
+import { hasKoreanName } from "@/app/(shared)/utils";
+import { URLS } from "@/app/(shared)/constants/urls";
 
 export const revalidate = 3600;
 
@@ -51,7 +49,7 @@ export async function generateMetadata({
     title,
     description,
     alternates: {
-      canonical: `/result/${selectedNameData.name}`,
+      canonical: URLS.result(selectedNameData.name),
     },
     openGraph: {
       title,
@@ -89,7 +87,7 @@ export default async function ResultPage({
                 { name: "내가 춘자라니", path: "/" },
                 {
                   name: selectedNameData.name,
-                  path: `/result/${encodeURIComponent(selectedNameData.name)}`,
+                  path: URLS.result(selectedNameData.name),
                 },
               ])}
             />
@@ -110,7 +108,7 @@ export default async function ResultPage({
                     title="같은 시기에 유행한 영어 이름"
                     names={getRelatedNames(allNameData, selectedNameData).map(
                       (data) => ({
-                        href: `/result/${encodeURIComponent(data.name)}`,
+                        href: URLS.result(data.name),
                         label: data.name,
                         sub: hasKoreanName(data) ? data.koreanName : undefined,
                       })

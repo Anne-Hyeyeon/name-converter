@@ -7,6 +7,7 @@ import {
 } from "@/app/(shared)/utils/structuredData";
 import { getTop100 } from "@/app/(shared)/utils/getTop100";
 import styles from "./page.module.css";
+import { URLS } from "@/app/(shared)/constants/urls";
 
 export const metadata: Metadata = {
   title: "2025 미국 아기이름 Top 100 - 내가 춘자라니",
@@ -129,7 +130,7 @@ export default async function Top100Page() {
               </div>
               <div className={styles.podiumNames}>
                 <Link
-                  href={`/result/${e.boy}`}
+                  href={URLS.result(e.boy)}
                   className={`${styles.podiumNameCol} ${styles.boyCol}`}
                 >
                   <span className={styles.podiumLabel}>BOY</span>
@@ -137,7 +138,7 @@ export default async function Top100Page() {
                 </Link>
                 <div className={styles.podiumDivider} />
                 <Link
-                  href={`/result/${e.girl}`}
+                  href={URLS.result(e.girl)}
                   className={`${styles.podiumNameCol} ${styles.girlCol}`}
                 >
                   <span className={styles.podiumLabel}>GIRL</span>
@@ -163,13 +164,13 @@ export default async function Top100Page() {
               <li key={e.rank} className={styles.tableRow}>
                 <span className={styles.colRank}>{e.rank}</span>
                 <Link
-                  href={`/result/${e.boy}`}
+                  href={URLS.result(e.boy)}
                   className={`${styles.colName} ${styles.boyName}`}
                 >
                   {e.boy}
                 </Link>
                 <Link
-                  href={`/result/${e.girl}`}
+                  href={URLS.result(e.girl)}
                   className={`${styles.colName} ${styles.girlName}`}
                 >
                   {e.girl}

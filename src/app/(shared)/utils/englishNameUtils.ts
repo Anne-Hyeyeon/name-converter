@@ -12,6 +12,12 @@ export const normalizeName = (name: string): string =>
     .toLowerCase();
 
 /**
+ * 시트에 짝지어진 한국 이름을 보여줄 수 있는지 확인합니다.
+ */
+export const hasKoreanName = (data: NameData): boolean =>
+  !!data.koreanName && Number(data.characteristic) !== 10;
+
+/**
  * 성별과 특성 번호에 따라 적절한 이모지를 반환합니다.
  */
 export const getEmoji = (gender: string, characteristic: number): string => {

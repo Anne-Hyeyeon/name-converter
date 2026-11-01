@@ -6,6 +6,7 @@ import { NameData } from "../../types";
 import { URLS } from "../../constants/urls";
 import { KAKAO } from "../../constants/kakao";
 import { trackEvent } from "../../utils/trackEvent";
+import { hasKoreanName } from "../../utils/englishNameUtils";
 import styles from "./SearchResult.module.css";
 
 interface KakaoFeedLink {
@@ -55,8 +56,6 @@ export default function ShareButtons({ result }: { result: NameData }) {
 
   const encodedName = encodeURIComponent(result.name);
   const resultUrl = `${URLS.SITE}/result/${encodedName}`;
-  const hasKoreanName =
-    !!result.koreanName && Number(result.characteristic) !== 10;
 
   const copyLink = async () => {
     try {
@@ -79,7 +78,7 @@ export default function ShareButtons({ result }: { result: NameData }) {
     kakao.Share.sendDefault({
       objectType: "feed",
       content: {
-        title: hasKoreanName
+        title: hasKoreanName(result)
           ? `${result.name}, 미국에서는 ${result.koreanName}`
           : `${result.name}, 미국에서는 어떤 이름일까?`,
         description: "내 영어 이름은 미국에서 몇 년생 느낌일까? 🙉",
