@@ -86,4 +86,14 @@ test.describe("페이지 이동과 기능", () => {
     ]);
     expect(download.suggestedFilename()).toBe("Anne-korean-name.png");
   });
+
+  test("없는 주소는 사이트 모양의 404 페이지를 보여준다", async ({ page }) => {
+    const response = await open(page, "/no-such-page");
+    expect(response!.status()).toBe(404);
+    await expect(page.locator("html")).toHaveAttribute("lang", "ko");
+    await expect(page.getByText("페이지를 찾을 수 없어요.")).toBeVisible();
+    await expect(page.locator("footer")).toBeVisible();
+    await page.getByRole("link", { name: "검색창으로 돌아가기" }).click();
+    await page.waitForURL((url) => url.pathname === "/");
+  });
 });
