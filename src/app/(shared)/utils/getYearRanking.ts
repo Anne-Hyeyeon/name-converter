@@ -23,6 +23,10 @@ const loadRankings = async () => {
     ];
     years.set(year, ranking);
   }
+  for (const ranking of years.values()) {
+    ranking.F = ranking.F.filter(Boolean);
+    ranking.M = ranking.M.filter(Boolean);
+  }
   indexed = { rows, years };
   return years;
 };
