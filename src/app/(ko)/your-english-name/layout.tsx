@@ -15,8 +15,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/amI-english-name.jpg",
-        width: 1200,
-        height: 630,
+        width: 300,
+        height: 200,
         alt: "춘자의 영어 이름 추천 서비스",
       },
     ],
