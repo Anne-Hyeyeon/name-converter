@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import getAllNameData from "@/app/(shared)/utils/getAllNameData";
 import { findName } from "@/app/(shared)/utils/findName";
+import { hasKoreanName } from "@/app/(shared)/utils";
 import { loadOgFont } from "@/app/(shared)/utils/loadOgFont";
 import { KAKAO } from "@/app/(shared)/constants/kakao";
 
@@ -12,10 +13,7 @@ export async function GET(
 ) {
   const { name } = await params;
   const data = findName(await getAllNameData(), name);
-  const koreanName =
-    data && data.koreanName && Number(data.characteristic) !== 10
-      ? data.koreanName
-      : null;
+  const koreanName = data && hasKoreanName(data) ? data.koreanName : null;
 
   return new ImageResponse(
     <div

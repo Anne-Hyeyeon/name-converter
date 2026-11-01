@@ -14,6 +14,7 @@ import {
   getRankingYears,
   getYearRanking,
 } from "@/app/(shared)/utils/getYearRanking";
+import { URLS } from "@/app/(shared)/constants/urls";
 
 export const revalidate = 3600;
 export const dynamicParams = false;
@@ -56,7 +57,7 @@ const NameLink = ({
   children: React.ReactNode;
 }) =>
   linkable ? (
-    <Link href={`/result/${name}`} className={className}>
+    <Link href={URLS.result(name)} className={className}>
       {children}
     </Link>
   ) : (
@@ -96,8 +97,8 @@ export default async function YearPage({
         data={itemListJsonLd(
           `${year}년 미국 인기 아기 이름 Top 50`,
           rows.flatMap((e) => [
-            { name: e.boy, path: knownNames.has(e.boy) ? `/result/${e.boy}` : undefined },
-            { name: e.girl, path: knownNames.has(e.girl) ? `/result/${e.girl}` : undefined },
+            { name: e.boy, path: knownNames.has(e.boy) ? URLS.result(e.boy) : undefined },
+            { name: e.girl, path: knownNames.has(e.girl) ? URLS.result(e.girl) : undefined },
           ])
         )}
       />
@@ -190,7 +191,7 @@ export default async function YearPage({
                 <span className={styles.colRank}>{e.rank}</span>
                 {knownNames.has(e.boy) ? (
                   <Link
-                    href={`/result/${e.boy}`}
+                    href={URLS.result(e.boy)}
                     className={`${styles.colName} ${styles.boyName}`}
                   >
                     {e.boy}
@@ -202,7 +203,7 @@ export default async function YearPage({
                 )}
                 {knownNames.has(e.girl) ? (
                   <Link
-                    href={`/result/${e.girl}`}
+                    href={URLS.result(e.girl)}
                     className={`${styles.colName} ${styles.girlName}`}
                   >
                     {e.girl}

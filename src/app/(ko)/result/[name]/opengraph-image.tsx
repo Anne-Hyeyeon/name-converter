@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import getAllNameData from "@/app/(shared)/utils/getAllNameData";
 import { findName } from "@/app/(shared)/utils/findName";
-import { getEmoji } from "@/app/(shared)/utils";
+import { getEmoji, hasKoreanName } from "@/app/(shared)/utils";
 import { loadOgFont } from "@/app/(shared)/utils/loadOgFont";
 
 export const alt = "내가 춘자라니 이름 검색 결과";
@@ -16,10 +16,9 @@ export default async function Image({
   const { name } = await params;
   const data = findName(await getAllNameData(), name);
 
-  const hasKoreanName =
-    data && data.koreanName && Number(data.characteristic) !== 10;
+  const showKoreanName = !!data && hasKoreanName(data);
   const hasTrendYear =
-    hasKoreanName &&
+    showKoreanName &&
     data.trendYear &&
     ![7, 8, 9].includes(Number(data.characteristic));
 
@@ -55,7 +54,7 @@ export default async function Image({
           {getEmoji(data.gender, data.characteristic)}
         </div>
       )}
-      {hasKoreanName ? (
+      {showKoreanName ? (
         <div
           style={{
             display: "flex",
