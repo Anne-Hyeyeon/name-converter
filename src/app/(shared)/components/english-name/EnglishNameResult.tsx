@@ -148,18 +148,20 @@ export default function EnglishNameResult({
         </span>
         <p className={styles.retryText}>
           혹시 추천받은 이름이 마음에 안 드시나요? <br />
-          <span
+          <button
+            type="button"
             className={`${styles.retryLink} ${
               isGenerating ? styles.generating : ""
             }`}
-            onClick={isGenerating ? undefined : handleRetry}
+            onClick={handleRetry}
+            disabled={isGenerating}
             style={{
               cursor: isGenerating ? "not-allowed" : "pointer",
               opacity: isGenerating ? 0.6 : 1,
             }}
           >
             {isGenerating ? "이름 생성 중..." : "한번 더 추천받기 💃"}
-          </span>
+          </button>
         </p>
       </div>
 

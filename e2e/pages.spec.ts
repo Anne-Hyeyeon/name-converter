@@ -55,4 +55,35 @@ test.describe("페이지 이동과 기능", () => {
     await page.getByText("등재 요청").click();
     await expect(page.getByText("이름 제보하기!")).toBeVisible();
   });
+
+  test("팝업과 헤더 메뉴는 Esc 키로 닫힌다", async ({ page }) => {
+    await open(page, "/");
+    await page.getByRole("button", { name: /여러분께 감사 인사 드립니다/ }).click();
+    const notice = page.getByRole("dialog", { name: /춘자 사이트를 사랑해주시는/ });
+    await expect(notice).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(notice).toBeHidden();
+
+    const menuButton = page.getByRole("button", { name: "메뉴" });
+    await menuButton.click();
+    await expect(menuButton).toHaveAttribute("aria-expanded", "true");
+    await page.keyboard.press("Escape");
+    await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+
+    await open(page, "/result/Zzzq");
+    await page.getByRole("button", { name: "등재 요청" }).click();
+    const report = page.getByRole("dialog", { name: /이름 제보하기/ });
+    await expect(report).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(report).toBeHidden();
+  });
+
+  test("한국 이름 결과도 이미지로 저장할 수 있다", async ({ page }) => {
+    await open(page, "/korean-name/Anne");
+    const [download] = await Promise.all([
+      page.waitForEvent("download"),
+      page.getByRole("button", { name: "Save image" }).click(),
+    ]);
+    expect(download.suggestedFilename()).toBe("Anne-korean-name.png");
+  });
 });

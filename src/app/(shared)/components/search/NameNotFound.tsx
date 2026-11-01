@@ -6,6 +6,7 @@ import styles from "./NameNotFound.module.css";
 import ReportPopup from "../modals/ReportPopup";
 import { useNavigation } from "../../hooks";
 import { trackEvent } from "../../utils";
+import { URLS } from "../../constants/urls";
 
 const EMOJIS = ["🤔", "🤩", "🧐", "🤗", "🥰", "🌟", "🧙", "😎"];
 
@@ -47,7 +48,7 @@ export default function NameNotFound({
                 <React.Fragment key={similarName}>
                   {index > 0 && ", "}
                   <Link
-                    href={`/result/${similarName}`}
+                    href={URLS.result(similarName)}
                     className={styles.similarName}
                     onClick={() =>
                       trackEvent("similar_name_click", {
@@ -118,12 +119,13 @@ export default function NameNotFound({
         </button>
         <div className={styles.reportText}>
           혹시{" "}
-          <span
+          <button
+            type="button"
             className={styles.reportLink}
             onClick={() => setShowPopup(true)}
           >
             등재 요청
-          </span>
+          </button>
           을 보내고 싶다면?
         </div>
       </div>

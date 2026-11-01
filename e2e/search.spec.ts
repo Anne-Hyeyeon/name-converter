@@ -16,6 +16,43 @@ test.describe("이름 검색", () => {
     await expect(page.locator("#resultPage")).toContainText("미국에서");
   });
 
+  test("Enter를 누르면 입력한 이름과 같은 이름으로 간다", async ({ page }) => {
+    await open(page, "/");
+    await page.getByRole("combobox").fill("ann");
+    await expect(page.getByRole("option", { name: "Anna", exact: true })).toBeVisible();
+    await page.getByRole("combobox").press("Enter");
+    await page.waitForURL(/\/result\/Ann$/);
+  });
+
+  test("화살표로 자동완성 이름을 고르고 Enter로 이동한다", async ({ page }) => {
+    await open(page, "/");
+    const input = page.getByRole("combobox");
+    await input.fill("Anne");
+    await input.press("ArrowDown");
+    const first = page.getByRole("option").first();
+    await expect(first).toHaveAttribute("aria-selected", "true");
+    const name = (await first.textContent())!;
+    await input.press("Enter");
+    await page.waitForURL(new RegExp(`/result/${encodeURIComponent(name)}$`));
+  });
+
+  test("목록에 없는 이름에서 Enter를 누르면 안내 페이지로 간다", async ({
+    page,
+  }) => {
+    await open(page, "/");
+    await page.getByRole("combobox").fill("Zzzq");
+    await page.getByRole("combobox").press("Enter");
+    await page.waitForURL(/\/result\/Zzzq$/);
+    await expect(page.getByText("정보를 찾을 수 없습니다")).toBeVisible();
+  });
+
+  test("한국어를 입력한 상태에서는 Enter로 이동하지 않는다", async ({ page }) => {
+    await open(page, "/");
+    await page.getByRole("combobox").fill("앤");
+    await page.getByRole("combobox").press("Enter");
+    await expect(page).toHaveURL(/\/$/);
+  });
+
   test("10자가 넘는 이름도 검색된다", async ({ page }) => {
     await open(page, "/");
     await page.fill("input", "Christopher");

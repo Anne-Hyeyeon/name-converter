@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import styles from "./Header.module.css";
-import { useNavigation } from "../../hooks";
+import { useEscapeKey, useNavigation } from "../../hooks";
 import { URLS } from "../../constants/urls";
 import { getDictionary } from "@/app/(en)/korean-name/i18n";
 import { KOREAN_NAME_URLS } from "@/app/(en)/korean-name/constants";
@@ -19,6 +19,7 @@ export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
   const [carouselIndex, setCarouselIndex] = useState(0);
 
   const isEnglishNamePage = pathname === "/your-english-name";
@@ -42,14 +43,15 @@ export default function Header() {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleMenuClose = () => {
+  const handleMenuClose = useCallback(() => {
     setIsMenuOpen(false);
-  };
+  }, []);
+
+  useEscapeKey(handleMenuClose, isMenuOpen);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      const menuContainer = document.querySelector(`.${styles.menuContainer}`);
-      if (menuContainer && !menuContainer.contains(event.target as Node)) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsMenuOpen(false);
       }
     };
@@ -144,13 +146,18 @@ export default function Header() {
       {isKoreanNamePage && <BackButton className={styles.backButton} />}
       <div className={styles.content}>{announcement}</div>
 
-      <div className={styles.menuContainer}>
-        <button className={styles.menuButton} onClick={toggleMenu}>
-          <div className={styles.menuIcon}>
+      <div className={styles.menuContainer} ref={menuRef}>
+        <button
+          className={styles.menuButton}
+          onClick={toggleMenu}
+          aria-label={isKoreanNamePage ? "Menu" : "메뉴"}
+          aria-expanded={isMenuOpen}
+        >
+          <span className={styles.menuIcon} aria-hidden="true">
             <span></span>
             <span></span>
             <span></span>
-          </div>
+          </span>
         </button>
 
         {isMenuOpen && isKoreanNamePage && (
