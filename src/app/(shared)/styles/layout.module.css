@@ -21,7 +21,6 @@
   flex-grow: 1;
   box-sizing: border-box;
   position: relative;
-  overflow-y: auto;
   margin: auto;
 }
 
