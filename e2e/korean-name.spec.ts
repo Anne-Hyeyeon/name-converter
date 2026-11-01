@@ -7,13 +7,20 @@ test.describe("외국인용 한국 이름 (Korean name)", () => {
     await expect(page.locator("header")).toContainText(
       "Your generation's Korean name"
     );
-    await page.getByRole("textbox").fill("Anne");
+    await page.getByRole("combobox").fill("Anne");
     await page.locator("li", { hasText: /^Anne$/ }).click();
     await page.waitForURL(/\/korean-name\/Anne$/);
     await expect(page.getByRole("heading", { name: "Anne" })).toBeVisible();
     await expect(page.getByText("춘자", { exact: true })).toBeVisible();
     await expect(page.getByText("Chun-ja", { exact: true })).toBeVisible();
     await expect(page.getByText("BOOMER name ✌️")).toBeVisible();
+  });
+
+  test("검색창에서 Enter를 누르면 한국 이름 결과로 간다", async ({ page }) => {
+    await open(page, "/korean-name");
+    await page.getByRole("combobox").fill("anne");
+    await page.getByRole("combobox").press("Enter");
+    await page.waitForURL(/\/korean-name\/Anne$/);
   });
 
   test("홈의 이름카드 예시를 누르면 결과로 간다", async ({ page }) => {
@@ -33,7 +40,7 @@ test.describe("외국인용 한국 이름 (Korean name)", () => {
 
   test("영어가 아닌 글자를 넣으면 안내 문구가 나온다", async ({ page }) => {
     await open(page, "/korean-name");
-    await page.getByRole("textbox").fill("안나");
+    await page.getByRole("combobox").fill("안나");
     await expect(
       page.getByText("Please type your name in English letters only.")
     ).toBeVisible();

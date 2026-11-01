@@ -1,16 +1,26 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import styles from "./NoticePopup.module.css";
+import { useEscapeKey } from "../../hooks";
 
 interface GraphNoticePopupProps {
   onClose: () => void;
 }
 
 const GraphNoticePopup: React.FC<GraphNoticePopupProps> = ({ onClose }) => {
+  useEscapeKey(onClose);
+
   return (
     <div className={styles.overlay}>
-      <div className={styles.modal}>
-        <h2 className={styles.title}>이름 그래프가 생겼어요! 📈</h2>
+      <div
+        className={styles.modal}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="graph-notice-title"
+      >
+        <h2 id="graph-notice-title" className={styles.title}>이름 그래프가 생겼어요! 📈</h2>
         <div className={styles.content}>
           <p className={styles.stats}>
             <strong>

@@ -1,21 +1,21 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./SearchComponent.module.css";
 import Image from "next/image";
 import Link from "next/link";
-import NoticePopupWrapper from "../modals/NoticePopupWrapper";
+import NoticePopup from "../modals/NoticePopup";
 import GraphNoticePopup from "../modals/GraphNoticePopup";
 import { URLS } from "../../constants/urls";
-import { normalizeName, trackEvent } from "../../utils";
+import { trackEvent } from "../../utils";
+import { useNameAutocomplete } from "../../hooks";
 
 interface SearchComponentProps {
   names: string[];
 }
 
 export default function SearchComponent({ names }: SearchComponentProps) {
-  const [query, setQuery] = useState("");
   const [showNotice, setShowNotice] = useState(false);
   const [showGraphNotice, setShowGraphNotice] = useState(false);
   const [errorMessage, setErrorMessage] = useState<React.ReactNode | null>(
@@ -23,24 +23,31 @@ export default function SearchComponent({ names }: SearchComponentProps) {
   );
   const router = useRouter();
 
-  const filteredNames = useMemo(() => {
-    const trimmedQuery = normalizeName(query.trim());
-    if (!trimmedQuery) return [];
-    return names
-      .filter((name) => normalizeName(name).startsWith(trimmedQuery))
-      .slice(0, 10);
-  }, [names, query]);
-
-  const handleSearch = (name: string) => {
-    trackEvent("search_name", { name });
-    router.push(`/result/${name}`);
+  const handleSearch = (name: string, found: boolean) => {
+    if (found) {
+      trackEvent("search_name", { name });
+    } else {
+      trackEvent("search_not_found", { query: name });
+    }
+    router.push(URLS.result(name));
   };
 
-  const isSearching = query.trim() !== "";
+  const {
+    query,
+    trimmedQuery,
+    suggestions,
+    listId,
+    activeOptionId,
+    changeQuery,
+    handleKeyDown,
+    optionProps,
+  } = useNameAutocomplete(names, handleSearch);
+
+  const isSearching = trimmedQuery !== "";
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
-    setQuery(inputValue);
+    changeQuery(inputValue);
 
     const englishOnly = /^[a-zA-Z\u00C0-\u017F\s'-]*$/;
 
@@ -64,15 +71,24 @@ export default function SearchComponent({ names }: SearchComponentProps) {
       <input
         type="text"
         onChange={handleInputChange}
+        onKeyDown={errorMessage ? undefined : handleKeyDown}
         placeholder="영어 이름을 입력하세요. ex) Anne"
+        aria-label="영어 이름 검색"
         value={query}
         className={styles.input}
+        role="combobox"
+        aria-autocomplete="list"
+        aria-controls={listId}
+        aria-expanded={isSearching && !errorMessage}
+        aria-activedescendant={activeOptionId}
+        enterKeyHint="search"
+        autoComplete="off"
       />
       {errorMessage && (
         <div className={styles.errorMessage}>{errorMessage}</div>
       )}
       <div
-        className={`${styles.infoContainer} ${isSearching && styles.hidden}`}
+        className={`${styles.infoContainer} ${isSearching ? styles.hidden : ""}`}
       >
         <div className={styles.imageWrapper}>
           <a
@@ -102,12 +118,13 @@ export default function SearchComponent({ names }: SearchComponentProps) {
         </p>
       </div>
       {isSearching && !errorMessage && (
-        <ul className={styles.resultList}>
-          {filteredNames.length > 0 ? (
-            filteredNames.map((name) => (
+        <ul id={listId} role="listbox" className={styles.resultList}>
+          {suggestions.length > 0 ? (
+            suggestions.map((name, index) => (
               <li
                 key={name}
-                onClick={() => handleSearch(name)}
+                {...optionProps(index)}
+                onClick={() => handleSearch(name, true)}
                 className={styles.resultItem}
               >
                 {name}
@@ -115,13 +132,11 @@ export default function SearchComponent({ names }: SearchComponentProps) {
             ))
           ) : (
             <li
+              {...optionProps(0)}
               className={styles.resultItem}
-              onClick={() => {
-                trackEvent("search_not_found", { query: query.trim() });
-                router.push(`/result/${query.trim()}`);
-              }}
+              onClick={() => handleSearch(trimmedQuery, false)}
             >
-              &quot;{query.trim()}&quot;가 없다고요?
+              &quot;{trimmedQuery}&quot;가 없다고요?
             </li>
           )}
         </ul>
@@ -146,7 +161,8 @@ export default function SearchComponent({ names }: SearchComponentProps) {
           >
             📅 내가 태어난 해 미국 인기 이름
           </Link>
-          <div
+          <button
+            type="button"
             className={styles.updateNoteLink}
             onClick={() => {
               trackEvent("graph_notice_open");
@@ -154,20 +170,21 @@ export default function SearchComponent({ names }: SearchComponentProps) {
             }}
           >
             신규 기능 : 이름 그래프가 생겼어요! 🥳
-          </div>
-          <div
+          </button>
+          <button
+            type="button"
             className={styles.updateNoteLink}
             onClick={() => setShowNotice(true)}
           >
             여러분께 감사 인사 드립니다 💖
-          </div>
+          </button>
         </>
       )}
       {showGraphNotice && (
         <GraphNoticePopup onClose={() => setShowGraphNotice(false)} />
       )}
       {showNotice && (
-        <NoticePopupWrapper onClose={() => setShowNotice(false)} />
+        <NoticePopup onClose={() => setShowNotice(false)} />
       )}
     </div>
   );

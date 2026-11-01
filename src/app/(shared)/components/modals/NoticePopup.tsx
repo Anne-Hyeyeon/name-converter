@@ -1,15 +1,25 @@
+"use client";
+
 import React from "react";
 import styles from "./NoticePopup.module.css";
+import { useEscapeKey } from "../../hooks";
 
 interface NoticePopupProps {
   onClose: () => void;
 }
 
 const NoticePopup: React.FC<NoticePopupProps> = ({ onClose }) => {
+  useEscapeKey(onClose);
+
   return (
     <div className={styles.overlay}>
-      <div className={styles.modal}>
-        <h2 className={styles.title}>춘자 사이트를 사랑해주시는 여러분! 😍 </h2>
+      <div
+        className={styles.modal}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="notice-popup-title"
+      >
+        <h2 id="notice-popup-title" className={styles.title}>춘자 사이트를 사랑해주시는 여러분! 😍 </h2>
         <div className={styles.content}>
           <p className={styles.stats}>
             <strong>

@@ -1,10 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import styles from "@/app/(shared)/components/search/SearchComponent.module.css";
-import { normalizeName, trackEvent } from "@/app/(shared)/utils";
+import { trackEvent } from "@/app/(shared)/utils";
+import { useNameAutocomplete } from "@/app/(shared)/hooks";
 import { getDictionary } from "../i18n";
 import { KOREAN_NAME_URLS } from "../constants";
 import localStyles from "../korean-name.module.css";
@@ -25,17 +26,8 @@ export default function KoreanNameSearch({
   names: string[];
   examples: NameExample[];
 }) {
-  const [query, setQuery] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const router = useRouter();
-
-  const filteredNames = useMemo(() => {
-    const trimmedQuery = normalizeName(query.trim());
-    if (!trimmedQuery) return [];
-    return names
-      .filter((name) => normalizeName(name).startsWith(trimmedQuery))
-      .slice(0, 10);
-  }, [names, query]);
 
   const goToResult = (name: string, found: boolean) => {
     trackEvent(found ? "korean_name_search" : "korean_name_not_found", {
@@ -44,9 +36,20 @@ export default function KoreanNameSearch({
     router.push(KOREAN_NAME_URLS.result(name));
   };
 
+  const {
+    query,
+    trimmedQuery,
+    suggestions,
+    listId,
+    activeOptionId,
+    changeQuery,
+    handleKeyDown,
+    optionProps,
+  } = useNameAutocomplete(names, goToResult);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
-    setQuery(inputValue);
+    changeQuery(inputValue);
     if (inputValue.length > 20) {
       setErrorMessage(t.landing.tooLong);
     } else if (!/^[a-zA-ZÀ-ſ\s'-]*$/.test(inputValue)) {
@@ -56,7 +59,7 @@ export default function KoreanNameSearch({
     }
   };
 
-  const isSearching = query.trim() !== "";
+  const isSearching = trimmedQuery !== "";
 
   return (
     <div className={styles.container}>
@@ -64,10 +67,18 @@ export default function KoreanNameSearch({
       <input
         type="text"
         onChange={handleInputChange}
+        onKeyDown={errorMessage ? undefined : handleKeyDown}
         placeholder={t.landing.placeholder}
         value={query}
         className={styles.input}
         aria-label={t.landing.placeholder}
+        role="combobox"
+        aria-autocomplete="list"
+        aria-controls={listId}
+        aria-expanded={isSearching && !errorMessage}
+        aria-activedescendant={activeOptionId}
+        enterKeyHint="search"
+        autoComplete="off"
       />
       {errorMessage && (
         <div className={styles.errorMessage}>
@@ -75,7 +86,7 @@ export default function KoreanNameSearch({
         </div>
       )}
       <div
-        className={`${styles.infoContainer} ${isSearching && styles.hidden}`}
+        className={`${styles.infoContainer} ${isSearching ? styles.hidden : ""}`}
       >
         <div className={localStyles.heroEmoji}>
           <span role="img" aria-label={t.landing.heroEmojiLabel}>
@@ -131,11 +142,12 @@ export default function KoreanNameSearch({
         )}
       </div>
       {isSearching && !errorMessage && (
-        <ul className={styles.resultList}>
-          {filteredNames.length > 0 ? (
-            filteredNames.map((name) => (
+        <ul id={listId} role="listbox" className={styles.resultList}>
+          {suggestions.length > 0 ? (
+            suggestions.map((name, index) => (
               <li
                 key={name}
+                {...optionProps(index)}
                 onClick={() => goToResult(name, true)}
                 className={styles.resultItem}
               >
@@ -144,10 +156,11 @@ export default function KoreanNameSearch({
             ))
           ) : (
             <li
+              {...optionProps(0)}
               className={styles.resultItem}
-              onClick={() => goToResult(query.trim(), false)}
+              onClick={() => goToResult(trimmedQuery, false)}
             >
-              {t.landing.notListed(query.trim())}
+              {t.landing.notListed(trimmedQuery)}
             </li>
           )}
         </ul>

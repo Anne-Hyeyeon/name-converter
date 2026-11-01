@@ -110,6 +110,7 @@
 
 .retryLink {
   display: inline-block;
+  font-family: inherit;
   background-color: #e9ecef;
   color: #333;
   text-decoration: none;
