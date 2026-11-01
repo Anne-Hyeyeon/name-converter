@@ -1,4 +1,4 @@
-import { google } from "googleapis";
+import { auth, sheets } from "@googleapis/sheets";
 
 const PROTECTED_TABS = new Set(["names"]);
 const CHUNK_ROWS = 5000;
@@ -7,11 +7,14 @@ const getSheets = () => {
   const credentials = JSON.parse(
     Buffer.from(process.env.GOOGLE_APPLICATION_CREDENTIALS, "base64").toString()
   );
-  const auth = new google.auth.GoogleAuth({
-    credentials,
-    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+  return sheets({
+    version: "v4",
+    auth: new auth.JWT({
+      email: credentials.client_email,
+      key: credentials.private_key,
+      scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+    }),
   });
-  return google.sheets({ version: "v4", auth });
 };
 
 const spreadsheetId = () => {

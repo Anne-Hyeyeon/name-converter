@@ -1,5 +1,5 @@
 import "server-only";
-import { google, sheets_v4 } from "googleapis";
+import { auth, sheets, sheets_v4 } from "@googleapis/sheets";
 
 const SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly"];
 
@@ -22,8 +22,14 @@ export function getSheetsClient(): sheets_v4.Sheets {
     throw new Error("Invalid GOOGLE_APPLICATION_CREDENTIALS (base64 JSON expected)");
   }
 
-  const auth = new google.auth.GoogleAuth({ credentials, scopes: SCOPES });
-  cached = google.sheets({ version: "v4", auth });
+  cached = sheets({
+    version: "v4",
+    auth: new auth.JWT({
+      email: credentials.client_email,
+      key: credentials.private_key,
+      scopes: SCOPES,
+    }),
+  });
   return cached;
 }
 
