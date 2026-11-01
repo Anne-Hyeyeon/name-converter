@@ -2,7 +2,14 @@ import { redirect } from "next/navigation";
 import EnglishNameResult from "@/app/(shared)/components/english-name/EnglishNameResult";
 import getAllNameData from "@/app/(shared)/utils/getAllNameData";
 import styles from "@/app/(ko)/result/[name]/page.module.css";
-import { Gender } from "@/app/(shared)/constants/recommendOptions";
+import {
+  CHARACTERISTIC_VALUES,
+  Gender,
+  GENERATION_VALUES,
+  KOREAN_NAME_MAX_LENGTH,
+  MAX_CHARACTERISTICS,
+} from "@/app/(shared)/constants/recommendOptions";
+import { findName } from "@/app/(shared)/utils/findName";
 import { getPersonalizedComment } from "@/app/(shared)/constants";
 import type { Metadata } from "next";
 import {
@@ -10,6 +17,7 @@ import {
   getTrendLastYear,
 } from "@/app/(shared)/utils/getNameTrend";
 import NameTrend from "@/app/(shared)/components/search/NameTrend";
+import { URLS } from "@/app/(shared)/constants/urls";
 
 type SearchParams = { [key: string]: string | string[] | undefined };
 
@@ -22,12 +30,15 @@ const parseRecommendParams = (searchParams: SearchParams) => {
     (searchParams.characteristics as string)
       ?.split(",")
       ?.map((num) => parseInt(num))
-      ?.filter((num) => !isNaN(num)) || [];
-  const koreanName = ((searchParams.koreanName as string) || "").trim();
+      ?.filter((num) => CHARACTERISTIC_VALUES.includes(num))
+      ?.slice(0, MAX_CHARACTERISTICS) || [];
+  const koreanName = ((searchParams.koreanName as string) || "")
+    .trim()
+    .slice(0, KOREAN_NAME_MAX_LENGTH);
 
   if (
     gender === null ||
-    isNaN(generation) ||
+    !GENERATION_VALUES.includes(generation) ||
     characteristics.length === 0 ||
     koreanName.length === 0
   ) {
@@ -69,13 +80,11 @@ export default async function RecommendPage({
 }) {
   const { name } = await params;
   const allNameData = await getAllNameData();
-  const selectedNameData = allNameData.find(
-    (data) => data.name === name
-  );
+  const selectedNameData = findName(allNameData, name);
   const recommendParams = parseRecommendParams(await searchParams);
 
   if (!selectedNameData || !recommendParams) {
-    redirect(`/result/${encodeURIComponent(name)}`);
+    redirect(URLS.result(name));
   }
 
   const trend = await getNameTrend(selectedNameData.name);

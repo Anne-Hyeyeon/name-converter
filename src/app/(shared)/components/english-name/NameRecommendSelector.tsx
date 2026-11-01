@@ -8,11 +8,13 @@ import {
   Generation,
   GENERATION_OPTIONS,
   CHARACTERISTIC_OPTIONS,
+  KOREAN_NAME_MAX_LENGTH,
 } from "../../constants/recommendOptions";
 import { getComboKey, trackEvent } from "../../utils";
 import { recommendName } from "../../actions/recommendName";
 import { useNavigation } from "../../hooks";
 import styles from "./NameRecommendSelector.module.css";
+import { URLS } from "../../constants/urls";
 
 interface NameRecommendSelectorProps {
   availableCombos: string[];
@@ -90,7 +92,7 @@ export default function NameRecommendSelector({
         generation: selectedGeneration,
         characteristics: selectedCharacteristics.join(","),
       });
-      router.push(`/recommend/${randomName.name}?${params.toString()}`);
+      router.push(`${URLS.recommend(randomName.name)}?${params.toString()}`);
     } else {
       setIsGenerating(false);
       goToEnglishName();
@@ -121,7 +123,7 @@ export default function NameRecommendSelector({
           onChange={(e) => setKoreanName(e.target.value)}
           placeholder="예: 민지, 수현, 지훈"
           className={styles.koreanNameInput}
-          maxLength={10}
+          maxLength={KOREAN_NAME_MAX_LENGTH}
           disabled={isGenerating}
         />
       </div>
