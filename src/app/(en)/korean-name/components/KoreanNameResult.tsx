@@ -1,11 +1,9 @@
 "use client";
 
-import { useCallback } from "react";
 import { useRouter } from "next/navigation";
-import html2canvas from "html2canvas";
 import styles from "@/app/(shared)/components/search/SearchResult.module.css";
 import { getEmoji, trackEvent } from "@/app/(shared)/utils";
-import { useNavigation } from "@/app/(shared)/hooks";
+import { useImageCapture, useNavigation } from "@/app/(shared)/hooks";
 import { getDictionary, type Gender, type GenerationKey } from "../i18n";
 import { KOREAN_NAME_URLS } from "../constants";
 import HearButton from "./HearButton";
@@ -45,6 +43,7 @@ export default function KoreanNameResult({
 }: KoreanNameResultProps) {
   const router = useRouter();
   const { openSupport } = useNavigation();
+  const { captureElement } = useImageCapture();
   const generationText = generation ? t.generations[generation] : null;
   const label = generationText ? generationText.label : null;
   const shareText =
@@ -52,19 +51,8 @@ export default function KoreanNameResult({
       ? t.result.shareText(koreanName, romanized, label)
       : null;
 
-  const saveImage = useCallback(() => {
-    const element = document.getElementById("resultPage");
-    if (!element) return;
-    html2canvas(element)
-      .then((canvas) => {
-        const link = document.createElement("a");
-        link.href = canvas.toDataURL("image/png");
-        link.download = `${name}-korean-name.png`;
-        link.click();
-        trackEvent("save_result_image", { file_name: `${name}-korean-name` });
-      })
-      .catch(() => alert(t.result.saveFailed));
-  }, [name]);
+  const saveImage = () =>
+    captureElement("resultPage", `${name}-korean-name`, t.result.saveFailed);
 
   return (
     <div>
